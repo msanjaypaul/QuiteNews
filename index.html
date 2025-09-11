@@ -4,634 +4,752 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiet.News — Top News for India. No Noise.</title>
+    <title>Quiet.News - Timeless News for India</title>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; max-width: 900px; margin: 0 auto; padding: 20px; background: #fafafa; color: #333; }
-        h1 { color: #222; border-bottom: 3px solid #eee; padding-bottom: 10px; }
-        h2 { color: #d32f2f; margin-top: 30px; }
-        li { margin-bottom: 20px; }
-        a { color: #0066cc; text-decoration: none; }
-        a:hover { text-decoration: underline; }
-        .summary { color: #555; margin: 5px 0; }
-        .meta { font-size: 0.9em; color: #888; }
-        .tag { padding: 2px 6px; border-radius: 3px; font-size: 0.8em; margin-left: 5px; color: white; }
-        .must-know { background: #d32f2f; }
-        .trending { background: #1976d2; }
-        .debatable { background: #f57c00; }
-        footer { margin-top: 50px; padding-top: 20px; border-top: 1px solid #eee; color: #888; }
+        /* === BASE === */
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background: url('https://www.transparenttextures.com/patterns/cream-paper.png'), #f8f4e9;
+            background-attachment: fixed;
+            color: #3a3a3a;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 30px 20px;
+            line-height: 1.6;
+        }
+
+        /* === HEADER === */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #c9b89b;
+        }
+
+        .logo {
+            max-width: 350px;
+            margin: 0 auto 15px;
+            display: block;
+            filter: contrast(1.1) brightness(0.9);
+            transition: transform 0.2s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.02);
+        }
+
+        h1 {
+            font-family: 'Old Standard TT', 'Times New Roman', serif;
+            font-weight: normal;
+            letter-spacing: 2px;
+            font-size: 2.4rem;
+            color: #2c1e1e;
+            margin: 10px 0 5px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .tagline {
+            font-style: italic;
+            color: #6b5c45;
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        /* === CATEGORY HEADINGS === */
+        h2 {
+            font-family: 'Old Standard TT', Georgia, serif;
+            color: #2c1e1e;
+            border-left: 5px solid #c9b89b;
+            padding-left: 15px;
+            margin: 40px 0 20px;
+            font-size: 1.6rem;
+            letter-spacing: 1px;
+        }
+
+        /* === ARTICLE CARD === */
+        .article-card {
+            background: #fffaf2;
+            border: 1px solid #e0d5c1;
+            border-radius: 4px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            transition: box-shadow 0.2s ease;
+        }
+
+        .article-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .article-title {
+            font-family: 'Old Standard TT', Georgia, serif;
+            font-size: 1.3rem;
+            font-weight: normal;
+            margin: 0 0 10px;
+            line-height: 1.3;
+            color: #222;
+        }
+
+        .article-summary {
+            font-size: 1rem;
+            color: #444;
+            margin: 10px 0;
+            text-align: justify;
+        }
+
+        .meta {
+            font-size: 0.9rem;
+            color: #7a6c5d;
+            margin: 15px 0 10px;
+            font-style: italic;
+        }
+
+        /* === TAGS === */
+        .tag {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-right: 5px;
+            color: white;
+        }
+
+        .must-know { background: #8b0000; border: 1px solid #5a0000; }
+        .trending { background: #004080; border: 1px solid #00264d; }
+        .debatable { background: #b35900; border: 1px solid #7a3d00; }
+
+        /* === LINK === */
+        a {
+            color: #004080;
+            text-decoration: none;
+            font-weight: bold;
+            border-bottom: 1px dotted #004080;
+            padding-bottom: 2px;
+        }
+
+        a:hover {
+            color: #00264d;
+            border-bottom-style: solid;
+        }
+
+        /* === FOOTER === */
+        footer {
+            margin-top: 60px;
+            padding-top: 25px;
+            border-top: 2px solid #c9b89b;
+            color: #6b5c45;
+            font-size: 0.95rem;
+            text-align: center;
+        }
+
+        /* === TYPOGRAPHY ENHANCEMENTS === */
+        @import url('https://fonts.googleapis.com/css2?family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&display=swap');
+
+        /* === PRINT-LIKE TEXTURE === */
+        .article-card {
+            background-image: linear-gradient(rgba(255,255,255,0.8), rgba(250,245,235,0.8));
+        }
     </style>
 </head>
 <body>
-    <h1>Quiet.News</h1>
-    <p><em>Top news for India. No ads. No noise. Updated automatically.</em></p>
+    <header>
+        <img src="/logo.png" alt="Quiet.News Logo" class="logo">
+        <h1>Quiet.News</h1>
+        <p class="tagline">Timeless news for India. No ads. No noise.</p>
+    </header>
 
     
         
         <h2>India</h2>
-        <ol>
         
-            <li>
-                <strong>Pro Kabaddi League | Challenge is to innovate and make the sport more engaging: Anupam Goswami</strong><br>
-                <div class="summary">The league’s chairman calls for the Indian government to push for the sport’s inclusion in various global events</div>
-                <div class="meta">
-                    → The Hindu
-                    
-                    
-                    <span class="tag debatable">Debatable</span>
-                </div>
-                <a href="https://www.thehindu.com/sport/other-sports/pro-kabaddi-league-challenge-is-to-innovate-and-make-the-sport-more-engaging-anupam-goswami/article70038301.ece" target="_blank">Read full</a>
-            </li>
+        <div class="article-card">
+            <div class="article-title">‘What’s the urgency? It’s a match, let it be’: Supreme Court refuses urgent hearing in PIL to cancel India-Pakistan Asia Cup game</div>
+            <div class="article-summary">...</div>
+            <div class="meta">
+                → Indian Express
+                <span class="tag must-know">Must-Know</span>
+                
+                
+            </div>
+            <a href="https://indianexpress.com/article/india/whats-the-urgency-match-supreme-court-refuses-urgent-hearing-pil-cancel-india-pakistan-asia-cup-game-10243510/" target="_blank">Read full →</a>
+        </div>
         
-            <li>
-                <strong>‘What’s the urgency? It’s a match, let it be’: Supreme Court refuses urgent hearing in PIL to cancel India-Pakistan Asia Cup game</strong><br>
-                <div class="summary">...</div>
-                <div class="meta">
-                    → Indian Express
-                    <span class="tag must-know">Must-Know</span>
-                    
-                    
-                </div>
-                <a href="https://indianexpress.com/article/india/whats-the-urgency-match-supreme-court-refuses-urgent-hearing-pil-cancel-india-pakistan-asia-cup-game-10243510/" target="_blank">Read full</a>
-            </li>
+        <div class="article-card">
+            <div class="article-title">Watch | Explained: Why is the NDA in a disarray in Tamil Nadu?</div>
+            <div class="article-summary">In this video, let’s see how Amit Shah’s Tamil Nadu strategy is in trouble. Allies TTV Dhinakaran and O. Panneerselvam have walked out. The AIADMK is facing internal trouble, the PMK at war with itself. As the NDA unravels ahead of the 2026 elections, can Shah steady the ship?</div>
+            <div class="meta">
+                → The Hindu
+                
+                
+                <span class="tag debatable">Debatable</span>
+            </div>
+            <a href="https://www.thehindu.com/videos/watch-explained-why-is-the-nda-in-a-disarray-in-tamil-nadu/article70038696.ece" target="_blank">Read full →</a>
+        </div>
         
-            <li>
-                <strong>Karnataka HC quashes criminal cases in Bengaluru road-rage case as IAF officer and call centre employee withdraw allegations against each other</strong><br>
-                <div class="summary"></div>
-                <div class="meta">
-                    → The Hindu
-                    
-                    
-                    <span class="tag debatable">Debatable</span>
-                </div>
-                <a href="https://www.thehindu.com/news/national/karnataka/karnataka-hc-quashes-criminal-cases-in-bengaluru-road-rage-case-as-iaf-officer-and-call-centre-employee-withdraw-allegations-against-each-other/article70037887.ece" target="_blank">Read full</a>
-            </li>
+        <div class="article-card">
+            <div class="article-title">What is the urgency? SC refuses urgent listing of plea against India-Pakistan cricket match</div>
+            <div class="article-summary">...</div>
+            <div class="meta">
+                → Indian Express
+                <span class="tag must-know">Must-Know</span>
+                
+                
+            </div>
+            <a href="https://indianexpress.com/article/india/sc-refuses-urgent-listing-india-pakistan-cricket-match-10243244/" target="_blank">Read full →</a>
+        </div>
         
-            <li>
-                <strong>What is the urgency? SC refuses urgent listing of plea against India-Pakistan cricket match</strong><br>
-                <div class="summary">...</div>
-                <div class="meta">
-                    → Indian Express
-                    <span class="tag must-know">Must-Know</span>
-                    
-                    
-                </div>
-                <a href="https://indianexpress.com/article/india/sc-refuses-urgent-listing-india-pakistan-cricket-match-10243244/" target="_blank">Read full</a>
-            </li>
+        <div class="article-card">
+            <div class="article-title">PM to visit Manipur on September 13, will unveil projects worth Rs 8,500 crore</div>
+            <div class="article-summary">Prime Minister Narendra Modi is scheduled to visit Manipur on September 13, marking his first visit since the ethnic clashes began in May. He will launch development projects worth Rs 8,500 crore, laying foundation stones in Churachandpur, a Kuki-majority area, and inaugurating projects from Imphal.</div>
+            <div class="meta">
+                → Times of India
+                
+                
+                <span class="tag debatable">Debatable</span>
+            </div>
+            <a href="https://timesofindia.indiatimes.com/india/pm-to-visit-manipur-on-september-13-will-unveil-projects-worth-rs-8500-crore/articleshow/123833179.cms" target="_blank">Read full →</a>
+        </div>
         
-            <li>
-                <strong>Opinion: Blog | Rs 300 Pension For Poor, Lakhs For MPs: An RTI Exposes India's Brutal Welfare System</strong><br>
-                <div class="summary">The question is simple and unavoidable: what kind of democracy accepts that its weakest citizens must live on ₹300 a month while its richest representatives debate whether ₹1.1 lakh is "too little"?</div>
-                <div class="meta">
-                    → NDTV
-                    
-                    
-                    <span class="tag debatable">Debatable</span>
-                </div>
-                <a href="https://www.ndtv.com/opinion/rs-10-pension-a-day-for-poor-lakhs-for-mps-why-indias-welfare-system-is-a-sham-9258836#publisher=newsstand" target="_blank">Read full</a>
-            </li>
+        <div class="article-card">
+            <div class="article-title">Jammu court rejects NIA plea for polygraph test on men accused of harbouring Pahalgam attackers, says it ‘violates right against self-incrimination’</div>
+            <div class="article-summary">...</div>
+            <div class="meta">
+                → Indian Express
+                
+                <span class="tag trending">Trending</span>
+                
+            </div>
+            <a href="https://indianexpress.com/article/india/jammu-court-rejects-nia-plea-for-polygraph-test-on-men-accused-of-harbouring-pahalgam-attackers-says-it-violates-right-against-self-incrimination-10243564/" target="_blank">Read full →</a>
+        </div>
         
-        </ol>
         
     
         
         <h2>World</h2>
-        <ol>
         
-            <li>
-                <strong>Human chain of World Suicide Prevention day observed</strong><br>
-                <div class="summary"></div>
-                <div class="meta">
-                    → The Hindu
-                    
-                    
-                    
-                </div>
-                <a href="https://www.thehindu.com/news/cities/Madurai/human-chain-of-world-suicide-prevention-day-observed/article70038341.ece" target="_blank">Read full</a>
-            </li>
+        <div class="article-card">
+            <div class="article-title">Human chain of World Suicide Prevention day observed</div>
+            <div class="article-summary"></div>
+            <div class="meta">
+                → The Hindu
+                
+                
+                
+            </div>
+            <a href="https://www.thehindu.com/news/cities/Madurai/human-chain-of-world-suicide-prevention-day-observed/article70038341.ece" target="_blank">Read full →</a>
+        </div>
         
-            <li>
-                <strong>MANAGE training agriculture delegates from 15 countries</strong><br>
-                <div class="summary"></div>
-                <div class="meta">
-                    → The Hindu
-                    
-                    
-                    
-                </div>
-                <a href="https://www.thehindu.com/news/national/telangana/manage-training-agriculture-delegates-from-15-countries/article70037868.ece" target="_blank">Read full</a>
-            </li>
+        <div class="article-card">
+            <div class="article-title">Prizes to winners of global painting contest conducted by Kerala Tourism distributed</div>
+            <div class="article-summary">Event generated keen response from across the country and abroad with 57,308 contestants submitting entries</div>
+            <div class="meta">
+                → The Hindu
+                
+                
+                
+            </div>
+            <a href="https://www.thehindu.com/news/national/kerala/prizes-to-winners-of-global-painting-contest-conducted-by-kerala-tourism-distributed/article70037847.ece" target="_blank">Read full →</a>
+        </div>
         
-            <li>
-                <strong>Prizes to winners of global painting contest conducted by Kerala Tourism distributed</strong><br>
-                <div class="summary">Event generated keen response from across the country and abroad with 57,308 contestants submitting entries</div>
-                <div class="meta">
-                    → The Hindu
-                    
-                    
-                    
-                </div>
-                <a href="https://www.thehindu.com/news/national/kerala/prizes-to-winners-of-global-painting-contest-conducted-by-kerala-tourism-distributed/article70037847.ece" target="_blank">Read full</a>
-            </li>
+        <div class="article-card">
+            <div class="article-title">With the Doha strike, Netanyahu has declared war on the world</div>
+            <div class="article-summary">No matter where you are, Israel’s ‘long arm’ may be coming for you next.</div>
+            <div class="meta">
+                → Al Jazeera - Asia
+                
+                
+                
+            </div>
+            <a href="https://www.aljazeera.com/opinions/2025/9/11/with-the-doha-strike-netanyahu-has-declared-war-on-the-world?traffic_source=rss" target="_blank">Read full →</a>
+        </div>
         
-            <li>
-                <strong>10 Essential Facts About Nepal Every Student Should Know</strong><br>
-                <div class="summary">10 key facts about the Nepal every student must know.</div>
-                <div class="meta">
-                    → NDTV
-                    <span class="tag must-know">Must-Know</span>
-                    
-                    <span class="tag debatable">Debatable</span>
-                </div>
-                <a href="https://www.ndtv.com/education/10-facts-about-nepal-every-student-should-know-9259836#publisher=newsstand" target="_blank">Read full</a>
-            </li>
+        <div class="article-card">
+            <div class="article-title">10 Essential Facts About Nepal Every Student Should Know</div>
+            <div class="article-summary">10 key facts about the Nepal every student must know.</div>
+            <div class="meta">
+                → NDTV
+                <span class="tag must-know">Must-Know</span>
+                
+                <span class="tag debatable">Debatable</span>
+            </div>
+            <a href="https://www.ndtv.com/education/10-facts-about-nepal-every-student-should-know-9259836#publisher=newsstand" target="_blank">Read full →</a>
+        </div>
         
-            <li>
-                <strong>Farmers’ federation condemns exemption from public hearing to proposals on critical minerals</strong><br>
-                <div class="summary"></div>
-                <div class="meta">
-                    → The Hindu
-                    <span class="tag must-know">Must-Know</span>
-                    
-                    
-                </div>
-                <a href="https://www.thehindu.com/news/cities/Tiruchirapalli/farmers-federation-condemns-exemption-from-public-hearing-to-proposals-on-critical-minerals/article70038138.ece" target="_blank">Read full</a>
-            </li>
+        <div class="article-card">
+            <div class="article-title">Conclave calls for internationalisation, industrialisation of higher education</div>
+            <div class="article-summary"></div>
+            <div class="meta">
+                → The Hindu
+                
+                
+                <span class="tag debatable">Debatable</span>
+            </div>
+            <a href="https://www.thehindu.com/news/cities/Coimbatore/conclave-calls-for-internationalisation-industrialisation-of-higher-education/article70038510.ece" target="_blank">Read full →</a>
+        </div>
         
-        </ol>
         
     
         
         <h2>Politics</h2>
-        <ol>
         
-            <li>
-                <strong>Gen Z group, army discuss roadmap for provisional government- Who will be interim PM</strong><br>
-                <div class="summary">Following Prime Minister Oli's resignation amid protests, Gen Z protesters are in talks with Nepal's President and Army Chief to form an interim government. Chief Justice Sushila Karki, Kathmandu Mayor Balendra Shah, and others are being considered to lead the caretaker government, tasked with ov...</div>
-                <div class="meta">
-                    → Times of India
-                    
-                    
-                    <span class="tag debatable">Debatable</span>
-                </div>
-                <a href="https://timesofindia.indiatimes.com/world/south-asia/nepal-protest-gen-z-group-president-and-army-discuss-roadmap-for-provisional-government-who-will-be-interim-pm/articleshow/123829378.cms" target="_blank">Read full</a>
-            </li>
+        <div class="article-card">
+            <div class="article-title">Gen Z group, army discuss roadmap for provisional government- Who will be interim PM</div>
+            <div class="article-summary">Following Prime Minister Oli's resignation amid protests, Gen Z protesters are in talks with Nepal's President and Army Chief to form an interim government. Chief Justice Sushila Karki, Kathmandu Mayor Balendra Shah, and others are being considered to lead the caretaker government, tasked with ov...</div>
+            <div class="meta">
+                → Times of India
+                
+                
+                <span class="tag debatable">Debatable</span>
+            </div>
+            <a href="https://timesofindia.indiatimes.com/world/south-asia/nepal-protest-gen-z-group-president-and-army-discuss-roadmap-for-provisional-government-who-will-be-interim-pm/articleshow/123829378.cms" target="_blank">Read full →</a>
+        </div>
         
-            <li>
-                <strong>Bolsonaro verdict likely: What to expect in Brazil, and from Trump</strong><br>
-                <div class="summary">Landmark case against former president has set Brazil on edge, with fears of violent protests against a guilty verdict.</div>
-                <div class="meta">
-                    → Al Jazeera - Asia
-                    
-                    
-                    <span class="tag debatable">Debatable</span>
-                </div>
-                <a href="https://www.aljazeera.com/news/2025/9/11/bolsonaro-verdict-likely-what-to-expect-in-brazil-and-from-trump?traffic_source=rss" target="_blank">Read full</a>
-            </li>
+        <div class="article-card">
+            <div class="article-title">Bolsonaro verdict likely: What to expect in Brazil, and from Trump</div>
+            <div class="article-summary">Landmark case against former president has set Brazil on edge, with fears of violent protests against a guilty verdict.</div>
+            <div class="meta">
+                → Al Jazeera - Asia
+                
+                
+                <span class="tag debatable">Debatable</span>
+            </div>
+            <a href="https://www.aljazeera.com/news/2025/9/11/bolsonaro-verdict-likely-what-to-expect-in-brazil-and-from-trump?traffic_source=rss" target="_blank">Read full →</a>
+        </div>
         
-            <li>
-                <strong>"Tejashwi Busy Dancing": Tej Pratap Yadav's Dig At Brother In Flood-Hit Raghopur</strong><br>
-                <div class="summary">Tej Pratap Yadav, expelled from the Rashtriya Janata Dal by his father Lalu Prasad Yadav, has found green pasture from campaigning - at home. His target: Brother Tejashwi Yadav.</div>
-                <div class="meta">
-                    → NDTV
-                    
-                    
-                    
-                </div>
-                <a href="https://www.ndtv.com/india-news/tejashwi-busy-dancing-tej-pratap-yadavs-dig-at-brother-in-flood-hit-raghopur-9259226#publisher=newsstand" target="_blank">Read full</a>
-            </li>
+        <div class="article-card">
+            <div class="article-title">Union Minister Amit Shah launches Fast Track Immigration at 5 more airports: ‘OCI cardholders will benefit the most’</div>
+            <div class="article-summary">...</div>
+            <div class="meta">
+                → Indian Express
+                
+                
+                
+            </div>
+            <a href="https://indianexpress.com/article/india/union-minister-amit-shah-launches-fast-track-immigration-at-5-more-airports-oci-cardholders-will-benefit-the-most-10243823/" target="_blank">Read full →</a>
+        </div>
         
-            <li>
-                <strong>Union Minister Amit Shah launches Fast Track Immigration at 5 more airports: ‘OCI cardholders will benefit the most’</strong><br>
-                <div class="summary">...</div>
-                <div class="meta">
-                    → Indian Express
-                    
-                    
-                    
-                </div>
-                <a href="https://indianexpress.com/article/india/union-minister-amit-shah-launches-fast-track-immigration-at-5-more-airports-oci-cardholders-will-benefit-the-most-10243823/" target="_blank">Read full</a>
-            </li>
+        <div class="article-card">
+            <div class="article-title">CRPF flags ‘security protocol violations’ by Rahul Gandhi, Cong questions timing</div>
+            <div class="article-summary">...</div>
+            <div class="meta">
+                → Indian Express
+                
+                
+                
+            </div>
+            <a href="https://indianexpress.com/article/india/crpf-claims-security-protocol-violations-by-rahul-gandhi-writes-to-kharge-10243847/" target="_blank">Read full →</a>
+        </div>
         
-            <li>
-                <strong>CPI demands abolition of Governor’s post through constitutional amendment</strong><br>
-                <div class="summary">Union government is misusing the office of Governor in various States to weaken the federal structure, says CPI</div>
-                <div class="meta">
-                    → The Hindu
-                    
-                    
-                    <span class="tag debatable">Debatable</span>
-                </div>
-                <a href="https://www.thehindu.com/news/national/kerala/cpi-demands-abolition-of-governors-post-through-constitutional-amendment/article70037857.ece" target="_blank">Read full</a>
-            </li>
+        <div class="article-card">
+            <div class="article-title">Rajampeta MP Midhun Reddy back in jail after casting vote</div>
+            <div class="article-summary"></div>
+            <div class="meta">
+                → The Hindu
+                
+                
+                
+            </div>
+            <a href="https://www.thehindu.com/news/national/andhra-pradesh/rajampeta-mp-midhun-reddy-back-in-jail-after-casting-vote/article70038597.ece" target="_blank">Read full →</a>
+        </div>
         
-        </ol>
         
     
         
         <h2>Technology</h2>
-        <ol>
         
-            <li>
-                <strong>Mangaluru Technovanza – 2025 on Sept. 24</strong><br>
-                <div class="summary"></div>
-                <div class="meta">
-                    → The Hindu
-                    
-                    
-                    
-                </div>
-                <a href="https://www.thehindu.com/news/cities/Mangalore/mangaluru-technovanza-2025-on-sept-24/article70037935.ece" target="_blank">Read full</a>
-            </li>
+        <div class="article-card">
+            <div class="article-title">SIET to organise Aksharakoottu literary festival for children</div>
+            <div class="article-summary">On Kanakakkunnu Palace premises on September 18 and 19.  Festival intended to encourage students with an interest in literary pursuits and give them an insight into literature and language</div>
+            <div class="meta">
+                → The Hindu
+                
+                
+                
+            </div>
+            <a href="https://www.thehindu.com/news/national/kerala/siet-to-organise-aksharakoottu-literary-festival-for-children/article70038567.ece" target="_blank">Read full →</a>
+        </div>
         
-            <li>
-                <strong>Konkan Railway launches revamped mobile app - KR Mirror</strong><br>
-                <div class="summary">Passengers can now enjoy features, including multi-language support, adjustable font size and dark/light display modes, making travel information more accessible and user-friendly</div>
-                <div class="meta">
-                    → The Hindu
-                    
-                    
-                    
-                </div>
-                <a href="https://www.thehindu.com/news/cities/Mangalore/konkan-railway-launches-revamped-mobile-app-kr-mirror/article70038429.ece" target="_blank">Read full</a>
-            </li>
+        <div class="article-card">
+            <div class="article-title">Konkan Railway launches revamped mobile app - KR Mirror</div>
+            <div class="article-summary">Passengers can now enjoy features, including multi-language support, adjustable font size and dark/light display modes, making travel information more accessible and user-friendly</div>
+            <div class="meta">
+                → The Hindu
+                
+                
+                
+            </div>
+            <a href="https://www.thehindu.com/news/cities/Mangalore/konkan-railway-launches-revamped-mobile-app-kr-mirror/article70038429.ece" target="_blank">Read full →</a>
+        </div>
         
-            <li>
-                <strong>Smart rice card corrections can be requested till Oct. 31, says Minister</strong><br>
-                <div class="summary">Cards will be deactivated if unused for three consecutive months, reactivation is possible upon a request and after verification, informs Nadendla Manohar</div>
-                <div class="meta">
-                    → The Hindu
-                    
-                    
-                    
-                </div>
-                <a href="https://www.thehindu.com/news/national/andhra-pradesh/smart-rice-card-corrections-can-be-requested-till-oct-31-says-minister/article70038127.ece" target="_blank">Read full</a>
-            </li>
+        <div class="article-card">
+            <div class="article-title">Smart rice card corrections can be requested till Oct. 31, says Minister</div>
+            <div class="article-summary">Cards will be deactivated if unused for three consecutive months, reactivation is possible upon a request and after verification, informs Nadendla Manohar</div>
+            <div class="meta">
+                → The Hindu
+                
+                
+                
+            </div>
+            <a href="https://www.thehindu.com/news/national/andhra-pradesh/smart-rice-card-corrections-can-be-requested-till-oct-31-says-minister/article70038127.ece" target="_blank">Read full →</a>
+        </div>
         
-            <li>
-                <strong>Tejas Mk1A boost: HAL receives third GE engine; expects another by September-end</strong><br>
-                <div class="summary"></div>
-                <div class="meta">
-                    → Times of India
-                    
-                    
-                    
-                </div>
-                <a href="https://timesofindia.indiatimes.com/india/hal-received-3rd-ge-engine-for-tejas-mk-1a-fighter/articleshow/123829136.cms" target="_blank">Read full</a>
-            </li>
+        <div class="article-card">
+            <div class="article-title">T.N. should promote installation of solar rooftop systems, says solar energy association</div>
+            <div class="article-summary"></div>
+            <div class="meta">
+                → The Hindu
+                
+                
+                <span class="tag debatable">Debatable</span>
+            </div>
+            <a href="https://www.thehindu.com/news/cities/Coimbatore/tn-should-promote-installation-of-solar-rooftop-systems-says-solar-energy-association/article70038492.ece" target="_blank">Read full →</a>
+        </div>
         
-            <li>
-                <strong>Engineers arrested for chain snatching in Namakkal</strong><br>
-                <div class="summary"></div>
-                <div class="meta">
-                    → The Hindu
-                    
-                    
-                    
-                </div>
-                <a href="https://www.thehindu.com/news/cities/Coimbatore/engineers-arrested-for-chain-snatching-in-namakkal/article70037135.ece" target="_blank">Read full</a>
-            </li>
+        <div class="article-card">
+            <div class="article-title">Amaravati Quantum Valley Hackathon 2025 semi-final held across A.P.</div>
+            <div class="article-summary"></div>
+            <div class="meta">
+                → The Hindu
+                
+                
+                
+            </div>
+            <a href="https://www.thehindu.com/news/national/andhra-pradesh/amaravati-quantum-valley-hackathon-2025-semi-final-held-across-ap/article70037470.ece" target="_blank">Read full →</a>
+        </div>
         
-        </ol>
         
     
         
         <h2>Business</h2>
-        <ol>
         
-            <li>
-                <strong>Slaughterhouses in Nagercoil Corporation to begin operation from October</strong><br>
-                <div class="summary"></div>
-                <div class="meta">
-                    → The Hindu
-                    
-                    
-                    
-                </div>
-                <a href="https://www.thehindu.com/news/cities/Madurai/slaughterhouses-in-nagercoil-corporation-to-begin-operation-from-october/article70038208.ece" target="_blank">Read full</a>
-            </li>
+        <div class="article-card">
+            <div class="article-title">Kerala has become entrepreneurial hub, says Industries Minister</div>
+            <div class="article-summary">District Industries Centre organised the investor meet in collaboration with industrialists who participated in the Invest Kerala Global Summit held in Kochi and are investing over ₹20 crore in Malappuram</div>
+            <div class="meta">
+                → The Hindu
+                
+                
+                
+            </div>
+            <a href="https://www.thehindu.com/news/national/kerala/kerala-has-become-entrepreneurial-hub-says-industries-minister/article70038587.ece" target="_blank">Read full →</a>
+        </div>
         
-            <li>
-                <strong>Garvebhavipalya Lake case settled in SC; GBA to take over development</strong><br>
-                <div class="summary"></div>
-                <div class="meta">
-                    → The Hindu
-                    
-                    
-                    
-                </div>
-                <a href="https://www.thehindu.com/news/national/karnataka/garvebhavipalya-lake-case-settled-in-sc-gba-to-take-over-development/article70038422.ece" target="_blank">Read full</a>
-            </li>
+        <div class="article-card">
+            <div class="article-title">Garvebhavipalya Lake case settled in SC; GBA to take over development</div>
+            <div class="article-summary"></div>
+            <div class="meta">
+                → The Hindu
+                
+                
+                
+            </div>
+            <a href="https://www.thehindu.com/news/national/karnataka/garvebhavipalya-lake-case-settled-in-sc-gba-to-take-over-development/article70038422.ece" target="_blank">Read full →</a>
+        </div>
         
-            <li>
-                <strong>SB College secures patent for magnesium-ion battery</strong><br>
-                <div class="summary"></div>
-                <div class="meta">
-                    → The Hindu
-                    
-                    
-                    
-                </div>
-                <a href="https://www.thehindu.com/news/national/kerala/sb-college-secures-patent-for-magnesium-ion-battery/article70037742.ece" target="_blank">Read full</a>
-            </li>
+        <div class="article-card">
+            <div class="article-title">Call to develop network of incubators for growth of rural enterprises</div>
+            <div class="article-summary">National workshop on ‘Rural enterprise incubators’ is under way in the State capital</div>
+            <div class="meta">
+                → The Hindu
+                
+                
+                
+            </div>
+            <a href="https://www.thehindu.com/news/national/kerala/call-to-develop-network-of-incubators-for-growth-of-rural-enterprises/article70038047.ece" target="_blank">Read full →</a>
+        </div>
         
-            <li>
-                <strong>BDO placed under suspension in Namakkal</strong><br>
-                <div class="summary"></div>
-                <div class="meta">
-                    → The Hindu
-                    
-                    
-                    
-                </div>
-                <a href="https://www.thehindu.com/news/cities/Coimbatore/bdo-placed-under-suspension-in-namakkal/article70037098.ece" target="_blank">Read full</a>
-            </li>
+        <div class="article-card">
+            <div class="article-title">Two TNSTC buses seized for not paying compensation to family of road accident victim</div>
+            <div class="article-summary"></div>
+            <div class="meta">
+                → The Hindu
+                
+                
+                
+            </div>
+            <a href="https://www.thehindu.com/news/cities/Madurai/two-tnstc-buses-seized-for-not-paying-compensation-to-family-of-road-accident-victim/article70038538.ece" target="_blank">Read full →</a>
+        </div>
         
-            <li>
-                <strong>Call to develop network of incubators for growth of rural enterprises</strong><br>
-                <div class="summary">National workshop on ‘Rural enterprise incubators’ is under way in the State capital</div>
-                <div class="meta">
-                    → The Hindu
-                    
-                    
-                    
-                </div>
-                <a href="https://www.thehindu.com/news/national/kerala/call-to-develop-network-of-incubators-for-growth-of-rural-enterprises/article70038047.ece" target="_blank">Read full</a>
-            </li>
+        <div class="article-card">
+            <div class="article-title">Turkiye prosecutors seize media conglomerate as part of ‘fraud’ probe</div>
+            <div class="article-summary">Can Holding top executives detained, TV stations including Haberturk and Bloomberg HT placed under third party trustee.</div>
+            <div class="meta">
+                → Al Jazeera - Asia
+                
+                
+                
+            </div>
+            <a href="https://www.aljazeera.com/news/2025/9/11/turkiye-prosecutors-seize-media-conglomerate-as-part-of-fraud-probe?traffic_source=rss" target="_blank">Read full →</a>
+        </div>
         
-        </ol>
         
     
         
         <h2>Health</h2>
-        <ol>
         
-            <li>
-                <strong>Stay vigilant to dengue, malaria cases, Centre tells States</strong><br>
-                <div class="summary">Union Health Ministry issues advisory to all Chief Ministers, urging them to remain alert in the coming months and to intensify preventive measures</div>
-                <div class="meta">
-                    → The Hindu
-                    
-                    
-                    
-                </div>
-                <a href="https://www.thehindu.com/sci-tech/health/stay-vigilant-to-dengue-malaria-cases-centre-tells-states/article70037807.ece" target="_blank">Read full</a>
-            </li>
+        <div class="article-card">
+            <div class="article-title">Jagga Reddy couple extends ₹10 lakh aid for youth’s eye treatment</div>
+            <div class="article-summary"></div>
+            <div class="meta">
+                → The Hindu
+                
+                
+                
+            </div>
+            <a href="https://www.thehindu.com/news/national/telangana/jagga-reddy-couple-extends-10-lakh-aid-for-youths-eye-treatment/article70038613.ece" target="_blank">Read full →</a>
+        </div>
         
-            <li>
-                <strong>Cardiac Rehab Run to raise awareness on heart attacks among young people</strong><br>
-                <div class="summary"></div>
-                <div class="meta">
-                    → The Hindu
-                    
-                    
-                    
-                </div>
-                <a href="https://www.thehindu.com/news/national/telangana/cardiac-rehab-run-to-raise-awareness-on-heart-attacks-among-young-people/article70038288.ece" target="_blank">Read full</a>
-            </li>
+        <div class="article-card">
+            <div class="article-title">Cardiac Rehab Run to raise awareness on heart attacks among young people</div>
+            <div class="article-summary"></div>
+            <div class="meta">
+                → The Hindu
+                
+                
+                
+            </div>
+            <a href="https://www.thehindu.com/news/national/telangana/cardiac-rehab-run-to-raise-awareness-on-heart-attacks-among-young-people/article70038288.ece" target="_blank">Read full →</a>
+        </div>
         
-            <li>
-                <strong>Dalit Vidyarthi Parishat opposes PPP model medical college in Vijayapura</strong><br>
-                <div class="summary">It demands a government medical college for the district to benefit the poor</div>
-                <div class="meta">
-                    → The Hindu
-                    
-                    
-                    <span class="tag debatable">Debatable</span>
-                </div>
-                <a href="https://www.thehindu.com/news/national/karnataka/dalit-vidyarthi-parishat-opposes-ppp-model-medical-college-in-vijayapura/article70038075.ece" target="_blank">Read full</a>
-            </li>
+        <div class="article-card">
+            <div class="article-title">‘Project Khushi’ to help police personnel manage lifestyle-related diseases</div>
+            <div class="article-summary"></div>
+            <div class="meta">
+                → The Hindu
+                
+                
+                
+            </div>
+            <a href="https://www.thehindu.com/news/cities/bangalore/project-khushi-to-help-police-personnel-manage-lifestyle-related-diseases/article70038347.ece" target="_blank">Read full →</a>
+        </div>
         
-            <li>
-                <strong>Advanced pediatric surgery saves 6-year-old girl from rare congenital condition</strong><br>
-                <div class="summary"></div>
-                <div class="meta">
-                    → The Hindu
-                    
-                    
-                    
-                </div>
-                <a href="https://www.thehindu.com/news/cities/Madurai/advanced-pediatric-surgery-saves-6-year-old-girl-from-rare-congenital-condition/article70037923.ece" target="_blank">Read full</a>
-            </li>
+        <div class="article-card">
+            <div class="article-title">Jayadeva Institute’s new director proposes five satellite centres under GBA to boost emergency cardiac care</div>
+            <div class="article-summary"></div>
+            <div class="meta">
+                → The Hindu
+                
+                
+                
+            </div>
+            <a href="https://www.thehindu.com/news/national/karnataka/jayadeva-institutes-new-director-proposes-five-satellite-centres-under-gba-to-boost-emergency-cardiac-care/article70038345.ece" target="_blank">Read full →</a>
+        </div>
         
-            <li>
-                <strong>Vizag cancer hospital to offer three new super speciality courses</strong><br>
-                <div class="summary"></div>
-                <div class="meta">
-                    → The Hindu
-                    
-                    
-                    
-                </div>
-                <a href="https://www.thehindu.com/news/national/andhra-pradesh/vizag-cancer-hospital-to-offer-three-new-super-speciality-courses/article70037686.ece" target="_blank">Read full</a>
-            </li>
+        <div class="article-card">
+            <div class="article-title">HAL receives third GE 404 engine for LCA Tejas Mk1A</div>
+            <div class="article-summary"></div>
+            <div class="meta">
+                → The Hindu
+                
+                
+                
+            </div>
+            <a href="https://www.thehindu.com/news/national/karnataka/hal-receives-third-ge-404-engine-for-lca-tejas-mk1a/article70037477.ece" target="_blank">Read full →</a>
+        </div>
         
-        </ol>
         
     
         
         <h2>Environment</h2>
-        <ol>
         
-            <li>
-                <strong>Erode farmers to stage sit-in protest on September 18 demanding revised compensation</strong><br>
-                <div class="summary"></div>
-                <div class="meta">
-                    → The Hindu
-                    
-                    
-                    
-                </div>
-                <a href="https://www.thehindu.com/news/cities/Coimbatore/erode-farmers-to-stage-sit-in-protest-on-september-18-demanding-revised-compensation/article70036882.ece" target="_blank">Read full</a>
-            </li>
+        <div class="article-card">
+            <div class="article-title">For ‘national defence and security’, Environment Ministry exempts critical and atomic mineral mining from public consultation</div>
+            <div class="article-summary">...</div>
+            <div class="meta">
+                → Indian Express
+                <span class="tag must-know">Must-Know</span>
+                
+                
+            </div>
+            <a href="https://indianexpress.com/article/india/environment-ministry-exempts-critical-atomic-mineral-mining-public-consultation-10241159/" target="_blank">Read full →</a>
+        </div>
         
-            <li>
-                <strong>Forest martyrs’ day: District judge appeals to public to join hands in conserving forests, wildlife</strong><br>
-                <div class="summary"></div>
-                <div class="meta">
-                    → The Hindu
-                    
-                    
-                    
-                </div>
-                <a href="https://www.thehindu.com/news/national/karnataka/forest-martyrs-day-district-judge-appeals-to-public-to-join-hands-in-conserving-forests-wildlife/article70038323.ece" target="_blank">Read full</a>
-            </li>
+        <div class="article-card">
+            <div class="article-title">Forest watcher dies on duty in Nagarahole</div>
+            <div class="article-summary"></div>
+            <div class="meta">
+                → The Hindu
+                
+                
+                
+            </div>
+            <a href="https://www.thehindu.com/news/national/karnataka/forest-watcher-dies-on-duty-in-nagarahole/article70038675.ece" target="_blank">Read full →</a>
+        </div>
         
-            <li>
-                <strong>For ‘national defence and security’, Environment Ministry exempts critical and atomic mineral mining from public consultation</strong><br>
-                <div class="summary">...</div>
-                <div class="meta">
-                    → Indian Express
-                    <span class="tag must-know">Must-Know</span>
-                    
-                    
-                </div>
-                <a href="https://indianexpress.com/article/india/environment-ministry-exempts-critical-atomic-mineral-mining-public-consultation-10241159/" target="_blank">Read full</a>
-            </li>
+        <div class="article-card">
+            <div class="article-title">Committee visits Mullaperiyar dam; expresses satisfaction over it’s strength and stability</div>
+            <div class="article-summary"></div>
+            <div class="meta">
+                → The Hindu
+                
+                
+                
+            </div>
+            <a href="https://www.thehindu.com/news/cities/Madurai/committee-visits-mullaperiyar-dam-expresses-satisfaction-over-its-strength-and-stability/article70038521.ece" target="_blank">Read full →</a>
+        </div>
         
-            <li>
-                <strong>Heavy rain lashes Salem and Namakkal districts</strong><br>
-                <div class="summary"></div>
-                <div class="meta">
-                    → The Hindu
-                    
-                    
-                    
-                </div>
-                <a href="https://www.thehindu.com/news/cities/Coimbatore/heavy-rain-lashes-salem-and-namakkal-districts/article70036838.ece" target="_blank">Read full</a>
-            </li>
+        <div class="article-card">
+            <div class="article-title">Steel Bank initiative: Ponnam Prabhakar bats for eco-friendly practices in daily life</div>
+            <div class="article-summary"></div>
+            <div class="meta">
+                → The Hindu
+                
+                
+                
+            </div>
+            <a href="https://www.thehindu.com/news/national/telangana/steel-bank-initiative-ponnam-prabhakar-bats-for-eco-friendly-practices-in-daily-life/article70038228.ece" target="_blank">Read full →</a>
+        </div>
         
-            <li>
-                <strong>CM Siddaramaiah directs Forest Dept. to speed up rail barricading project</strong><br>
-                <div class="summary"></div>
-                <div class="meta">
-                    → The Hindu
-                    
-                    
-                    
-                </div>
-                <a href="https://www.thehindu.com/news/national/karnataka/cm-siddaramaiah-directs-forest-dept-to-speed-up-rail-barricading-project/article70037151.ece" target="_blank">Read full</a>
-            </li>
+        <div class="article-card">
+            <div class="article-title">Protectors of forests remembered on National Forest Martyrs’ Day</div>
+            <div class="article-summary"></div>
+            <div class="meta">
+                → The Hindu
+                
+                
+                
+            </div>
+            <a href="https://www.thehindu.com/news/cities/Coimbatore/protectors-of-forests-remembered-on-national-forest-martyrs-day/article70038665.ece" target="_blank">Read full →</a>
+        </div>
         
-        </ol>
         
     
         
         <h2>Sports</h2>
-        <ol>
         
-            <li>
-                <strong>Spanish minister calls for Israel to be banned from sport</strong><br>
-                <div class="summary">Spain&#039;s Vuelta cycling event has added extra security following pro-Palestine protests against Israel-Premier Tech.</div>
-                <div class="meta">
-                    → Al Jazeera - Asia
-                    
-                    
-                    <span class="tag debatable">Debatable</span>
-                </div>
-                <a href="https://www.aljazeera.com/sports/2025/9/11/spanish-minister-calls-israels-sport-participation-double-standards?traffic_source=rss" target="_blank">Read full</a>
-            </li>
+        <div class="article-card">
+            <div class="article-title">Spanish minister calls for Israel to be banned from sport</div>
+            <div class="article-summary">Spain&#039;s Vuelta cycling event has added extra security following pro-Palestine protests against Israel-Premier Tech.</div>
+            <div class="meta">
+                → Al Jazeera - Asia
+                
+                
+                <span class="tag debatable">Debatable</span>
+            </div>
+            <a href="https://www.aljazeera.com/sports/2025/9/11/spanish-minister-calls-israels-sport-participation-double-standards?traffic_source=rss" target="_blank">Read full →</a>
+        </div>
         
-            <li>
-                <strong>Sanjeev emerges champion of Nexgen golf</strong><br>
-                <div class="summary"></div>
-                <div class="meta">
-                    → The Hindu
-                    
-                    
-                    
-                </div>
-                <a href="https://www.thehindu.com/sport/other-sports/golf/article70038241.ece" target="_blank">Read full</a>
-            </li>
+        <div class="article-card">
+            <div class="article-title">Pakistan coach Hesson excited to be part of ‘a highly-charged event’</div>
+            <div class="article-summary"></div>
+            <div class="meta">
+                → The Hindu
+                
+                
+                
+            </div>
+            <a href="https://www.thehindu.com/sport/cricket/pakistan-coach-hesson-excited-to-be-part-of-a-highly-charged-event/article70038701.ece" target="_blank">Read full →</a>
+        </div>
         
-            <li>
-                <strong>NFL stars mourn Charlie Kirk; Butker leads tributes; Utah death shocks league</strong><br>
-                <div class="summary">Conservative activist Charlie Kirk tragically died after being shot at Utah Valley University, sparking widespread reactions. NFL players like Harrison Butker and Jaxson Dart, along with media members, expressed grief and called for an end to political violence. The shocking event united athletes...</div>
-                <div class="meta">
-                    → Times of India
-                    
-                    
-                    
-                </div>
-                <a href="https://timesofindia.indiatimes.com/sports/nfl/news/nfl-players-speak-out-after-charlie-kirk-dies-in-utah-with-harrison-butker-jaxson-dart-and-lamar-jackson-paying-tributes/articleshow/123832482.cms" target="_blank">Read full</a>
-            </li>
+        <div class="article-card">
+            <div class="article-title">NFL stars mourn Charlie Kirk; Butker leads tributes; Utah death shocks league</div>
+            <div class="article-summary">Conservative activist Charlie Kirk tragically died after being shot at Utah Valley University, sparking widespread reactions. NFL players like Harrison Butker and Jaxson Dart, along with media members, expressed grief and called for an end to political violence. The shocking event united athletes...</div>
+            <div class="meta">
+                → Times of India
+                
+                
+                
+            </div>
+            <a href="https://timesofindia.indiatimes.com/sports/nfl/news/nfl-players-speak-out-after-charlie-kirk-dies-in-utah-with-harrison-butker-jaxson-dart-and-lamar-jackson-paying-tributes/articleshow/123832482.cms" target="_blank">Read full →</a>
+        </div>
         
-            <li>
-                <strong>Justin Jefferson’s chain giveaway: Fan moment goes viral; 'Griddy Boy' regret</strong><br>
-                <div class="summary">Justin Jefferson, the Minnesota Vikings' wide receiver, gifted his 'TOP 10' chain to a young fan after defeating the Chicago Bears, sparking heartwarming reactions. While many praised Jefferson's generosity and the unforgettable moment for the child, some fans expressed concerns about the chain's...</div>
-                <div class="meta">
-                    → Times of India
-                    
-                    <span class="tag trending">Trending</span>
-                    
-                </div>
-                <a href="https://timesofindia.indiatimes.com/sports/nfl/news/financial-mistake-by-griddy-boy-justin-jefferson-gave-away-his-top-10-chain-to-a-young-fan-after-winning-against-the-chicago-bears/articleshow/123830873.cms" target="_blank">Read full</a>
-            </li>
+        <div class="article-card">
+            <div class="article-title">Justin Jefferson’s chain giveaway: Fan moment goes viral; 'Griddy Boy' regret</div>
+            <div class="article-summary">Justin Jefferson, the Minnesota Vikings' wide receiver, gifted his 'TOP 10' chain to a young fan after defeating the Chicago Bears, sparking heartwarming reactions. While many praised Jefferson's generosity and the unforgettable moment for the child, some fans expressed concerns about the chain's...</div>
+            <div class="meta">
+                → Times of India
+                
+                <span class="tag trending">Trending</span>
+                
+            </div>
+            <a href="https://timesofindia.indiatimes.com/sports/nfl/news/financial-mistake-by-griddy-boy-justin-jefferson-gave-away-his-top-10-chain-to-a-young-fan-after-winning-against-the-chicago-bears/articleshow/123830873.cms" target="_blank">Read full →</a>
+        </div>
         
-            <li>
-                <strong>Sachin to be next BCCI Prez? Legendary batter breaks silence: 'We wish to ...'</strong><br>
-                <div class="summary">Sachin Tendulkar's management has refuted rumours linking the cricket legend to the BCCI president's position. With the BCCI's AGM approaching on September 28 and the president's post vacant after Roger Binny's exit, speculation had been rampant. However, SRT Sports Management clarified that Tend...</div>
-                <div class="meta">
-                    → Times of India
-                    
-                    
-                    
-                </div>
-                <a href="https://timesofindia.indiatimes.com/sports/cricket/news/sachin-tendulkar-to-be-next-bcci-president-legendary-batter-breaks-silence/articleshow/123831815.cms" target="_blank">Read full</a>
-            </li>
+        <div class="article-card">
+            <div class="article-title">Sachin to be next BCCI Prez? Legendary batter breaks silence: 'We wish to ...'</div>
+            <div class="article-summary">Sachin Tendulkar's management has refuted rumours linking the cricket legend to the BCCI president's position. With the BCCI's AGM approaching on September 28 and the president's post vacant after Roger Binny's exit, speculation had been rampant. However, SRT Sports Management clarified that Tend...</div>
+            <div class="meta">
+                → Times of India
+                
+                
+                
+            </div>
+            <a href="https://timesofindia.indiatimes.com/sports/cricket/news/sachin-tendulkar-to-be-next-bcci-president-legendary-batter-breaks-silence/articleshow/123831815.cms" target="_blank">Read full →</a>
+        </div>
         
-        </ol>
         
     
         
         <h2>Culture</h2>
-        <ol>
         
-            <li>
-                <strong>Dakshina Kannada culture is confluence of several cultures: Purushothama Bilimale</strong><br>
-                <div class="summary"></div>
-                <div class="meta">
-                    → The Hindu
-                    
-                    
-                    
-                </div>
-                <a href="https://www.thehindu.com/news/cities/Mangalore/dakshina-kannada-culture-is-confluence-of-several-cultures-purushothama-bilimale/article70037712.ece" target="_blank">Read full</a>
-            </li>
+        <div class="article-card">
+            <div class="article-title">Timila maestro Peringode Chandran to receive Sree Guruvayurappan Kshetra Kala Puraskaram</div>
+            <div class="article-summary"></div>
+            <div class="meta">
+                → The Hindu
+                
+                
+                
+            </div>
+            <a href="https://www.thehindu.com/news/national/kerala/timila-maestro-peringode-chandran-to-receive-sree-guruvayurappan-kshetra-kala-puraskaram/article70037753.ece" target="_blank">Read full →</a>
+        </div>
         
-            <li>
-                <strong>V-C panel nominee for CU: meeting inconclusive</strong><br>
-                <div class="summary">The meeting ended in chaos after a member sought clarity on the proposal to nominate the former V-C of Sree Sankaracharya University of Sanskrit, Kalady, as nominee</div>
-                <div class="meta">
-                    → The Hindu
-                    
-                    
-                    
-                </div>
-                <a href="https://www.thehindu.com/news/national/kerala/v-c-panel-nominee-for-cu-meeting-inconclusive/article70038379.ece" target="_blank">Read full</a>
-            </li>
+        <div class="article-card">
+            <div class="article-title">CM lays foundation stone for expansion projects in Hosur</div>
+            <div class="article-summary"></div>
+            <div class="meta">
+                → The Hindu
+                
+                
+                
+            </div>
+            <a href="https://www.thehindu.com/news/cities/Coimbatore/cm-lays-foundation-stone-for-expansion-projects-in-hosur/article70038525.ece" target="_blank">Read full →</a>
+        </div>
         
-            <li>
-                <strong>Joe Wright interview: On resurrecting Il Duce for ‘Mussolini: Son of the Century’ and why fascism never really leaves us</strong><br>
-                <div class="summary">With his new series out on MUBI, the British director reflects on transforming Luca Marinelli into both pig and prophet, and why history’s oldest playbook on seduction and hyper-violence still feels uncomfortably fresh</div>
-                <div class="meta">
-                    → The Hindu
-                    
-                    
-                    <span class="tag debatable">Debatable</span>
-                </div>
-                <a href="https://www.thehindu.com/entertainment/movies/joe-wright-interview-mussolini-son-of-the-century-luca-marinelli-mubi/article70038016.ece" target="_blank">Read full</a>
-            </li>
+        <div class="article-card">
+            <div class="article-title">Two men arrested for misfiring country-made pistol</div>
+            <div class="article-summary"></div>
+            <div class="meta">
+                → The Hindu
+                
+                
+                
+            </div>
+            <a href="https://www.thehindu.com/news/cities/Mangalore/two-men-arrested-for-misfiring-country-made-pistol/article70038370.ece" target="_blank">Read full →</a>
+        </div>
         
-            <li>
-                <strong>DRUCC meeting held in Salem Railway Division</strong><br>
-                <div class="summary"></div>
-                <div class="meta">
-                    → The Hindu
-                    
-                    
-                    
-                </div>
-                <a href="https://www.thehindu.com/news/cities/Coimbatore/drucc-meeting-held-in-salem-railway-division/article70037827.ece" target="_blank">Read full</a>
-            </li>
+        <div class="article-card">
+            <div class="article-title">Pilgrimage travel emerges as a fast-growing segment: MakeMyTrip</div>
+            <div class="article-summary">Accommodation bookings across 56 destinations rose 19% in FY24; premiumisation and group travel gaining ground</div>
+            <div class="meta">
+                → The Hindu
+                
+                
+                
+            </div>
+            <a href="https://www.thehindu.com/business/pilgrimage-travel-emerges-as-a-fast-growing-segment-makemytrip/article70038015.ece" target="_blank">Read full →</a>
+        </div>
         
-            <li>
-                <strong>CAT 2025 Registration Window To Close In Two Days: Here's What Students Should Know</strong><br>
-                <div class="summary">Check the official website regularly for admit card releases, pattern changes, and announcements.</div>
-                <div class="meta">
-                    → NDTV
-                    
-                    
-                    <span class="tag debatable">Debatable</span>
-                </div>
-                <a href="https://www.ndtv.com/education/cat-2025-registration-to-close-in-two-days-heres-what-students-should-know-9258664#publisher=newsstand" target="_blank">Read full</a>
-            </li>
+        <div class="article-card">
+            <div class="article-title">Police review progress of probe into synthetic drug trafficking cases involving foreign nationals</div>
+            <div class="article-summary">Primary findings suggest suspects have set up operational bases outside Kerala to coordinate distribution, say Anti-Narcotics Squad</div>
+            <div class="meta">
+                → The Hindu
+                
+                
+                
+            </div>
+            <a href="https://www.thehindu.com/news/national/kerala/police-review-progress-of-probe-into-synthetic-drug-trafficking-cases-involving-foreign-nationals/article70038028.ece" target="_blank">Read full →</a>
+        </div>
         
-        </ol>
         
     
 
     <footer>
-        <p>Updated: 2025-09-11 15:22 UTC | Curated for Indian readers</p>
+        <p>Curated and updated automatically • Thursday, September 11, 2025</p>
     </footer>
 </body>
 </html>
