@@ -27,22 +27,30 @@ jobs:
         run: |
           python curator.py
 
+      - name: Check if index.html was created
+        run: |
+          if [ ! -f "index.html" ]; then
+            echo "❌ index.html not found! Exiting."
+            exit 1
+          else
+            echo "✅ index.html found."
+          fi
+
       - name: Commit and push if changed
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add index.html
-          if ! git diff --quiet; then
+          if git diff --quiet; then
+            echo "ℹ️ No changes to commit."
+          else
             git commit -m "Auto-update: $(date -u)"
             git push https://x-access-token:${{ secrets.newswebsite }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref_name }}
             echo "✅ Changes pushed to repo."
-          else
-            echo "ℹ️ No changes to commit."
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.newswebsite }}
 
       - name: Verify output
         run: |
-          echo "📄 Checking if index.html exists..."
           ls -la index.html
