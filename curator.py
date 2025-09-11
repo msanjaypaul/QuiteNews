@@ -40,9 +40,13 @@ logger = logging.getLogger(__name__)
 
 # === AI MODELS (load once) ===
 logger.info("Loading AI models...")
-classifier = pipeline("zero-shot-classification", model="facebook/bart-large-mnli", device=0 if torch.cuda.is_available() else -1)
-embedder = SentenceTransformer('all-MiniLM-L6-v2')
-logger.info("AI models loaded.")
+try:
+    classifier = pipeline("zero-shot-classification", model="facebook/bart-large-mnli", device=0 if torch.cuda.is_available() else -1)
+    embedder = SentenceTransformer('all-MiniLM-L6-v2')
+    logger.info("AI models loaded.")
+except Exception as e:
+    logger.error(f"Failed to load AI models: {e}")
+    exit(1)
 
 # === FETCH & PARSE ARTICLES ===
 def fetch_articles():
@@ -59,9 +63,8 @@ def fetch_articles():
                 try:
                     if hasattr(entry, 'published'):
                         pub_date = date_parser.parse(entry.published)
-                        # Convert to naive datetime (remove timezone)
                         if pub_date.tzinfo is not None:
-                            pub_date = pub_date.replace(tzinfo=None)
+                            pub_date = pub_date.replace(tzinfo=None)  # Make naive
                     else:
                         pub_date = now
                 except Exception as e:
@@ -79,7 +82,8 @@ def fetch_articles():
                 if not summary and hasattr(entry, 'content'):
                     try:
                         summary = BeautifulSoup(entry.content[0].value, "html.parser").get_text()[:300] + "..."
-                    except:
+                    except Exception as e:
+                        logger.warning(f"Could not extract content: {e}")
                         summary = ""
 
                 articles.append({
@@ -106,7 +110,7 @@ def classify_articles(articles):
             article["category_confidence"] = result["scores"][0]
         except Exception as e:
             logger.error(f"Classification failed for '{article['title']}': {e}")
-            article["category"] = "World"
+            article["category"] = "World"  # fallback
             article["category_confidence"] = 0.5
     return articles
 
@@ -135,8 +139,12 @@ def deduplicate_articles(articles):
         return []
 
     texts = [a["title"] + " " + a["summary"][:100] for a in articles]
-    embeddings = embedder.encode(texts, convert_to_tensor=True)
-    cosine_scores = util.cos_sim(embeddings, embeddings)
+    try:
+        embeddings = embedder.encode(texts, convert_to_tensor=True)
+        cosine_scores = util.cos_sim(embeddings, embeddings)
+    except Exception as e:
+        logger.error(f"Embedding failed: {e}")
+        return articles  # fallback: no deduplication
 
     to_remove = set()
     n = len(articles)
@@ -162,12 +170,12 @@ def select_top_per_category(articles):
     now = datetime.utcnow()
 
     for article in articles:
-        calculate_score(article, now)
         categorized[article["category"]].append(article)
 
     top_articles = {}
     for cat, articles_in_cat in categorized.items():
-        sorted_articles = sorted(articles_in_cat, key=lambda x: x["score"], reverse=True)
+        # Sort by score descending
+        sorted_articles = sorted(articles_in_cat, key=lambda x: x.get("score", 0), reverse=True)
         top_articles[cat] = sorted_articles[:TOP_N]
 
     return top_articles
@@ -238,6 +246,12 @@ if __name__ == "__main__":
         exit(1)
 
     articles = classify_articles(articles)
+
+    # ✅ Calculate scores BEFORE deduplication
+    now = datetime.utcnow()
+    for article in articles:
+        calculate_score(article, now)
+
     articles = deduplicate_articles(articles)
     categorized = select_top_per_category(articles)
     generate_html(categorized)
