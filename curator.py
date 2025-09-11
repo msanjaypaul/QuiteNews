@@ -56,8 +56,8 @@ def fetch_articles():
             logger.info(f"Fetching from {source['name']}...")
             feed = feedparser.parse(source['url'])
             for entry in feed.entries:
-    try:
-        if hasattr(entry, 'published'):
+        try:
+            if hasattr(entry, 'published'):
             pub_date = date_parser.parse(entry.published)
             # Convert to naive datetime
             if pub_date.tzinfo is not None:
