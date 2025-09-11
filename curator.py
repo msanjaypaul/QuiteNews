@@ -264,7 +264,7 @@ def select_top_per_category(articles):
 
     return top_articles
 
-HTML_TEMPLATE = """
+HTML_TEMPLATE = 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -452,4 +452,4 @@ HTML_TEMPLATE = """
     </footer>
 </body>
 </html>
-"""
+
