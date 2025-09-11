@@ -293,9 +293,15 @@ HTML_TEMPLATE = """
         }
 
         .logo {
-            max-width: 280px;
-            margin: 0 auto 20px;
+            max-width: 350px;
+            margin: 0 auto 15px;
             display: block;
+            filter: contrast(1.1) brightness(0.9);
+            transition: transform 0.2s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.02);
         }
 
         h1 {
@@ -417,7 +423,7 @@ HTML_TEMPLATE = """
 <body>
     <header>
         <!-- 🖼️ PLACEHOLDER FOR YOUR LOGO -->
-        <!-- <img src="logo.png" alt="Quiet.News Logo" class="logo"> -->
+        <img src="logo.png" alt="Quiet.News Logo" class="logo">
         <h1>Quiet.News</h1>
         <p class="tagline">Timeless news for India. No ads. No noise.</p>
     </header>
