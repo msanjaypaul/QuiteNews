@@ -17,7 +17,7 @@ SOURCES = [
     {"name": "NDTV", "url": "https://feeds.feedburner.com/ndtvnews-india-news", "weight": 0.9},
     {"name": "Times of India", "url": "https://timesofindia.indiatimes.com/rssfeedstopstories.cms", "weight": 0.85},
     {"name": "BBC News India", "url": "http://feeds.bbci.co.uk/news/world/asia/india/rss.xml", "weight": 0.85},
-    {"name": "Reuters India", "url": "https://www.reuters.com/world/india/rss", "weight": 0.9},  # or use RSSHub
+    {"name": "Reuters India", "url": "https://www.reuters.com/world/india/rss", "weight": 0.9},
     {"name": "Al Jazeera - Asia", "url": "https://www.aljazeera.com/xml/rss/all.xml", "weight": 0.8},
     {"name": "AP News - Asia", "url": "https://rsshub.app/apnews/topics/asia", "weight": 0.8},
 ]
@@ -245,7 +245,7 @@ def deduplicate_articles(articles):
                     break
 
     deduped = [a for i, a in enumerate(articles) if i not in to_remove]
-    logger.info(f"Deduplicated: {len(articles)} → {len(deduped)} articles.")
+    logger.info(f"Deduplicated: {len(articles)} -> {len(deduped)} articles.")
     return deduped
 
 # === RANK & SELECT TOP N PER CATEGORY ===
@@ -264,13 +264,14 @@ def select_top_per_category(articles):
 
     return top_articles
 
-HTML_TEMPLATE = 
+# === GENERATE HTML ===
+HTML_TEMPLATE = """
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiet.News — Timeless News for India</title>
+    <title>Quiet.News - Timeless News for India</title>
     <style>
         /* === BASE === */
         body {
@@ -422,8 +423,7 @@ HTML_TEMPLATE =
 </head>
 <body>
     <header>
-        <!-- 🖼️ PLACEHOLDER FOR YOUR LOGO -->
-        <img src="logo.png" alt="Quiet.News Logo" class="logo">
+        <img src="/logo.png" alt="Quiet.News Logo" class="logo">
         <h1>Quiet.News</h1>
         <p class="tagline">Timeless news for India. No ads. No noise.</p>
     </header>
@@ -452,4 +452,33 @@ HTML_TEMPLATE =
     </footer>
 </body>
 </html>
+"""
 
+def generate_html(categorized):
+    template = Template(HTML_TEMPLATE)
+    html = template.render(
+        categorized=categorized,
+        now=datetime.utcnow()
+    )
+    with open("index.html", "w", encoding="utf-8") as f:
+        f.write(html)
+    logger.info("HTML generated: index.html")
+
+# === MAIN EXECUTION ===
+if __name__ == "__main__":
+    logger.info("Starting automated news curator...")
+    articles = fetch_articles()
+    if not articles:
+        logger.error("No articles fetched. Exiting.")
+        exit(1)
+
+    articles = classify_articles(articles)
+
+    now = datetime.utcnow()
+    for article in articles:
+        calculate_score(article, now)
+
+    articles = deduplicate_articles(articles)
+    categorized = select_top_per_category(articles)
+    generate_html(categorized)
+    logger.info("✅ Done. Website updated.")
