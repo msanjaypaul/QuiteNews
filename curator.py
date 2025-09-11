@@ -17,7 +17,6 @@ SOURCES = [
     {"name": "BBC", "url": "http://feeds.bbci.co.uk/news/world/rss.xml", "weight": 0.9},
     {"name": "The Guardian", "url": "https://www.theguardian.com/world/rss", "weight": 0.8},
     {"name": "Al Jazeera", "url": "https://www.aljazeera.com/xml/rss/all.xml", "weight": 0.85},
-    # Add more sources here
 ]
 
 CATEGORIES = [
@@ -32,8 +31,8 @@ CATEGORIES = [
     "Culture"
 ]
 
-TOP_N = 5  # Top N per category
-DEDUP_THRESHOLD = 0.85  # Cosine similarity threshold for deduplication
+TOP_N = 5
+DEDUP_THRESHOLD = 0.85
 
 # === SETUP LOGGING ===
 logging.basicConfig(level=logging.INFO)
@@ -49,34 +48,39 @@ logger.info("AI models loaded.")
 def fetch_articles():
     articles = []
     now = datetime.utcnow()
-    cutoff = now - timedelta(hours=48)  # Only consider last 48h
+    cutoff = now - timedelta(hours=48)
 
     for source in SOURCES:
         try:
             logger.info(f"Fetching from {source['name']}...")
             feed = feedparser.parse(source['url'])
             for entry in feed.entries:
-        try:
-            if hasattr(entry, 'published'):
-            pub_date = date_parser.parse(entry.published)
-            # Convert to naive datetime
-            if pub_date.tzinfo is not None:
-                pub_date = pub_date.replace(tzinfo=None)
-        else:
-            pub_date = now
-    except Exception as e:
-        logger.error(f"Failed to parse date for {entry.title}: {e}")
-        pub_date = now  # fallback
+                # Parse and normalize publish date
+                try:
+                    if hasattr(entry, 'published'):
+                        pub_date = date_parser.parse(entry.published)
+                        # Convert to naive datetime (remove timezone)
+                        if pub_date.tzinfo is not None:
+                            pub_date = pub_date.replace(tzinfo=None)
+                    else:
+                        pub_date = now
+                except Exception as e:
+                    logger.error(f"Failed to parse date for {entry.title}: {e}")
+                    pub_date = now
 
-    if pub_date < cutoff:
-        continue
+                # Skip if older than 48h
+                if pub_date < cutoff:
+                    continue
 
-                # Clean & extract summary
+                # Extract summary
                 summary = getattr(entry, 'summary', '')
                 if len(summary) > 300:
                     summary = summary[:297] + "..."
                 if not summary and hasattr(entry, 'content'):
-                    summary = BeautifulSoup(entry.content[0].value, "html.parser").get_text()[:300] + "..."
+                    try:
+                        summary = BeautifulSoup(entry.content[0].value, "html.parser").get_text()[:300] + "..."
+                    except:
+                        summary = ""
 
                 articles.append({
                     "title": entry.title,
@@ -102,7 +106,7 @@ def classify_articles(articles):
             article["category_confidence"] = result["scores"][0]
         except Exception as e:
             logger.error(f"Classification failed for '{article['title']}': {e}")
-            article["category"] = "World"  # fallback
+            article["category"] = "World"
             article["category_confidence"] = 0.5
     return articles
 
@@ -115,8 +119,7 @@ def calculate_score(article, now):
     recency_multiplier = max(0.1, 1 - (age_hours / 48))
     score *= recency_multiplier
 
-    # Bonus for entity-rich content (optional: expand with spaCy later)
-    # For now, rough proxy: longer title/summary = more entities?
+    # Bonus for entity-rich content (rough proxy)
     entity_bonus = min(len(article["title"].split()) * 0.02, 0.3)
     score += entity_bonus
 
@@ -143,12 +146,11 @@ def deduplicate_articles(articles):
             continue
         for j in range(i + 1, n):
             if cosine_scores[i][j] > DEDUP_THRESHOLD:
-                # Keep the one with higher score
                 if articles[i]["score"] >= articles[j]["score"]:
                     to_remove.add(j)
                 else:
                     to_remove.add(i)
-                    break  # break inner, continue with next i
+                    break
 
     deduped = [a for i, a in enumerate(articles) if i not in to_remove]
     logger.info(f"Deduplicated: {len(articles)} → {len(deduped)} articles.")
@@ -165,7 +167,6 @@ def select_top_per_category(articles):
 
     top_articles = {}
     for cat, articles_in_cat in categorized.items():
-        # Sort by score descending
         sorted_articles = sorted(articles_in_cat, key=lambda x: x["score"], reverse=True)
         top_articles[cat] = sorted_articles[:TOP_N]
 
