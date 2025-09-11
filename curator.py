@@ -56,9 +56,20 @@ def fetch_articles():
             logger.info(f"Fetching from {source['name']}...")
             feed = feedparser.parse(source['url'])
             for entry in feed.entries:
-                pub_date = date_parser.parse(entry.published) if hasattr(entry, 'published') else now
-                if pub_date < cutoff:
-                    continue  # Skip old articles
+    try:
+        if hasattr(entry, 'published'):
+            pub_date = date_parser.parse(entry.published)
+            # Convert to naive datetime
+            if pub_date.tzinfo is not None:
+                pub_date = pub_date.replace(tzinfo=None)
+        else:
+            pub_date = now
+    except Exception as e:
+        logger.error(f"Failed to parse date for {entry.title}: {e}")
+        pub_date = now  # fallback
+
+    if pub_date < cutoff:
+        continue
 
                 # Clean & extract summary
                 summary = getattr(entry, 'summary', '')
