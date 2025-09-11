@@ -264,87 +264,186 @@ def select_top_per_category(articles):
 
     return top_articles
 
-# === GENERATE HTML ===
 HTML_TEMPLATE = """
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiet.News — Top News for India. No Noise.</title>
+    <title>Quiet.News — Timeless News for India</title>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; max-width: 900px; margin: 0 auto; padding: 20px; background: #fafafa; color: #333; }
-        h1 { color: #222; border-bottom: 3px solid #eee; padding-bottom: 10px; }
-        h2 { color: #d32f2f; margin-top: 30px; }
-        li { margin-bottom: 20px; }
-        a { color: #0066cc; text-decoration: none; }
-        a:hover { text-decoration: underline; }
-        .summary { color: #555; margin: 5px 0; }
-        .meta { font-size: 0.9em; color: #888; }
-        .tag { padding: 2px 6px; border-radius: 3px; font-size: 0.8em; margin-left: 5px; color: white; }
-        .must-know { background: #d32f2f; }
-        .trending { background: #1976d2; }
-        .debatable { background: #f57c00; }
-        footer { margin-top: 50px; padding-top: 20px; border-top: 1px solid #eee; color: #888; }
+        /* === BASE === */
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background: url('https://www.transparenttextures.com/patterns/cream-paper.png'), #f8f4e9;
+            background-attachment: fixed;
+            color: #3a3a3a;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 30px 20px;
+            line-height: 1.6;
+        }
+
+        /* === HEADER === */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #c9b89b;
+        }
+
+        .logo {
+            max-width: 280px;
+            margin: 0 auto 20px;
+            display: block;
+        }
+
+        h1 {
+            font-family: 'Old Standard TT', 'Times New Roman', serif;
+            font-weight: normal;
+            letter-spacing: 2px;
+            font-size: 2.4rem;
+            color: #2c1e1e;
+            margin: 10px 0 5px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .tagline {
+            font-style: italic;
+            color: #6b5c45;
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        /* === CATEGORY HEADINGS === */
+        h2 {
+            font-family: 'Old Standard TT', Georgia, serif;
+            color: #2c1e1e;
+            border-left: 5px solid #c9b89b;
+            padding-left: 15px;
+            margin: 40px 0 20px;
+            font-size: 1.6rem;
+            letter-spacing: 1px;
+        }
+
+        /* === ARTICLE CARD === */
+        .article-card {
+            background: #fffaf2;
+            border: 1px solid #e0d5c1;
+            border-radius: 4px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            transition: box-shadow 0.2s ease;
+        }
+
+        .article-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .article-title {
+            font-family: 'Old Standard TT', Georgia, serif;
+            font-size: 1.3rem;
+            font-weight: normal;
+            margin: 0 0 10px;
+            line-height: 1.3;
+            color: #222;
+        }
+
+        .article-summary {
+            font-size: 1rem;
+            color: #444;
+            margin: 10px 0;
+            text-align: justify;
+        }
+
+        .meta {
+            font-size: 0.9rem;
+            color: #7a6c5d;
+            margin: 15px 0 10px;
+            font-style: italic;
+        }
+
+        /* === TAGS === */
+        .tag {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-right: 5px;
+            color: white;
+        }
+
+        .must-know { background: #8b0000; border: 1px solid #5a0000; }
+        .trending { background: #004080; border: 1px solid #00264d; }
+        .debatable { background: #b35900; border: 1px solid #7a3d00; }
+
+        /* === LINK === */
+        a {
+            color: #004080;
+            text-decoration: none;
+            font-weight: bold;
+            border-bottom: 1px dotted #004080;
+            padding-bottom: 2px;
+        }
+
+        a:hover {
+            color: #00264d;
+            border-bottom-style: solid;
+        }
+
+        /* === FOOTER === */
+        footer {
+            margin-top: 60px;
+            padding-top: 25px;
+            border-top: 2px solid #c9b89b;
+            color: #6b5c45;
+            font-size: 0.95rem;
+            text-align: center;
+        }
+
+        /* === TYPOGRAPHY ENHANCEMENTS === */
+        @import url('https://fonts.googleapis.com/css2?family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&display=swap');
+
+        /* === PRINT-LIKE TEXTURE === */
+        .article-card {
+            background-image: linear-gradient(rgba(255,255,255,0.8), rgba(250,245,235,0.8));
+        }
     </style>
 </head>
 <body>
-    <h1>Quiet.News</h1>
-    <p><em>Top news for India. No ads. No noise. Updated automatically.</em></p>
+    <header>
+        <!-- 🖼️ PLACEHOLDER FOR YOUR LOGO -->
+        <!-- <img src="logo.png" alt="Quiet.News Logo" class="logo"> -->
+        <h1>Quiet.News</h1>
+        <p class="tagline">Timeless news for India. No ads. No noise.</p>
+    </header>
 
     {% for category, articles in categorized.items() %}
         {% if articles|length > 0 %}
         <h2>{{ category }}</h2>
-        <ol>
         {% for article in articles %}
-            <li>
-                <strong>{{ article.title }}</strong><br>
-                <div class="summary">{{ article.summary }}</div>
-                <div class="meta">
-                    → {{ article.source }}
-                    {% if article.is_must_know %}<span class="tag must-know">Must-Know</span>{% endif %}
-                    {% if article.is_trending %}<span class="tag trending">Trending</span>{% endif %}
-                    {% if article.is_debatable %}<span class="tag debatable">Debatable</span>{% endif %}
-                </div>
-                <a href="{{ article.url }}" target="_blank">Read full</a>
-            </li>
+        <div class="article-card">
+            <div class="article-title">{{ article.title }}</div>
+            <div class="article-summary">{{ article.summary }}</div>
+            <div class="meta">
+                → {{ article.source }}
+                {% if article.is_must_know %}<span class="tag must-know">Must-Know</span>{% endif %}
+                {% if article.is_trending %}<span class="tag trending">Trending</span>{% endif %}
+                {% if article.is_debatable %}<span class="tag debatable">Debatable</span>{% endif %}
+            </div>
+            <a href="{{ article.url }}" target="_blank">Read full →</a>
+        </div>
         {% endfor %}
-        </ol>
         {% endif %}
     {% endfor %}
 
     <footer>
-        <p>Updated: {{ now.strftime('%Y-%m-%d %H:%M UTC') }} | Curated for Indian readers</p>
+        <p>Curated and updated automatically • {{ now.strftime('%A, %B %d, %Y') }}</p>
     </footer>
 </body>
 </html>
 """
-
-def generate_html(categorized):
-    template = Template(HTML_TEMPLATE)
-    html = template.render(
-        categorized=categorized,
-        now=datetime.utcnow()
-    )
-    with open("index.html", "w", encoding="utf-8") as f:
-        f.write(html)
-    logger.info("HTML generated: index.html")
-
-# === MAIN EXECUTION ===
-if __name__ == "__main__":
-    logger.info("Starting automated news curator...")
-    articles = fetch_articles()
-    if not articles:
-        logger.error("No articles fetched. Exiting.")
-        exit(1)
-
-    articles = classify_articles(articles)
-
-    now = datetime.utcnow()
-    for article in articles:
-        calculate_score(article, now)
-
-    articles = deduplicate_articles(articles)
-    categorized = select_top_per_category(articles)
-    generate_html(categorized)
-    logger.info("✅ Done. Website updated.")
