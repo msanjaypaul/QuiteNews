@@ -11,6 +11,8 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.newswebsite }}
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -30,5 +32,17 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add index.html
-          git diff --quiet && echo "No changes" || git commit -m "Auto-update: $(date)"
-          git push
+          if ! git diff --quiet; then
+            git commit -m "Auto-update: $(date -u)"
+            git push https://x-access-token:${{ secrets.newswebsite }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref_name }}
+            echo "✅ Changes pushed to repo."
+          else
+            echo "ℹ️ No changes to commit."
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.newswebsite }}
+
+      - name: Verify output
+        run: |
+          echo "📄 Checking if index.html exists..."
+          ls -la index.html
