@@ -36,21 +36,17 @@ jobs:
             echo "✅ index.html found."
           fi
 
-      - name: Commit and push if changed
+      - name: Force add and commit index.html
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add index.html
-          if git diff --quiet; then
-            echo "ℹ️ No changes to commit."
-          else
-            git commit -m "Auto-update: $(date -u)"
-            git push https://x-access-token:${{ secrets.newswebsite }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref_name }}
-            echo "✅ Changes pushed to repo."
-          fi
+          git commit -m "Auto-update: $(date -u)" --allow-empty
+          git push https://x-access-token:${{ secrets.newswebsite }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref_name}}
         env:
           GITHUB_TOKEN: ${{ secrets.newswebsite }}
 
       - name: Verify output
         run: |
+          echo "📄 Final check:"
           ls -la index.html
