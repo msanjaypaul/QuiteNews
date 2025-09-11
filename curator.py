@@ -12,18 +12,21 @@ import logging
 
 # === CONFIG ===
 SOURCES = [
-    {"name": "Reuters", "url": "http://feeds.reuters.com/reuters/worldNews", "weight": 1.0},
-    {"name": "AP News", "url": "https://rsshub.app/apnews/topics/world", "weight": 1.0},
-    {"name": "BBC", "url": "http://feeds.bbci.co.uk/news/world/rss.xml", "weight": 0.9},
-    {"name": "The Guardian", "url": "https://www.theguardian.com/world/rss", "weight": 0.8},
-    {"name": "Al Jazeera", "url": "https://www.aljazeera.com/xml/rss/all.xml", "weight": 0.85},
+    {"name": "The Hindu", "url": "https://www.thehindu.com/feeder/default.rss", "weight": 1.0},
+    {"name": "Indian Express", "url": "https://indianexpress.com/section/india/feed/", "weight": 0.95},
+    {"name": "NDTV", "url": "https://feeds.feedburner.com/ndtvnews-india-news", "weight": 0.9},
+    {"name": "Times of India", "url": "https://timesofindia.indiatimes.com/rssfeedstopstories.cms", "weight": 0.85},
+    {"name": "BBC News India", "url": "http://feeds.bbci.co.uk/news/world/asia/india/rss.xml", "weight": 0.85},
+    {"name": "Reuters India", "url": "https://www.reuters.com/world/india/rss", "weight": 0.9},  # or use RSSHub
+    {"name": "Al Jazeera - Asia", "url": "https://www.aljazeera.com/xml/rss/all.xml", "weight": 0.8},
+    {"name": "AP News - Asia", "url": "https://rsshub.app/apnews/topics/asia", "weight": 0.8},
 ]
 
 CATEGORIES = [
+    "India",
     "World",
     "Politics",
     "Technology",
-    "Science",
     "Business",
     "Health",
     "Environment",
@@ -48,6 +51,65 @@ except Exception as e:
     logger.error(f"Failed to load AI models: {e}")
     exit(1)
 
+# === HELPER: Detect India-related content ===
+def is_india_related(text):
+    india_keywords = [
+        'india', 'indian', 'delhi', 'mumbai', 'bangalore', 'chennai', 'kolkata',
+        'modi', 'bjp', 'congress', 'aadhaar', 'upi', 'india gdp', 'india economy',
+        'supreme court india', 'india election', 'lok sabha', 'rajya sabha',
+        'india china', 'india pakistan', 'jammu', 'kashmir', 'gujarat', 'tamil nadu',
+        'bihar', 'uttar pradesh', 'maharashtra', 'karnataka', 'telangana', 'andhra',
+        'punjab', 'haryana', 'rajasthan', 'assam', 'bengal', 'odisha', 'kerela',
+        'indian rupee', 'rbi', 'sebi', 'nifty', 'sensex'
+    ]
+    text_lower = text.lower()
+    for kw in india_keywords:
+        if kw in text_lower:
+            return True
+    return False
+
+# === HELPER: Editorial Dimensions ===
+def is_trending(text):
+    trending_keywords = [
+        'viral', 'trending', 'breaking', 'explainer', 'chart', 'graph', 'spike',
+        'record high', 'suddenly', 'overnight', 'everyone is talking about',
+        'blows up', 'skyrockets', 'plummets', 'goes viral', 'tops charts',
+        'most watched', 'most searched', 'google trends', 'twitter trends'
+    ]
+    text_lower = text.lower()
+    for kw in trending_keywords:
+        if kw in text_lower:
+            return True
+    return False
+
+def is_debatable(text):
+    debatable_keywords = [
+        'controversy', 'debate', 'divided', 'clash', 'protests', 'backlash',
+        'criticism', 'defends', 'slammed', 'outrage', 'calls for', 'demands',
+        'should', 'must', 'why', 'how could', 'scandal', 'allegations',
+        'court battle', 'legal fight', 'ethics', 'morality', 'cancel culture',
+        'free speech', 'censorship', 'bias', 'fake news'
+    ]
+    text_lower = text.lower()
+    for kw in debatable_keywords:
+        if kw in text_lower:
+            return True
+    return False
+
+def is_must_know(text):
+    must_know_keywords = [
+        'new law', 'policy change', 'supreme court rules', 'election results',
+        'major study', 'who should know', 'everyone needs to know', 'urgent',
+        'critical', 'essential', 'what you need to know', 'implications',
+        'long-term', 'affects everyone', 'national security', 'public health',
+        'economy update', 'market crash', 'inflation', 'unemployment'
+    ]
+    text_lower = text.lower()
+    for kw in must_know_keywords:
+        if kw in text_lower:
+            return True
+    return False
+
 # === FETCH & PARSE ARTICLES ===
 def fetch_articles():
     articles = []
@@ -59,23 +121,20 @@ def fetch_articles():
             logger.info(f"Fetching from {source['name']}...")
             feed = feedparser.parse(source['url'])
             for entry in feed.entries:
-                # Parse and normalize publish date
                 try:
                     if hasattr(entry, 'published'):
                         pub_date = date_parser.parse(entry.published)
                         if pub_date.tzinfo is not None:
-                            pub_date = pub_date.replace(tzinfo=None)  # Make naive
+                            pub_date = pub_date.replace(tzinfo=None)
                     else:
                         pub_date = now
                 except Exception as e:
                     logger.error(f"Failed to parse date for {entry.title}: {e}")
                     pub_date = now
 
-                # Skip if older than 48h
                 if pub_date < cutoff:
                     continue
 
-                # Extract summary
                 summary = getattr(entry, 'summary', '')
                 if len(summary) > 300:
                     summary = summary[:297] + "..."
@@ -105,13 +164,26 @@ def fetch_articles():
 def classify_articles(articles):
     for article in articles:
         try:
-            result = classifier(article["text_for_ai"], CATEGORIES, multi_label=False)
-            article["category"] = result["labels"][0]
-            article["category_confidence"] = result["scores"][0]
+            if is_india_related(article["text_for_ai"]):
+                article["category"] = "India"
+                article["category_confidence"] = 1.0
+            else:
+                result = classifier(article["text_for_ai"], CATEGORIES, multi_label=False)
+                article["category"] = result["labels"][0]
+                article["category_confidence"] = result["scores"][0]
+
+            # Tag with editorial dimensions
+            article["is_trending"] = is_trending(article["text_for_ai"])
+            article["is_debatable"] = is_debatable(article["text_for_ai"])
+            article["is_must_know"] = is_must_know(article["text_for_ai"])
+
         except Exception as e:
             logger.error(f"Classification failed for '{article['title']}': {e}")
-            article["category"] = "World"  # fallback
+            article["category"] = "World"
             article["category_confidence"] = 0.5
+            article["is_trending"] = False
+            article["is_debatable"] = False
+            article["is_must_know"] = False
     return articles
 
 # === CALCULATE IMPORTANCE SCORE ===
@@ -123,12 +195,24 @@ def calculate_score(article, now):
     recency_multiplier = max(0.1, 1 - (age_hours / 48))
     score *= recency_multiplier
 
-    # Bonus for entity-rich content (rough proxy)
+    # Entity bonus
     entity_bonus = min(len(article["title"].split()) * 0.02, 0.3)
     score += entity_bonus
 
     # Confidence bonus
     score *= article["category_confidence"]
+
+    # 🇮🇳 India relevance boost
+    if is_india_related(article["text_for_ai"]):
+        score *= 1.5
+
+    # 📈 Editorial dimension boosts
+    if article.get("is_trending", False):
+        score *= 1.3
+    if article.get("is_debatable", False):
+        score *= 1.2
+    if article.get("is_must_know", False):
+        score *= 1.5
 
     article["score"] = score
     return score
@@ -144,7 +228,7 @@ def deduplicate_articles(articles):
         cosine_scores = util.cos_sim(embeddings, embeddings)
     except Exception as e:
         logger.error(f"Embedding failed: {e}")
-        return articles  # fallback: no deduplication
+        return articles
 
     to_remove = set()
     n = len(articles)
@@ -170,11 +254,11 @@ def select_top_per_category(articles):
     now = datetime.utcnow()
 
     for article in articles:
+        calculate_score(article, now)
         categorized[article["category"]].append(article)
 
     top_articles = {}
     for cat, articles_in_cat in categorized.items():
-        # Sort by score descending
         sorted_articles = sorted(articles_in_cat, key=lambda x: x.get("score", 0), reverse=True)
         top_articles[cat] = sorted_articles[:TOP_N]
 
@@ -187,22 +271,26 @@ HTML_TEMPLATE = """
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiet.News — Top News. No Noise.</title>
+    <title>Quiet.News — Top News for India. No Noise.</title>
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; max-width: 900px; margin: 0 auto; padding: 20px; background: #fafafa; color: #333; }
         h1 { color: #222; border-bottom: 3px solid #eee; padding-bottom: 10px; }
-        h2 { color: #444; margin-top: 30px; }
+        h2 { color: #d32f2f; margin-top: 30px; }
         li { margin-bottom: 20px; }
         a { color: #0066cc; text-decoration: none; }
         a:hover { text-decoration: underline; }
         .summary { color: #555; margin: 5px 0; }
         .meta { font-size: 0.9em; color: #888; }
+        .tag { padding: 2px 6px; border-radius: 3px; font-size: 0.8em; margin-left: 5px; color: white; }
+        .must-know { background: #d32f2f; }
+        .trending { background: #1976d2; }
+        .debatable { background: #f57c00; }
         footer { margin-top: 50px; padding-top: 20px; border-top: 1px solid #eee; color: #888; }
     </style>
 </head>
 <body>
     <h1>Quiet.News</h1>
-    <p><em>Top news. No ads. No noise. Updated automatically.</em></p>
+    <p><em>Top news for India. No ads. No noise. Updated automatically.</em></p>
 
     {% for category, articles in categorized.items() %}
         {% if articles|length > 0 %}
@@ -212,7 +300,12 @@ HTML_TEMPLATE = """
             <li>
                 <strong>{{ article.title }}</strong><br>
                 <div class="summary">{{ article.summary }}</div>
-                <div class="meta">→ {{ article.source }} | Score: {{ "%.2f"|format(article.score) }}</div>
+                <div class="meta">
+                    → {{ article.source }}
+                    {% if article.is_must_know %}<span class="tag must-know">Must-Know</span>{% endif %}
+                    {% if article.is_trending %}<span class="tag trending">Trending</span>{% endif %}
+                    {% if article.is_debatable %}<span class="tag debatable">Debatable</span>{% endif %}
+                </div>
                 <a href="{{ article.url }}" target="_blank">Read full</a>
             </li>
         {% endfor %}
@@ -221,7 +314,7 @@ HTML_TEMPLATE = """
     {% endfor %}
 
     <footer>
-        <p>Updated: {{ now.strftime('%Y-%m-%d %H:%M UTC') }} | Sources: Reuters, AP, BBC, Guardian, Al Jazeera</p>
+        <p>Updated: {{ now.strftime('%Y-%m-%d %H:%M UTC') }} | Curated for Indian readers</p>
     </footer>
 </body>
 </html>
@@ -247,7 +340,6 @@ if __name__ == "__main__":
 
     articles = classify_articles(articles)
 
-    # ✅ Calculate scores BEFORE deduplication
     now = datetime.utcnow()
     for article in articles:
         calculate_score(article, now)
