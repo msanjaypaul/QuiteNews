@@ -9,61 +9,155 @@
         /* === BASE === */
         body {
             font-family: 'Georgia', 'Times New Roman', serif;
-            background: url('https://www.transparenttextures.com/patterns/cream-paper.png'), #f8f4e9;
-            background-attachment: fixed;
-            color: #3a3a3a;
-            max-width: 900px;
+            background: #f8f4e9;
+            color: #2c1e1e;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 30px 20px;
+            padding: 20px;
             line-height: 1.6;
         }
 
         /* === HEADER === */
-        header {
+        .masthead {
             text-align: center;
-            margin-bottom: 40px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid #c9b89b;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #2c1e1e;
+            padding-bottom: 10px;
         }
 
-        .logo {
-            max-width: 350px;
-            margin: 0 auto 15px;
-            display: block;
-            filter: contrast(1.1) brightness(0.9);
-            transition: transform 0.2s ease;
-        }
-
-        .logo:hover {
-            transform: scale(1.02);
-        }
-
-        h1 {
-            font-family: 'Old Standard TT', 'Times New Roman', serif;
-            font-weight: normal;
-            letter-spacing: 2px;
-            font-size: 2.4rem;
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
             color: #2c1e1e;
-            margin: 10px 0 5px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .title {
+            font-family: 'Old Standard TT', 'Times New Roman', serif;
+            font-size: 3.2rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin: 10px 0;
+            color: #2c1e1e;
         }
 
         .tagline {
+            font-size: 0.9rem;
+            margin: 5px 0;
+            color: #6b5c45;
+        }
+
+        .date {
+            font-size: 1.1rem;
+            margin: 10px 0;
+            color: #2c1e1e;
+        }
+
+        /* === MAIN ARTICLE === */
+        .main-article {
+            display: flex;
+            margin-bottom: 40px;
+            border-top: 3px solid #2c1e1e;
+            padding-top: 20px;
+        }
+
+        .main-image {
+            flex: 3;
+            margin-right: 20px;
+        }
+
+        .main-image img {
+            width: 100%;
+            height: auto;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .main-text {
+            flex: 2;
+            font-size: 0.9rem;
+        }
+
+        .image-caption {
             font-style: italic;
             color: #6b5c45;
+            margin: 5px 0;
+            font-size: 0.8rem;
+        }
+
+        .headline {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin: 10px 0;
+            color: #2c1e1e;
+        }
+
+        .subhead {
+            font-style: italic;
+            color: #6b5c45;
+            margin: 5px 0;
             font-size: 1.1rem;
+        }
+
+        /* === SIDE COLUMN === */
+        .sidebar {
+            width: 300px;
+            margin-left: 20px;
+            font-size: 0.9rem;
+        }
+
+        .weather-box {
+            background: #f0f0f0;
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .weather-title {
+            font-weight: bold;
+            margin: 0;
+            margin-bottom: 10px;
+        }
+
+        .temperature {
+            font-size: 1.8rem;
+            font-weight: bold;
             margin: 0;
         }
 
-        /* === CATEGORY HEADINGS === */
-        h2 {
-            font-family: 'Old Standard TT', Georgia, serif;
+        .brief-news {
+            background: #fff;
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        .brief-news h3 {
+            font-size: 0.9rem;
+            margin: 0 0 5px;
             color: #2c1e1e;
-            border-left: 5px solid #c9b89b;
-            padding-left: 15px;
-            margin: 40px 0 20px;
-            font-size: 1.6rem;
-            letter-spacing: 1px;
+        }
+
+        .brief-news p {
+            margin: 0;
+            margin-bottom: 15px;
+            color: #6b5c45;
+        }
+
+        /* === CATEGORY SECTION === */
+        .category-section {
+            margin: 40px 0;
+        }
+
+        .category-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin: 0 0 20px;
+            color: #2c1e1e;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 5px;
         }
 
         /* === ARTICLE CARD === */
@@ -74,15 +168,9 @@
             padding: 20px;
             margin-bottom: 25px;
             box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-            transition: box-shadow 0.2s ease;
-        }
-
-        .article-card:hover {
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
 
         .article-title {
-            font-family: 'Old Standard TT', Georgia, serif;
             font-size: 1.3rem;
             font-weight: normal;
             margin: 0 0 10px;
@@ -104,7 +192,6 @@
             font-style: italic;
         }
 
-        /* === TAGS === */
         .tag {
             display: inline-block;
             padding: 3px 8px;
@@ -144,583 +231,410 @@
             font-size: 0.95rem;
             text-align: center;
         }
-
-        /* === TYPOGRAPHY ENHANCEMENTS === */
-        @import url('https://fonts.googleapis.com/css2?family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&display=swap');
-
-        /* === PRINT-LIKE TEXTURE === */
-        .article-card {
-            background-image: linear-gradient(rgba(255,255,255,0.8), rgba(250,245,235,0.8));
-        }
     </style>
 </head>
 <body>
-    <header>
-        <img src="/logo.png" alt="Quiet.News Logo" class="logo">
-        <h1>Quiet.News</h1>
-        <p class="tagline">Timeless news for India. No ads. No noise.</p>
-    </header>
+    <!-- === MASTHEAD === -->
+    <div class="masthead">
+        <div class="top-bar">
+            <span>ESTABLISHED 1892</span>
+            <span>PRICE: 5 CENTS</span>
+            <span>VOL. CXXX NO. 245</span>
+        </div>
+        <h1 class="title">Quiet.News</h1>
+        <p class="tagline">★ TRUTH • HONOR • PROGRESS ★</p>
+        <p class="date">FRIDAY, Friday, September 12, 2025</p>
+    </div>
 
+    <!-- === MAIN ARTICLE === -->
     
-        
-        <h2>India</h2>
-        
-        <div class="article-card">
-            <div class="article-title">Stalin opposes exemption of atomic mineral mining from public consultation</div>
-            <div class="article-summary">Such a significant policy change must be discussed in Parliament and Assemblies, with due consultation of the States and members of the public. Otherwise, it would run counter to the spirit of cooperative federalism and the democratic ethos of our country, says the Tamil Nadu Chief Minister</div>
-            <div class="meta">
-                → The Hindu
-                <span class="tag must-know">Must-Know</span>
+        <div class="main-article">
+            <div class="main-image">
                 
-                <span class="tag debatable">Debatable</span>
+                    <img src="https://static.toiimg.com/photo/msid-123853133,imgsize-74006.cms" alt="Read: Raj Kundra denies Rs 60 cr fraud allegations; Manoj Bajpayee on stardom & more" style="width:100%; height:auto;">
+                
+                <p class="image-caption">Artist's rendering of the proposed transportation hub</p>
+                <h2 class="headline">Read: Raj Kundra denies Rs 60 cr fraud allegations; Manoj Bajpayee on stardom & more</h2>
+                <p class="subhead">Bollywood buzz includes Raj Kundra's denial of fraud allegations and the Delhi High Court's protection of Abhishek Bachchan's personality rights. Manoj Bajpayee shared his views on fame compared to Shah Rukh and Salman Khan. Vivek Oberoi addressed comments about his relationship with cousin Aksha...</p>
             </div>
-            <a href="https://www.thehindu.com/news/national/tamil-nadu/stalin-opposes-exemption-of-atomic-mineral-mining-from-public-consultation/article70041586.ece" target="_blank">Read full →</a>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-title">BJP MLA's video of '10% commission' remark goes viral</div>
-            <div class="article-summary">In the video, the Kidwai Nagar MLA was seen asking party workers that while legislators benefit from both salaries and commissions, grassroots workers get "nothing in return."</div>
-            <div class="meta">
-                → The Hindu
-                
-                <span class="tag trending">Trending</span>
-                
+            <div class="main-text">
+                <div class="weather-box">
+                    <h3 class="weather-title">TODAY'S WEATHER</h3>
+                    <p class="temperature">72°F</p>
+                    <p>Partly Cloudy</p>
+                    <p style="font-size:0.8rem;">High: 78° Low: 65°</p>
+                </div>
+                <div class="brief-news">
+                    <h3>BRIEF NEWS</h3>
+                    <p><strong>Railway Schedule Changes</strong><br>
+                        Effective Monday, the evening express will depart fifteen minutes earlier to accommodate increased ridership.</p>
+                    <p><strong>Library Expands Hours</strong><br>
+                        The Public Library announces extended evening hours on weekdays to better serve the community.</p>
+                </div>
             </div>
-            <a href="https://www.thehindu.com/news/national/uttar-pradesh/bjp-mlas-video-of-10-commission-remark-goes-viral/article70041630.ece" target="_blank">Read full →</a>
         </div>
-        
-        <div class="article-card">
-            <div class="article-title">Why cracker ban only in ‘elite’ Delhi, and not other parts of India: CJI asks</div>
-            <div class="article-summary">The court, on Friday sought a report from the Commission for Air Quality Management (CAQM) and listed the case after two weeks</div>
-            <div class="meta">
-                → The Hindu
-                
-                
-                <span class="tag debatable">Debatable</span>
-            </div>
-            <a href="https://www.thehindu.com/news/national/why-cracker-ban-only-in-elite-delhi-and-not-other-parts-of-india-cji-asks/article70041171.ece" target="_blank">Read full →</a>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-title">Velachery Congress MLA moves Madras High Court challenging ECI’s disqualification notice</div>
-            <div class="article-summary">The Election Commission had sought an explanation as to why he should not be disqualified for reportedly not having made a true disclosure of his 2021 election expenditure</div>
-            <div class="meta">
-                → The Hindu
-                
-                
-                <span class="tag debatable">Debatable</span>
-            </div>
-            <a href="https://www.thehindu.com/news/national/tamil-nadu/velachery-mla-moves-madras-high-court-challenging-ecis-disqualification-notice/article70040665.ece" target="_blank">Read full →</a>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-title">Trapped In Nepal Protests, Indian Band Safely Crosses Border: "We Finally Made It"</div>
-            <div class="article-summary">The group, known as Street Stories, shared a short video on Instagram.</div>
-            <div class="meta">
-                → NDTV
-                
-                
-                <span class="tag debatable">Debatable</span>
-            </div>
-            <a href="https://www.ndtv.com/india-news/nepal-gen-z-protest-indian-punk-band-street-stories-safely-returns-from-nepal-9264618#publisher=newsstand" target="_blank">Read full →</a>
-        </div>
-        
+    
+
+    <!-- === CATEGORY SECTIONS === -->
+    
         
     
         
-        <h2>World</h2>
-        
-        <div class="article-card">
-            <div class="article-title">Educational Qualifications Of The World's Top 10 Richest People</div>
-            <div class="article-summary">Larry Ellison fortune now stands at $393 billion, ahead of Elon  Musk's $385 billion.</div>
-            <div class="meta">
-                → NDTV
+        <div class="category-section">
+            <h2 class="category-title">World</h2>
+            
+            <div class="article-card">
                 
+                    <img src="https://static.toiimg.com/photo/msid-123852668,imgsize-637105.cms" alt="Meet Diella: Albania appoints world’s first 'AI minister'; what's her role?" style="width:100%; max-width:300px; height:auto; margin:10px 0; border-radius:4px;">
                 
-                
+                <div class="article-title">Meet Diella: Albania appoints world’s first 'AI minister'; what's her role?</div>
+                <div class="article-summary">Albania has appointed Diella, an AI-powered minister, to combat corruption and enhance transparency in public spending. Overseeing government contracts, Diella aims to eliminate bias and manipulation, addressing Albania's long-standing struggle with corruption. This move aligns with Albania's EU ...</div>
+                <div class="meta">
+                    → Times of India
+                    
+                    
+                    <span class="tag debatable">Debatable</span>
+                </div>
+                <a href="https://timesofindia.indiatimes.com/world/europe/who-is-diella-albania-appoints-worlds-first-ai-minister-public-tenders-to-be-100-corruption-free/articleshow/123852634.cms" target="_blank">Read full →</a>
             </div>
-            <a href="https://www.ndtv.com/education/educational-qualifications-of-the-worlds-top-10-richest-people-9264882#publisher=newsstand" target="_blank">Read full →</a>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-title">U.K.'s Prince Harry makes surprise Ukraine visit with rehabilitation charity</div>
-            <div class="article-summary">It is the second visit Harry has made to Ukraine this year</div>
-            <div class="meta">
-                → The Hindu
+            
+            <div class="article-card">
                 
+                    <img src="https://static.toiimg.com/photo/msid-123853381,imgsize-42454.cms" alt="Love is in the air! R Ashwin shares romantic picture with wife" style="width:100%; max-width:300px; height:auto; margin:10px 0; border-radius:4px;">
                 
-                
+                <div class="article-title">Love is in the air! R Ashwin shares romantic picture with wife</div>
+                <div class="article-summary">Ravichandran Ashwin ended his IPL career after 16 seasons. He cited the demanding schedule as a key factor. Ashwin also expressed interest in exploring opportunities in other global leagues. He shared a romantic picture with his wife on social media. This highlighted his devotion to family. Ashwi...</div>
+                <div class="meta">
+                    → Times of India
+                    
+                    
+                    
+                </div>
+                <a href="https://timesofindia.indiatimes.com/sports/cricket/news/love-is-in-the-air-r-ashwin-shares-romantic-picture-with-wife/articleshow/123851827.cms" target="_blank">Read full →</a>
             </div>
-            <a href="https://www.thehindu.com/news/international/uks-prince-harry-makes-surprise-ukraine-visit-with-rehabilitation-charity/article70041074.ece" target="_blank">Read full →</a>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-title">Watch: FBI releases photos, video of Charlie Kirk’s killer</div>
-            <div class="article-summary"></div>
-            <div class="meta">
-                → The Hindu
+            
+            <div class="article-card">
                 
+                    <img src="https://static.toiimg.com/photo/msid-123852975,imgsize-36328.cms" alt="Who is Anastasia Casey? No one knows if writer of 'The Shooting of Charlie Kirk' is real" style="width:100%; max-width:300px; height:auto; margin:10px 0; border-radius:4px;">
                 
-                
+                <div class="article-title">Who is Anastasia Casey? No one knows if writer of 'The Shooting of Charlie Kirk' is real</div>
+                <div class="article-summary"></div>
+                <div class="meta">
+                    → Times of India
+                    
+                    
+                    
+                </div>
+                <a href="https://timesofindia.indiatimes.com/world/us/who-is-anastasia-casey-no-one-knows-if-the-writer-of-the-shooting-of-charlie-kirk-is-a-real-person/articleshow/123852890.cms" target="_blank">Read full →</a>
             </div>
-            <a href="https://www.thehindu.com/shorts/watch-fbi-releases-photos-video-of-charlie-kirks-killer/article70041470.ece" target="_blank">Read full →</a>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-title">"Get A Taste Of Your Own Medicine": Lawyers Fight In Karisma Kapoor Case</div>
-            <div class="article-summary">The exchange took place on Friday.</div>
-            <div class="meta">
-                → NDTV
+            
+            <div class="article-card">
                 
-                
-                
+                <div class="article-title">UN Security Council unite in condemning Israeli bombing of Qatar</div>
+                <div class="article-summary">In a rare move, the US backed a UN Security Council statement condemning Israel’s attack on Hamas’s Doha office.</div>
+                <div class="meta">
+                    → Al Jazeera - Asia
+                    
+                    
+                    
+                </div>
+                <a href="https://www.aljazeera.com/video/newsfeed/2025/9/12/un-security-council-unite-in-condemning-israeli-bombing-of-qatar?traffic_source=rss" target="_blank">Read full →</a>
             </div>
-            <a href="https://www.ndtv.com/india-news/video-dont-shout-at-me-lawyers-fight-in-delhi-high-court-in-karisma-kapoor-case-sunjay-kapur-priya-kapur-9264375#publisher=newsstand" target="_blank">Read full →</a>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-title">Man kills mother after she refuses to give him money to fund his vices</div>
-            <div class="article-summary"></div>
-            <div class="meta">
-                → The Hindu
+            
+            <div class="article-card">
                 
-                
-                
+                <div class="article-title">LIVE: Israel kills 50 in Gaza, Qatari PM to meet top US officials</div>
+                <div class="article-summary">Israeli onslaught on Gaza intensifies as US Security Council issues statement condemning attack on Qatari capital.</div>
+                <div class="meta">
+                    → Al Jazeera - Asia
+                    
+                    
+                    
+                </div>
+                <a href="https://www.aljazeera.com/news/liveblog/2025/9/12/live-israel-kills-dozens-in-gaza-unsc-condemns-doha-attack?traffic_source=rss" target="_blank">Read full →</a>
             </div>
-            <a href="https://www.thehindu.com/news/cities/Visakhapatnam/man-kills-mother-after-she-refuses-to-give-him-money-to-fund-his-vices/article70041324.ece" target="_blank">Read full →</a>
+            
         </div>
-        
         
     
         
-        <h2>Politics</h2>
-        
-        <div class="article-card">
-            <div class="article-title">DMK government misleading public with false promises: TVK chief Vijay</div>
-            <div class="article-summary">According to him, the conditions listed by the police for his party’s public meetings and programmes were “unprecedented.”</div>
-            <div class="meta">
-                → The Hindu
+        <div class="category-section">
+            <h2 class="category-title">Politics</h2>
+            
+            <div class="article-card">
                 
+                    <img src="https://static.toiimg.com/photo/msid-123854008,imgsize-46556.cms" alt="Nepal unrest: Sushila Karki to take oath as interim PM; parliament dissolved" style="width:100%; max-width:300px; height:auto; margin:10px 0; border-radius:4px;">
                 
-                
+                <div class="article-title">Nepal unrest: Sushila Karki to take oath as interim PM; parliament dissolved</div>
+                <div class="article-summary"></div>
+                <div class="meta">
+                    → Times of India
+                    
+                    
+                    
+                </div>
+                <a href="https://timesofindia.indiatimes.com/world/south-asia/nepal-unrest-sushila-karki-to-take-oath-as-interim-pm-what-will-be-her-first-decision/articleshow/123854013.cms" target="_blank">Read full →</a>
             </div>
-            <a href="https://www.thehindu.com/news/national/tamil-nadu/dmk-government-misleading-public-with-false-promises-tvk-chief-vijay/article70041511.ece" target="_blank">Read full →</a>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-title">Nepal mayors skip Kerala Urban Conclave amid political unrest</div>
-            <div class="article-summary">Mayors Krishna Hari Maharjan of Tarakeshwor municipality, Bhim Prasad of Nilkantha municipality and Prahlad Sapkota of Ratnanagar municipality have skipped the conclave in Kochi</div>
-            <div class="meta">
-                → The Hindu
+            
+            <div class="article-card">
                 
+                    <img src="https://static.toiimg.com/photo/msid-123851408,imgsize-102770.cms" alt="Charlie Kirk: X mourns him as free speech martyr; nation debates violence" style="width:100%; max-width:300px; height:auto; margin:10px 0; border-radius:4px;">
                 
-                
+                <div class="article-title">Charlie Kirk: X mourns him as free speech martyr; nation debates violence</div>
+                <div class="article-summary">Conservative activist Charlie Kirk was assassinated during a debate on free speech at Utah Valley University. His death, framed as a martyrdom for free expression, has ignited debates over political violence and polarization in the U.S. Turning Point USA now faces a leadership vacuum and heighten...</div>
+                <div class="meta">
+                    → Times of India
+                    
+                    
+                    <span class="tag debatable">Debatable</span>
+                </div>
+                <a href="https://timesofindia.indiatimes.com/world/us/charlie-has-become-the-americas-greatest-martyr-to-free-speech-charlie-kirks-x-handle-mourns-his-death/articleshow/123851417.cms" target="_blank">Read full →</a>
             </div>
-            <a href="https://www.thehindu.com/news/national/kerala/nepal-mayors-skip-kerala-urban-conclave-amid-political-unrest/article70041111.ece" target="_blank">Read full →</a>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-title">Charlie Kirk: X mourns him as free speech martyr; nation debates violence</div>
-            <div class="article-summary">Conservative activist Charlie Kirk was assassinated during a debate on free speech at Utah Valley University. His death, framed as a martyrdom for free expression, has ignited debates over political violence and polarization in the U.S. Turning Point USA now faces a leadership vacuum and heighten...</div>
-            <div class="meta">
-                → Times of India
+            
+            <div class="article-card">
                 
-                
-                <span class="tag debatable">Debatable</span>
+                <div class="article-title">Bolsonaro’s guilty verdict – what it means for US-Brazil relations</div>
+                <div class="article-summary">US President Donald Trump has slammed former president&#039;s trial for attempted coup as a &#039;witch-hunt&#039;.</div>
+                <div class="meta">
+                    → Al Jazeera - Asia
+                    
+                    
+                    <span class="tag debatable">Debatable</span>
+                </div>
+                <a href="https://www.aljazeera.com/news/2025/9/12/bolsonaros-guilty-verdict-what-it-means-for-us-brazil-relations?traffic_source=rss" target="_blank">Read full →</a>
             </div>
-            <a href="https://timesofindia.indiatimes.com/world/us/charlie-has-become-the-americas-greatest-martyr-to-free-speech-charlie-kirks-x-handle-mourns-his-death/articleshow/123851417.cms" target="_blank">Read full →</a>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-title">Bolsonaro’s guilty verdict – what it means for US-Brazil relations</div>
-            <div class="article-summary">US President Donald Trump has slammed former president&#039;s trial for attempted coup as a &#039;witch-hunt&#039;.</div>
-            <div class="meta">
-                → Al Jazeera - Asia
+            
+            <div class="article-card">
                 
+                    <img src="https://static.toiimg.com/photo/msid-123852215,imgsize-35540.cms" alt="Russia-Ukraine war: Kremlin 'pauses' peace talks; Trump's truce move falters" style="width:100%; max-width:300px; height:auto; margin:10px 0; border-radius:4px;">
                 
-                <span class="tag debatable">Debatable</span>
+                <div class="article-title">Russia-Ukraine war: Kremlin 'pauses' peace talks; Trump's truce move falters</div>
+                <div class="article-summary">Kremlin announced a pause in Russia-Ukraine peace talks. Donald Trump's efforts to mediate face challenges. Russia continues its offensive. Putin has ruled out meeting Zelenskyy. Recent attacks have escalated. Previous talks yielded prisoner swaps. Russia demands Donbas, while Ukraine seeks Europ...</div>
+                <div class="meta">
+                    → Times of India
+                    
+                    
+                    <span class="tag debatable">Debatable</span>
+                </div>
+                <a href="https://timesofindia.indiatimes.com/world/europe/russia-ukraine-war-kremlin-pauses-peace-talks-trumps-truce-move-falters/articleshow/123851908.cms" target="_blank">Read full →</a>
             </div>
-            <a href="https://www.aljazeera.com/news/2025/9/12/bolsonaros-guilty-verdict-what-it-means-for-us-brazil-relations?traffic_source=rss" target="_blank">Read full →</a>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-title">Left-backed Syndicate members of Kerala University push for urgent meet after HC verdict on Registrar suspension</div>
-            <div class="article-summary">Kerala HC had decided to leave the matter of revoking the Registrar’s suspension to the Syndicate’s discretion</div>
-            <div class="meta">
-                → The Hindu
-                <span class="tag must-know">Must-Know</span>
+            
+            <div class="article-card">
                 
-                
+                <div class="article-title">The US “has beef with Brazil” on more than just Bolsonaro issue</div>
+                <div class="article-summary">“Bolsonaro may actually be a convenient excuse for Trump to do what he would already be willing to do [in Brazil].&quot;</div>
+                <div class="meta">
+                    → Al Jazeera - Asia
+                    
+                    
+                    
+                </div>
+                <a href="https://www.aljazeera.com/video/quotable/2025/9/12/the-us-has-beef-with-brazil-on-more-than-just-bolsonaro-issue?traffic_source=rss" target="_blank">Read full →</a>
             </div>
-            <a href="https://www.thehindu.com/news/national/kerala/left-backed-syndicate-members-of-kerala-university-push-for-urgent-meet-after-hc-verdict-on-registrar-suspension/article70041589.ece" target="_blank">Read full →</a>
+            
         </div>
-        
         
     
         
-        <h2>Technology</h2>
-        
-        <div class="article-card">
-            <div class="article-title">Kerala’s IT exports near ₹1 lakh crore; start-ups grow 21-fold in 9 years, says Pinarayi at Kerala Urban Conclave</div>
-            <div class="article-summary">Kerala CM says interventions are being made from campus level with the aim of creating a skilled workforce</div>
-            <div class="meta">
-                → The Hindu
+        <div class="category-section">
+            <h2 class="category-title">Technology</h2>
+            
+            <div class="article-card">
                 
-                
-                
+                <div class="article-title">FBI releases CCTV video of Charlie Kirk’s alleged killer escaping</div>
+                <div class="article-summary">The FBI released CCTV video showing what they said was the moment the suspect in the shooting of Charlie Kirk escaped.</div>
+                <div class="meta">
+                    → Al Jazeera - Asia
+                    
+                    
+                    
+                </div>
+                <a href="https://www.aljazeera.com/video/newsfeed/2025/9/12/fbi-releases-cctv-video-of-charlie-kirks-alleged-killer-escaping?traffic_source=rss" target="_blank">Read full →</a>
             </div>
-            <a href="https://www.thehindu.com/news/national/kerala/keralas-it-exports-near-1-lakh-crore-start-ups-grow-21-fold-in-9-years-says-pinarayi-at-kerala-urban-conclave/article70040970.ece" target="_blank">Read full →</a>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-title">AI may well become God for Gen Z and Gen Z Alpha. But what kind of God would it be?</div>
-            <div class="article-summary"></div>
-            <div class="meta">
-                → The Hindu
+            
+            <div class="article-card">
                 
+                    <img src="https://static.toiimg.com/photo/msid-123848744,imgsize-339763.cms" alt="YouTuber Tectone reacts to commentator Steven Crowder’s claims about Charlie Kirk’s shooter" style="width:100%; max-width:300px; height:auto; margin:10px 0; border-radius:4px;">
                 
-                
+                <div class="article-title">YouTuber Tectone reacts to commentator Steven Crowder’s claims about Charlie Kirk’s shooter</div>
+                <div class="article-summary">Following Charlie Kirk's tragic shooting, online debates intensified after Steven Crowder shared alleged ATF information. Crowder claimed the shooter's ammunition had engravings linked to transgender and anti-fascist ideology. Reacting to these claims, streamer Tectone amplified the conversation ...</div>
+                <div class="meta">
+                    → Times of India
+                    
+                    
+                    <span class="tag debatable">Debatable</span>
+                </div>
+                <a href="https://timesofindia.indiatimes.com/sports/international-sports/tectone-reacts-to-steven-crowders-claims-about-charlie-kirks-shooter-with-controversial-trans-radical-remark/articleshow/123848081.cms" target="_blank">Read full →</a>
             </div>
-            <a href="https://www.thehindu.com/education/ai-may-well-become-god-for-gen-z-and-gen-z-alpha-but-what-kind-of-god-would-it-be/article70040946.ece" target="_blank">Read full →</a>
+            
         </div>
-        
-        <div class="article-card">
-            <div class="article-title">YouTube expands multi-language audio to millions of creators</div>
-            <div class="article-summary">YouTube is expanding its multi-language audio to millions of creators so that they can make use of multi-lingual dubbing</div>
-            <div class="meta">
-                → The Hindu
-                
-                
-                
-            </div>
-            <a href="https://www.thehindu.com/sci-tech/technology/youtube-expands-multi-language-audio-to-millions-of-creators/article70041201.ece" target="_blank">Read full →</a>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-title">Engineering Trust: Triton Valves’ 50-Year Journey of Quality and Innovation</div>
-            <div class="article-summary"></div>
-            <div class="meta">
-                → The Hindu
-                
-                
-                
-            </div>
-            <a href="https://www.thehindu.com/brandhub/pr-release/engineering-trust-triton-valves-50-year-journey-of-quality-and-innovation/article70037521.ece" target="_blank">Read full →</a>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-title">Microsoft Copilot introduces scripted mode in Audio Expressions</div>
-            <div class="article-summary">The feature is able to read out written text in a variety of styles in terms of emotions, personalities and style</div>
-            <div class="meta">
-                → The Hindu
-                
-                
-                
-            </div>
-            <a href="https://www.thehindu.com/sci-tech/technology/microsoft-copilot-introduces-scripted-mode-in-audio-expressions/article70041150.ece" target="_blank">Read full →</a>
-        </div>
-        
         
     
         
-        <h2>Business</h2>
-        
-        <div class="article-card">
-            <div class="article-title">Money Bags shines</div>
-            <div class="article-summary"></div>
-            <div class="meta">
-                → The Hindu
+        <div class="category-section">
+            <h2 class="category-title">Business</h2>
+            
+            <div class="article-card">
                 
+                    <img src="https://static.toiimg.com/photo/msid-123845941,imgsize-20982.cms" alt="Microsoft CEO admits ‘lack of empathy’: Tells staff in meeting; ‘We will do better’" style="width:100%; max-width:300px; height:auto; margin:10px 0; border-radius:4px;">
                 
-                
+                <div class="article-title">Microsoft CEO admits ‘lack of empathy’: Tells staff in meeting; ‘We will do better’</div>
+                <div class="article-summary">Microsoft CEO Satya Nadella acknowledged the need to rebuild employee trust following layoffs and a return-to-office mandate. He addressed concerns about a perceived lack of empathy and committed to improvement.</div>
+                <div class="meta">
+                    → Times of India
+                    
+                    
+                    
+                </div>
+                <a href="https://timesofindia.indiatimes.com/technology/tech-news/microsoft-ceo-satya-nadella-admits-lack-of-empathy-after-layoffs-and-return-to-office-push-tells-employees-we-will-do-better/articleshow/123845950.cms" target="_blank">Read full →</a>
             </div>
-            <a href="https://www.thehindu.com/sport/races/money-bags-shines/article70041713.ece" target="_blank">Read full →</a>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-title">Microsoft CEO admits ‘lack of empathy’: Tells staff in meeting; ‘We will do better’</div>
-            <div class="article-summary">Microsoft CEO Satya Nadella acknowledged the need to rebuild employee trust following layoffs and a return-to-office mandate. He addressed concerns about a perceived lack of empathy and committed to improvement.</div>
-            <div class="meta">
-                → Times of India
+            
+            <div class="article-card">
                 
+                    <img src="https://static.toiimg.com/photo/msid-123849512,imgsize-36658.cms" alt="Amazon suspends engineer; sent 'threatening' letter to CEO: Left no choice" style="width:100%; max-width:300px; height:auto; margin:10px 0; border-radius:4px;">
                 
-                
+                <div class="article-title">Amazon suspends engineer; sent 'threatening' letter to CEO: Left no choice</div>
+                <div class="article-summary">Amazon has suspended a Palestinian software engineer for criticizing its business ties with Israel, specifically the Project Nimbus cloud computing contract. Ahmed Shahrour's internal communications expressing opposition led to his suspension and an ongoing investigation. He alleges the company s...</div>
+                <div class="meta">
+                    → Times of India
+                    
+                    
+                    
+                </div>
+                <a href="https://timesofindia.indiatimes.com/technology/tech-news/amazon-suspends-engineer-who-sent-threatening-letter-to-ceo-andy-jassy-saying-i-am-left-with-no-choice-but-to-/articleshow/123849551.cms" target="_blank">Read full →</a>
             </div>
-            <a href="https://timesofindia.indiatimes.com/technology/tech-news/microsoft-ceo-satya-nadella-admits-lack-of-empathy-after-layoffs-and-return-to-office-push-tells-employees-we-will-do-better/articleshow/123845950.cms" target="_blank">Read full →</a>
+            
         </div>
-        
-        <div class="article-card">
-            <div class="article-title">Amazon suspends engineer; sent 'threatening' letter to CEO: Left no choice</div>
-            <div class="article-summary">Amazon has suspended a Palestinian software engineer for criticizing its business ties with Israel, specifically the Project Nimbus cloud computing contract. Ahmed Shahrour's internal communications expressing opposition led to his suspension and an ongoing investigation. He alleges the company s...</div>
-            <div class="meta">
-                → Times of India
-                
-                
-                
-            </div>
-            <a href="https://timesofindia.indiatimes.com/technology/tech-news/amazon-suspends-engineer-who-sent-threatening-letter-to-ceo-andy-jassy-saying-i-am-left-with-no-choice-but-to-/articleshow/123849551.cms" target="_blank">Read full →</a>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-title">1st Friday after Eid-e-Milad Bank Holiday 2025: Are banks open or closed today, on September 12? City-wise list here</div>
-            <div class="article-summary">...</div>
-            <div class="meta">
-                → Indian Express
-                
-                
-                
-            </div>
-            <a href="https://indianexpress.com/article/india/september-12-2025-bank-holiday-banks-open-closed-city-list-10244943/" target="_blank">Read full →</a>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-title">2.77% jump in newspaper circulation for Jan-June period this year: ABC</div>
-            <div class="article-summary">...</div>
-            <div class="meta">
-                → Indian Express
-                
-                
-                
-            </div>
-            <a href="https://indianexpress.com/article/india/2-77-jump-in-newspaper-circulation-for-jan-june-period-this-year-abc-10244858/" target="_blank">Read full →</a>
-        </div>
-        
         
     
         
-        <h2>Health</h2>
-        
-        <div class="article-card">
-            <div class="article-title">Kerala MLA M.K. Muneer’s health condition improves</div>
-            <div class="article-summary">He has been under critical care since Tuesday following a heart attack</div>
-            <div class="meta">
-                → The Hindu
-                <span class="tag must-know">Must-Know</span>
-                
-                
-            </div>
-            <a href="https://www.thehindu.com/news/national/kerala/kerala-mla-mk-muneers-health-condition-improves/article70041459.ece" target="_blank">Read full →</a>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-title">Institute of Mental Health: A journey of healing beyond stigma, silence and shame</div>
-            <div class="article-summary">The Institute of Mental Health in Hyderabad stands as a psychiatric lifeline, drawing patients from far-flung districts and even neighbouring States in search of care. For over a century, it has balanced treatment with compassion while confronting the invisible yet powerful burden of social stigm...</div>
-            <div class="meta">
-                → The Hindu
-                
-                
-                
-            </div>
-            <a href="https://www.thehindu.com/news/national/telangana/institute-of-mental-health-a-journey-of-healing-beyond-stigma-silence-and-shame/article70039336.ece" target="_blank">Read full →</a>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-title">Trainee doctor held for ‘rape’ of foreign national at Goa private hospital</div>
-            <div class="article-summary">...</div>
-            <div class="meta">
-                → Indian Express
-                
-                
-                
-            </div>
-            <a href="https://indianexpress.com/article/india/trainee-doctor-rape-foreign-national-goa-private-hospital-10245494/" target="_blank">Read full →</a>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-title">APSRTC bus turns turtle, 10 injured</div>
-            <div class="article-summary">The bus conductor and an elderly woman passenger suffered serious injuries while eight others suffered minor injuries</div>
-            <div class="meta">
-                → The Hindu
-                
-                
-                
-            </div>
-            <a href="https://www.thehindu.com/news/national/andhra-pradesh/apsrtc-bus-turns-turtle-10-injured/article70040815.ece" target="_blank">Read full →</a>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-title">Eminent doctors to be roped-in for voluntary service in TTD</div>
-            <div class="article-summary">As part of the initiative, the TTD will soon launch an exclusive mobile application to streamline registrations</div>
-            <div class="meta">
-                → The Hindu
-                
-                
-                
-            </div>
-            <a href="https://www.thehindu.com/news/national/andhra-pradesh/eminent-doctors-to-be-roped-in-for-voluntary-service-in-ttd/article70038475.ece" target="_blank">Read full →</a>
-        </div>
-        
+    
         
     
         
-        <h2>Environment</h2>
-        
-        <div class="article-card">
-            <div class="article-title">Srisailam temple management to plant 2,000 bilva trees in the temple town</div>
-            <div class="article-summary">We planned to plant divine trees, flower-bearing trees, ornamental trees and others in a planned manner to give shelter from heat to the visiting devotees at parking places and open places, Temple EO said</div>
-            <div class="meta">
-                → The Hindu
+        <div class="category-section">
+            <h2 class="category-title">Sports</h2>
+            
+            <div class="article-card">
                 
+                    <img src="https://static.toiimg.com/photo/msid-123850607,imgsize-35164.cms" alt="Gracie Hunt net worth: Kansas City Chiefs heiress building her own legacy" style="width:100%; max-width:300px; height:auto; margin:10px 0; border-radius:4px;">
                 
-                
+                <div class="article-title">Gracie Hunt net worth: Kansas City Chiefs heiress building her own legacy</div>
+                <div class="article-summary">Gracie Hunt, heiress to the Kansas City Chiefs' co-ownership, has amassed a $3 million fortune at just 23. Beyond her family's wealth, Gracie is forging her own path through philanthropy, pageantry, and sports management. Her journey from Miss Kansas USA to pursuing a Master's in Sport Management...</div>
+                <div class="meta">
+                    → Times of India
+                    
+                    
+                    
+                </div>
+                <a href="https://timesofindia.indiatimes.com/sports/nfl/news/gracie-hunt-net-worth-in-2025-how-the-chiefs-heiress-is-building-her-own-legacy/articleshow/123843586.cms" target="_blank">Read full →</a>
             </div>
-            <a href="https://www.thehindu.com/news/national/andhra-pradesh/srisailam-temple-management-to-plant-2000-bilva-trees-in-the-temple-town/article70040922.ece" target="_blank">Read full →</a>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-title">Elephant rescued after falling into water tank in Coonoor village</div>
-            <div class="article-summary"></div>
-            <div class="meta">
-                → The Hindu
+            
+            <div class="article-card">
                 
-                
-                
+                <div class="article-title">Crawford chases boxing history in Alvarez title fight</div>
+                <div class="article-summary">Terrence Crawford is jumping two weights to fight Canelo Alvarez to unify the super middleweight belts on Saturday.</div>
+                <div class="meta">
+                    → Al Jazeera - Asia
+                    
+                    
+                    
+                </div>
+                <a href="https://www.aljazeera.com/sports/2025/9/12/crawford-chases-boxing-history-in-alvarez-title-fight?traffic_source=rss" target="_blank">Read full →</a>
             </div>
-            <a href="https://www.thehindu.com/news/cities/Coimbatore/elephant-rescued-after-falling-into-water-tank-in-coonoor-village/article70041162.ece" target="_blank">Read full →</a>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-title">ED initiates probe against Anil Ambani over ‘bank fraud’</div>
-            <div class="article-summary">...</div>
-            <div class="meta">
-                → Indian Express
+            
+            <div class="article-card">
                 
+                    <img src="https://static.toiimg.com/photo/msid-123849365,imgsize-67224.cms" alt="Matthew Hayden to 'walk nude'? Daughter Grace makes plea to Joe Root" style="width:100%; max-width:300px; height:auto; margin:10px 0; border-radius:4px;">
                 
-                
+                <div class="article-title">Matthew Hayden to 'walk nude'? Daughter Grace makes plea to Joe Root</div>
+                <div class="article-summary">Former Australian opener Matthew Hayden has ignited social media with a bold prediction: Joe Root will score his first Test century in Australia during the upcoming Ashes series. Hayden jokingly promised to walk nude around the MCG if Root fails to reach the milestone. Root's stellar Test record ...</div>
+                <div class="meta">
+                    → Times of India
+                    
+                    
+                    
+                </div>
+                <a href="https://timesofindia.indiatimes.com/sports/cricket/news/matthew-hayden-to-walk-nude-daughter-grace-makes-plea-to-joe-root/articleshow/123849081.cms" target="_blank">Read full →</a>
             </div>
-            <a href="https://indianexpress.com/article/india/ed-initiates-probe-against-anil-ambani-over-bank-fraud-10242817/" target="_blank">Read full →</a>
+            
         </div>
-        
         
     
         
-        <h2>Sports</h2>
-        
-        <div class="article-card">
-            <div class="article-title">Crawford chases boxing history in Alvarez title fight</div>
-            <div class="article-summary">Terrence Crawford is jumping two weights to fight Canelo Alvarez to unify the super middleweight belts on Saturday.</div>
-            <div class="meta">
-                → Al Jazeera - Asia
+        <div class="category-section">
+            <h2 class="category-title">Culture</h2>
+            
+            <div class="article-card">
                 
-                
-                
+                <div class="article-title">More than 300 South Korean workers return home after US immigration raid</div>
+                <div class="article-summary">Images of arrested workers in handcuffs and chains have caused outrage over what many see as a betrayal of an ally.</div>
+                <div class="meta">
+                    → Al Jazeera - Asia
+                    
+                    
+                    <span class="tag debatable">Debatable</span>
+                </div>
+                <a href="https://www.aljazeera.com/news/2025/9/12/more-than-300-south-korean-workers-return-home-after-us-immigration-raid?traffic_source=rss" target="_blank">Read full →</a>
             </div>
-            <a href="https://www.aljazeera.com/sports/2025/9/12/crawford-chases-boxing-history-in-alvarez-title-fight?traffic_source=rss" target="_blank">Read full →</a>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-title">All eyes on Sehrawat and Antim at wrestling Worlds</div>
-            <div class="article-summary"></div>
-            <div class="meta">
-                → The Hindu
+            
+            <div class="article-card">
                 
+                    <img src="https://static.toiimg.com/photo/msid-123845647,imgsize-992054.cms" alt="'No words left': Man seeing cheering during Charlie Kirk assassination" style="width:100%; max-width:300px; height:auto; margin:10px 0; border-radius:4px;">
                 
-                
+                <div class="article-title">'No words left': Man seeing cheering during Charlie Kirk assassination</div>
+                <div class="article-summary">A video has surfaced showing a man celebrating near the scene of Charlie Kirk's assassination at Utah Valley University. The man, seen pumping his fists and shouting "USA! USA! USA!", has sparked outrage online. While his identity remains unverified, an X account claiming to be him denies celebra...</div>
+                <div class="meta">
+                    → Times of India
+                    
+                    
+                    <span class="tag debatable">Debatable</span>
+                </div>
+                <a href="https://timesofindia.indiatimes.com/world/us/no-words-left-man-seeing-cheering-during-charlie-kirk-assassination-sparks-outrage/articleshow/123845464.cms" target="_blank">Read full →</a>
             </div>
-            <a href="https://www.thehindu.com/sport/other-sports/all-eyes-on-sehrawat-and-antim-at-wrestling-worlds/article70041388.ece" target="_blank">Read full →</a>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-title">Duleep Trophy final | Central in complete command as Patidar and Rathod slam centuries</div>
-            <div class="article-summary">The skipper’s 15th First Class ton and the southpaw’s unbeaten 137 take the team to 384 for five, 235 runs in the green, at the end of day two; South Zone’s Gurjapneet scalps three</div>
-            <div class="meta">
-                → The Hindu
+            
+            <div class="article-card">
                 
+                    <img src="https://static.toiimg.com/photo/msid-123853467,imgsize-34484.cms" alt="Dev Anand's untold love story: He was 48 and she was 20 when 'desperately in love'" style="width:100%; max-width:300px; height:auto; margin:10px 0; border-radius:4px;">
                 
-                
+                <div class="article-title">Dev Anand's untold love story: He was 48 and she was 20 when 'desperately in love'</div>
+                <div class="article-summary">Dev Anand fell deeply in love with this actress after casting her in his film. He was captivated by her charm. Dev Anand planned to confess his feelings at the Taj. However, he saw another actor flirting with her at a party, and she reciprocated, leading Dev Anand to step back. This actress was u...</div>
+                <div class="meta">
+                    → Times of India
+                    
+                    
+                    
+                </div>
+                <a href="https://timesofindia.indiatimes.com/entertainment/hindi/bollywood/news/this-actress-was-only-20-years-old-when-48-year-old-dev-anand-fell-desperately-in-love-with-her-but-she-had-eyes-for-someone-else/articleshow/123851324.cms" target="_blank">Read full →</a>
             </div>
-            <a href="https://www.thehindu.com/sport/cricket/duleep-trophy-final-central-zone-south-zone-day-two/article70041864.ece" target="_blank">Read full →</a>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-title">Ciara opens up on Russell Wilson inspiring a dying boy to fight for life and beat cancer</div>
-            <div class="article-summary">Ciara recounted how Russell Wilson's heartfelt conversation inspired a teenager battling leukemia to pursue stem cell therapy, ultimately saving his life. Wilson shared his personal experience of losing his father, instilling hope in the young patient. This act exemplifies the mission of their Wh...</div>
-            <div class="meta">
-                → Times of India
+            
+            <div class="article-card">
                 
-                
-                
+                <div class="article-title">UN warns online scam centres hitting Southeast Asia moving to East Timor</div>
+                <div class="article-summary">Warning from the United Nations Office on Drugs and Crime follows a law enforcement raid on suspected scam centre.</div>
+                <div class="meta">
+                    → Al Jazeera - Asia
+                    
+                    
+                    
+                </div>
+                <a href="https://www.aljazeera.com/news/2025/9/12/un-warns-online-scam-centres-hitting-southeast-asia-moving-to-east-timor?traffic_source=rss" target="_blank">Read full →</a>
             </div>
-            <a href="https://timesofindia.indiatimes.com/sports/nfl/news/ciara-opens-up-on-russell-wilson-inspiring-a-dying-boy-to-fight-for-life-and-beat-cancer-against-odds/articleshow/123847753.cms" target="_blank">Read full →</a>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-title">Matthew Hayden to 'walk nude'? Daughter Grace makes plea to Joe Root</div>
-            <div class="article-summary">Former Australian opener Matthew Hayden has ignited social media with a bold prediction: Joe Root will score his first Test century in Australia during the upcoming Ashes series. Hayden jokingly promised to walk nude around the MCG if Root fails to reach the milestone. Root's stellar Test record ...</div>
-            <div class="meta">
-                → Times of India
+            
+            <div class="article-card">
                 
-                
-                
+                <div class="article-title">Manhunt for Charlie Kirk’s shooter: What we know on day two</div>
+                <div class="article-summary">Investigators have released photographs and video footage of suspect, are calling on the public to help identify him.</div>
+                <div class="meta">
+                    → Al Jazeera - Asia
+                    
+                    <span class="tag trending">Trending</span>
+                    
+                </div>
+                <a href="https://www.aljazeera.com/news/2025/9/12/manhunt-for-charlie-kirks-shooter-what-we-know-on-day-two?traffic_source=rss" target="_blank">Read full →</a>
             </div>
-            <a href="https://timesofindia.indiatimes.com/sports/cricket/news/matthew-hayden-to-walk-nude-daughter-grace-makes-plea-to-joe-root/articleshow/123849081.cms" target="_blank">Read full →</a>
+            
         </div>
-        
-        
-    
-        
-        <h2>Culture</h2>
-        
-        <div class="article-card">
-            <div class="article-title">Zebra crossing into hearts: Orphaned 'Bombi' thinks zookeeper is her mom- watch</div>
-            <div class="article-summary">An orphaned zebra foal named Bombi, rescued by the Sheldrick Wildlife Trust after her mother was killed by lions, has formed a heartwarming bond with her keeper, Peter. The viral video showcases Bombi affectionately cuddling Peter, who wears a striped coat to mimic a zebra's pattern, aiding in he...</div>
-            <div class="meta">
-                → Times of India
-                
-                <span class="tag trending">Trending</span>
-                
-            </div>
-            <a href="https://timesofindia.indiatimes.com/world/rest-of-world/zebra-crossing-into-hearts-orphaned-bombi-thinks-zookeeper-is-her-mom-watch-viral-video/articleshow/123845980.cms" target="_blank">Read full →</a>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-title">Kerala govt’s global Ayyappa meet clears court hurdle — with some conditions</div>
-            <div class="article-summary">...</div>
-            <div class="meta">
-                → Indian Express
-                
-                
-                
-            </div>
-            <a href="https://indianexpress.com/article/india/kerala-govts-global-ayyappa-meet-clears-court-hurdle-with-some-conditions-10244759/" target="_blank">Read full →</a>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-title">Security stepped up with 2700 CCTV cameras ahead of Sri Sathya Saibaba’s centenary celebrations</div>
-            <div class="article-summary"></div>
-            <div class="meta">
-                → The Hindu
-                
-                
-                
-            </div>
-            <a href="https://www.thehindu.com/news/national/andhra-pradesh/security-stepped-up-with-2700-cctv-cameras-ahead-of-sri-sathya-saibabas-centenary-celebrations/article70041607.ece" target="_blank">Read full →</a>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-title">More than 300 South Korean workers return home after US immigration raid</div>
-            <div class="article-summary">Images of arrested workers in handcuffs and chains have caused outrage over what many see as a betrayal of an ally.</div>
-            <div class="meta">
-                → Al Jazeera - Asia
-                
-                
-                <span class="tag debatable">Debatable</span>
-            </div>
-            <a href="https://www.aljazeera.com/news/2025/9/12/more-than-300-south-korean-workers-return-home-after-us-immigration-raid?traffic_source=rss" target="_blank">Read full →</a>
-        </div>
-        
-        <div class="article-card">
-            <div class="article-title">‘Jugnuma: The Fable’ movie review: Manoj Bajpayee makes Raam Reddy’s meditative exploration of human hubris and guilt fly</div>
-            <div class="article-summary">Perched somewhere between magic and realism, filmmaker Raam Reddy spins an evocative cautionary tale of ecological and social decay in his sophomore film ‘Jugnuma: The Fable’</div>
-            <div class="meta">
-                → The Hindu
-                
-                
-                
-            </div>
-            <a href="https://www.thehindu.com/entertainment/movies/jugnuma-the-fable-movie-review-manoj-bajpayee-raam-reddy-meditative-exploration-of-human-hubris-and-guilt/article70041714.ece" target="_blank">Read full →</a>
-        </div>
-        
         
     
 
