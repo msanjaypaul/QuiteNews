@@ -9,39 +9,34 @@
         /* === BASE === */
         body {
             font-family: 'Georgia', 'Times New Roman', serif;
-            background: #f8f4e9;
-            color: #2c1e1e;
+            background: #f8f4e9; /* Warm cream */
+            color: #2c1e1e; /* Dark brown */
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
             line-height: 1.6;
         }
 
-        /* === HEADER === */
+        /* === STICKY HEADER === */
         .masthead {
             text-align: center;
-            margin-bottom: 30px;
-            border-bottom: 2px solid #2c1e1e;
-            padding-bottom: 10px;
+            padding: 20px 0;
+            border-bottom: 1px solid #2c1e1e;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: #f8f4e9;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
 
-        .logo-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .logo {
-            max-width: 350px;
-            margin: 0 auto;
-            display: block;
-            filter: contrast(1.1) brightness(0.9);
-            transition: transform 0.2s ease;
-        }
-
-        .logo:hover {
-            transform: scale(1.02);
+        .title {
+            font-family: 'Old Standard TT', 'Times New Roman', serif;
+            font-size: 3.2rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin: 10px 0;
+            color: #2c1e1e;
+            margin-bottom: 5px;
         }
 
         .tagline {
@@ -62,58 +57,10 @@
             font-style: italic;
             font-size: 1.2rem;
             color: #6b5c45;
-            margin: 20px 0;
             text-align: center;
-            margin-top: 20px;
-            margin-bottom: 30px;
+            margin: 20px 0;
             border-top: 1px solid #ccc;
             padding-top: 15px;
-        }
-
-        /* === MAIN ARTICLE === */
-        .main-article {
-            display: flex;
-            margin-bottom: 40px;
-            border-top: 3px solid #2c1e1e;
-            padding-top: 20px;
-        }
-
-        .main-image {
-            flex: 3;
-            margin-right: 20px;
-        }
-
-        .main-image img {
-            width: 100%;
-            height: auto;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        .main-text {
-            flex: 2;
-            font-size: 0.9rem;
-        }
-
-        .image-caption {
-            font-style: italic;
-            color: #6b5c45;
-            margin: 5px 0;
-            font-size: 0.8rem;
-        }
-
-        .headline {
-            font-size: 1.8rem;
-            font-weight: bold;
-            margin: 10px 0;
-            color: #2c1e1e;
-        }
-
-        .subhead {
-            font-style: italic;
-            color: #6b5c45;
-            margin: 5px 0;
-            font-size: 1.1rem;
         }
 
         /* === CATEGORY SECTION === */
@@ -132,7 +79,7 @@
 
         /* === ARTICLE CARD === */
         .article-card {
-            background: #fffaf2;
+            background: #fffaf2; /* Light cream */
             border: 1px solid #e0d5c1;
             border-radius: 4px;
             padding: 20px;
@@ -206,9 +153,7 @@
 <body>
     <!-- === MASTHEAD === -->
     <div class="masthead">
-        <div class="logo-container">
-            <img src="/logo.png" alt="Quiet.News Logo" class="logo">
-        </div>
+        <h1 class="title">Quite.News</h1>
         <p class="tagline">HONOR • CLARITY • CALM.</p>
         <p class="date">FRIDAY, Friday, September 12, 2025</p>
     </div>
@@ -421,15 +366,15 @@
             
             <div class="article-card">
                 
-                <div class="article-title">Nepal appoints first female PM in wake of deadly protests</div>
-                <div class="article-summary">The country&#039;s former Chief Justice Sushila Karki has been appointed interim prime minister.</div>
+                <div class="article-title">What’s fuelling political violence in the United States?</div>
+                <div class="article-summary">Killing of divisive conservative Charlie Kirk triggers fears of a cycle of violence.</div>
                 <div class="meta">
                     → Al Jazeera - Asia
                     
                     
-                    <span class="tag debatable">Debatable</span>
+                    
                 </div>
-                <a href="https://www.aljazeera.com/news/2025/9/12/nepal-protest-death-toll-reaches-51-as-12500-prisoners-remain-on-the-run?traffic_source=rss" target="_blank">Read full →</a>
+                <a href="https://www.aljazeera.com/video/inside-story/2025/9/12/whats-fuelling-political-violence-in-the-united-states?traffic_source=rss" target="_blank">Read full →</a>
             </div>
             
             <div class="article-card">
@@ -547,6 +492,19 @@
             
             <div class="article-card">
                 
+                <div class="article-title">Canelo vs Crawford: Will it be biggest fight in Las Vegas boxing history?</div>
+                <div class="article-summary">Canelo Alvarez and Terence Crawford seek to unify boxing&#039;s super middleweight belts.</div>
+                <div class="meta">
+                    → Al Jazeera - Asia
+                    
+                    
+                    
+                </div>
+                <a href="https://www.aljazeera.com/sports/2025/9/12/canelo-vs-crawford-will-it-be-biggest-fight-in-las-vegas-boxing-history?traffic_source=rss" target="_blank">Read full →</a>
+            </div>
+            
+            <div class="article-card">
+                
                 <div class="article-title">Crawford chases boxing history in Alvarez title fight</div>
                 <div class="article-summary">Terrence Crawford is jumping two weights to fight Canelo Alvarez to unify the super middleweight belts on Saturday.</div>
                 <div class="meta">
@@ -586,21 +544,6 @@
                 <a href="https://timesofindia.indiatimes.com/sports/nba/top-stories/lebron-james-reacts-to-kawhi-leonards-28-million-endorsement-deal-controversy-with-a-two-word-message/articleshow/123852537.cms" target="_blank">Read full →</a>
             </div>
             
-            <div class="article-card">
-                
-                    <img src="https://static.toiimg.com/photo/msid-123849365,imgsize-67224.cms" alt="Matthew Hayden to 'walk nude'? Daughter Grace makes plea to Joe Root" style="width:100%; max-width:300px; height:auto; margin:10px 0; border-radius:4px;">
-                
-                <div class="article-title">Matthew Hayden to 'walk nude'? Daughter Grace makes plea to Joe Root</div>
-                <div class="article-summary">Former Australian opener Matthew Hayden has ignited social media with a bold prediction: Joe Root will score his first Test century in Australia during the upcoming Ashes series. Hayden jokingly promised to walk nude around the MCG if Root fails to reach the milestone. Root's stellar Test record ...</div>
-                <div class="meta">
-                    → Times of India
-                    
-                    
-                    
-                </div>
-                <a href="https://timesofindia.indiatimes.com/sports/cricket/news/matthew-hayden-to-walk-nude-daughter-grace-makes-plea-to-joe-root/articleshow/123849081.cms" target="_blank">Read full →</a>
-            </div>
-            
         </div>
         
     
@@ -621,19 +564,6 @@
                     <span class="tag debatable">Debatable</span>
                 </div>
                 <a href="https://timesofindia.indiatimes.com/world/us/amid-grief-over-kirks-assassination-some-liberal-academics-are-irked-over-martyrdom/articleshow/123855431.cms" target="_blank">Read full →</a>
-            </div>
-            
-            <div class="article-card">
-                
-                <div class="article-title">More than 300 South Korean workers return home after US immigration raid</div>
-                <div class="article-summary">Images of arrested workers in handcuffs and chains have caused outrage over what many see as a betrayal of an ally.</div>
-                <div class="meta">
-                    → Al Jazeera - Asia
-                    
-                    
-                    <span class="tag debatable">Debatable</span>
-                </div>
-                <a href="https://www.aljazeera.com/news/2025/9/12/more-than-300-south-korean-workers-return-home-after-us-immigration-raid?traffic_source=rss" target="_blank">Read full →</a>
             </div>
             
             <div class="article-card">
@@ -664,6 +594,19 @@
                     
                 </div>
                 <a href="https://timesofindia.indiatimes.com/entertainment/hindi/bollywood/news/this-actress-was-only-20-years-old-when-48-year-old-dev-anand-fell-desperately-in-love-with-her-but-she-had-eyes-for-someone-else/articleshow/123851324.cms" target="_blank">Read full →</a>
+            </div>
+            
+            <div class="article-card">
+                
+                <div class="article-title">Charlie Kirk and the danger of selective empathy</div>
+                <div class="article-summary">To deny empathy to Kirk and his camp is to undermine our stand against the very divisiveness we criticise.</div>
+                <div class="meta">
+                    → Al Jazeera - Asia
+                    
+                    
+                    
+                </div>
+                <a href="https://www.aljazeera.com/opinions/2025/9/12/charlie-kirk-and-the-danger-of-selective-empathy?traffic_source=rss" target="_blank">Read full →</a>
             </div>
             
             <div class="article-card">
