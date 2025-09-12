@@ -218,7 +218,7 @@ def calculate_score(article, now):
     # Confidence bonus
     score *= article["category_confidence"]
 
-    # 🇮 India relevance boost
+    # 🇮🇳 India relevance boost
     if is_india_related(article["text_for_ai"]):
         score *= 1.5
 
@@ -321,7 +321,7 @@ HTML_TEMPLATE = """
             font-family: 'Old Standard TT', 'Times New Roman', serif;
             font-size: 3.2rem;
             font-weight: bold;
-            letterSpacing: 2px;
+            letter-spacing: 2px;
             margin: 10px 0;
             color: #2c1e1e;
         }
@@ -465,7 +465,7 @@ HTML_TEMPLATE = """
             font-size: 1rem;
             color: #444;
             margin: 10px 0;
-            text-align:justify;
+            text-align: justify;
         }
 
         .meta {
@@ -482,7 +482,7 @@ HTML_TEMPLATE = """
             font-size: 0.8rem;
             font-weight: bold;
             text-transform: uppercase;
-            letterSpacing: 0.5px;
+            letter-spacing: 0.5px;
             margin-right: 5px;
             color: white;
         }
@@ -526,19 +526,19 @@ HTML_TEMPLATE = """
         </div>
         <h1 class="title">Quiet.News</h1>
         <p class="tagline">★ TRUTH • HONOR • PROGRESS ★</p>
-        <p class="date">FRIDAY, {{now.strftime('%B %d, %Y') }}</p>
+        <p class="date">FRIDAY, {{ now.strftime('%A, %B %d, %Y') }}</p>
     </div>
 
     <!-- === MAIN ARTICLE === -->
-    {% if categorized.get('India') and categorized['india'] %}
+    {% if categorized.get('India') and categorized['India'] %}
         <div class="main-article">
             <div class="main-image">
-                {% if categorized['india'][0].image_url %}
-                    <img src="{{ categorized['india'][0].image_url }}" alt="{{ categorized['india'][0].title }}" style="width:100%; height:auto;">
+                {% if categorized['India'][0].image_url %}
+                    <img src="{{ categorized['India'][0].image_url }}" alt="{{ categorized['India'][0].title }}" style="width:100%; height:auto;">
                 {% endif %}
                 <p class="image-caption">Artist's rendering of the proposed transportation hub</p>
-                <h2 class="headline">{{ categorized['india'][0].title }}</h2>
-                <p class="subhead">{{ categorized['india'][0].summary }}</p>
+                <h2 class="headline">{{ categorized['India'][0].title }}</h2>
+                <p class="subhead">{{ categorized['India'][0].summary }}</p>
             </div>
             <div class="main-text">
                 <div class="weather-box">
@@ -552,7 +552,7 @@ HTML_TEMPLATE = """
                     <p><strong>Railway Schedule Changes</strong><br>
                         Effective Monday, the evening express will depart fifteen minutes earlier to accommodate increased ridership.</p>
                     <p><strong>Library Expands Hours</strong><br>
-                        The Public Library announces extended evening hours on weekdayssto better serve the community.</p>
+                        The Public Library announces extended evening hours on weekdays to better serve the community.</p>
                 </div>
             </div>
         </div>
@@ -560,11 +560,14 @@ HTML_TEMPLATE = """
 
     <!-- === CATEGORY SECTIONS === -->
     {% for category, articles in categorized.items() %}
-        {% if category != 'india' and articles|length > 0 %}
+        {% if category != 'India' and articles|length > 0 %}
         <div class="category-section">
-            <h2 class="category-title">{{category }}</h2>
+            <h2 class="category-title">{{ category }}</h2>
             {% for article in articles %}
             <div class="article-card">
+                {% if article.image_url %}
+                    <img src="{{ article.image_url }}" alt="{{ article.title }}" style="width:100%; max-width:300px; height:auto; margin:10px 0; border-radius:4px;">
+                {% endif %}
                 <div class="article-title">{{ article.title }}</div>
                 <div class="article-summary">{{ article.summary }}</div>
                 <div class="meta">
@@ -578,10 +581,10 @@ HTML_TEMPLATE = """
             {% endfor %}
         </div>
         {% endif %}
-    {%endfor %}
+    {% endfor %}
 
     <footer>
-        <p>Curated and updated automatically • {{nov.strftime('%A, %B %d, %Y') }}</p>
+        <p>Curated and updated automatically • {{ now.strftime('%A, %B %d, %Y') }}</p>
     </footer>
 </body>
 </html>
@@ -591,7 +594,7 @@ def generate_html(categorized):
     template = Template(HTML_TEMPLATE)
     html = template.render(
         categorized=categorized,
-        now=datetime.utcnow()
+        now=datetime.utcnow()  # ✅ Pass 'now' to template
     )
     with open("index.html", "w", encoding="utf-8") as f:
         f.write(html)
