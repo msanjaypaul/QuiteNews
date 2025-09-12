@@ -280,7 +280,8 @@ def select_top_per_category(articles):
 
     return top_articles
 
-HTML_TEMPLATE =
+# === GENERATE HTML ===
+HTML_TEMPLATE = """
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -434,7 +435,7 @@ HTML_TEMPLATE =
             font-size: 1rem;
             color: #444;
             margin: 10px 0;
-            text-align:justify;
+            text-align: justify;
         }
 
         .meta {
@@ -492,7 +493,7 @@ HTML_TEMPLATE =
             <img src="/logo.png" alt="Quiet.News Logo" class="logo">
         </div>
         <p class="tagline">HONOR • CLARITY • CALM.</p>
-        <p class="date">FRIDAY, {{nov.strftime('%A, %B %d, %Y') }}</p>
+        <p class="date">FRIDAY, {{ now.strftime('%A, %B %d, %Y') }}</p>
     </div>
 
     <!-- === QUOTE OF THE DAY === -->
@@ -500,40 +501,34 @@ HTML_TEMPLATE =
         "The best way to predict the future is to create it."
     </div>
 
-    <!-- === MAIN ARTICLE === -->
-    {% if categorized.get('India') and categorized['india'] %}
-        <div class="main-article">
-            <div class="main-image">
-                {% if categorized['india'][0].image_url %}
-                    <img src="{{ categorized['india'][0].image_url }}" alt="{{ categorized['india'][0].title }}" style="width:100%; height:auto;">
+    <!-- === INDIA SECTION === -->
+    {% if categorized.get('India') and categorized['India'] %}
+        <div class="category-section">
+            <h2 class="category-title">INDIA</h2>
+            {% for article in categorized['India'] %}
+            <div class="article-card">
+                {% if article.image_url %}
+                    <img src="{{ article.image_url }}" alt="{{ article.title }}" style="width:100%; max-width:300px; height:auto; margin:10px 0; border-radius:4px;">
                 {% endif %}
-                <p class="image-caption">Artist's rendering of the proposed transportation Hub</p>
-                <h2 class="headline">{{ categorized['india'][0].title }}</h2>
-                <p class="subhead">{{ categorized['india'][0].summary }}</p>
-            </div>
-            <div class="main-text">
-                <div class="weather-box">
-                    <h3 class="weather-title">TODAY'S WEATHER</h3>
-                    <p class="temperature">72°F</p>
-                    <p>Partly Cloudy</p>
-                    <p style="font-size:0.8rem;">High: 78° Low: 65°</p>
+                <div class="article-title">{{ article.title }}</div>
+                <div class="article-summary">{{ article.summary }}</div>
+                <div class="meta">
+                    → {{ article.source }}
+                    {% if article.is_must_know %}<span class="tag must-know">Must-Know</span>{% endif %}
+                    {% if article.is_trending %}<span class="tag trending">Trending</span>{% endif %}
+                    {% if article.is_debatable %}<span class="tag debatable">Debatable</span>{% endif %}
                 </div>
-                <div class="brief-news">
-                    <h3>BRIEF NEWS</h3>
-                    <p><strong>Railway Schedule Changes</strong><br>
-                        Effective Monday, the evening express will depart fifteen minutes earlier to accommodate increased ridership.</p>
-                    <p><strong>Library Expands Hours</strong><br>
-                        The Public Library announces extended evening hours on weekdays to better serve the community.</p>
-                </div>
+                <a href="{{ article.url }}" target="_blank">Read full →</a>
             </div>
+            {% endfor %}
         </div>
     {% endif %}
 
-    <!-- === CATEGORY SECTIONS === -->
+    <!-- === OTHER CATEGORIES === -->
     {% for category, articles in categorized.items() %}
-        {% if category != 'india' and articles|length > 0 %}
+        {% if category != 'India' and articles|length > 0 %}
         <div class="category-section">
-            <h2 class="category-title">{{category }}</h2>
+            <h2 class="category-title">{{ category }}</h2>
             {% for article in articles %}
             <div class="article-card">
                 {% if article.image_url %}
@@ -549,13 +544,43 @@ HTML_TEMPLATE =
                 </div>
                 <a href="{{ article.url }}" target="_blank">Read full →</a>
             </div>
-            {%endfor %}
+            {% endfor %}
         </div>
         {% endif %}
     {% endfor %}
 
     <footer>
-        <p>Curated and updated automatically • {{nov.strftime('%A, %B %d, %Y') }}</p>
+        <p>Curated and updated automatically • {{ now.strftime('%A, %B %d, %Y') }}</p>
     </footer>
 </body>
 </html>
+"""
+
+def generate_html(categorized):
+    template = Template(HTML_TEMPLATE)
+    html = template.render(
+        categorized=categorized,
+        now=datetime.utcnow()  # ✅ Pass 'now' to template
+    )
+    with open("index.html", "w", encoding="utf-8") as f:
+        f.write(html)
+    logger.info("HTML generated: index.html")
+
+# === MAIN EXECUTION ===
+if __name__ == "__main__":
+    logger.info("Starting automated news curator...")
+    articles = fetch_articles()
+    if not articles:
+        logger.error("No articles fetched. Exiting.")
+        exit(1)
+
+    articles = classify_articles(articles)
+
+    now = datetime.utcnow()
+    for article in articles:
+        calculate_score(article, now)
+
+    articles = deduplicate_articles(articles)
+    categorized = select_top_per_category(articles)
+    generate_html(categorized)
+    logger.info("✅ Done. Website updated.")
