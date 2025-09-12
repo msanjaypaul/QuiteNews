@@ -292,39 +292,34 @@ HTML_TEMPLATE = """
         /* === BASE === */
         body {
             font-family: 'Georgia', 'Times New Roman', serif;
-            background: #f8f4e9;
-            color: #2c1e1e;
+            background: #f8f4e9; /* Warm cream */
+            color: #2c1e1e; /* Dark brown */
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
             line-height: 1.6;
         }
 
-        /* === HEADER === */
+        /* === STICKY HEADER === */
         .masthead {
             text-align: center;
-            margin-bottom: 30px;
-            border-bottom: 2px solid #2c1e1e;
-            padding-bottom: 10px;
+            padding: 20px 0;
+            border-bottom: 1px solid #2c1e1e;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: #f8f4e9;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
 
-        .logo-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .logo {
-            max-width: 350px;
-            margin: 0 auto;
-            display: block;
-            filter: contrast(1.1) brightness(0.9);
-            transition: transform 0.2s ease;
-        }
-
-        .logo:hover {
-            transform: scale(1.02);
+        .title {
+            font-family: 'Old Standard TT', 'Times New Roman', serif;
+            font-size: 3.2rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin: 10px 0;
+            color: #2c1e1e;
+            margin-bottom: 5px;
         }
 
         .tagline {
@@ -345,58 +340,10 @@ HTML_TEMPLATE = """
             font-style: italic;
             font-size: 1.2rem;
             color: #6b5c45;
-            margin: 20px 0;
             text-align: center;
-            margin-top: 20px;
-            margin-bottom: 30px;
+            margin: 20px 0;
             border-top: 1px solid #ccc;
             padding-top: 15px;
-        }
-
-        /* === MAIN ARTICLE === */
-        .main-article {
-            display: flex;
-            margin-bottom: 40px;
-            border-top: 3px solid #2c1e1e;
-            padding-top: 20px;
-        }
-
-        .main-image {
-            flex: 3;
-            margin-right: 20px;
-        }
-
-        .main-image img {
-            width: 100%;
-            height: auto;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        .main-text {
-            flex: 2;
-            font-size: 0.9rem;
-        }
-
-        .image-caption {
-            font-style: italic;
-            color: #6b5c45;
-            margin: 5px 0;
-            font-size: 0.8rem;
-        }
-
-        .headline {
-            font-size: 1.8rem;
-            font-weight: bold;
-            margin: 10px 0;
-            color: #2c1e1e;
-        }
-
-        .subhead {
-            font-style: italic;
-            color: #6b5c45;
-            margin: 5px 0;
-            font-size: 1.1rem;
         }
 
         /* === CATEGORY SECTION === */
@@ -415,7 +362,7 @@ HTML_TEMPLATE = """
 
         /* === ARTICLE CARD === */
         .article-card {
-            background: #fffaf2;
+            background: #fffaf2; /* Light cream */
             border: 1px solid #e0d5c1;
             border-radius: 4px;
             padding: 20px;
@@ -489,9 +436,7 @@ HTML_TEMPLATE = """
 <body>
     <!-- === MASTHEAD === -->
     <div class="masthead">
-        <div class="logo-container">
-            <img src="/logo.png" alt="Quiet.News Logo" class="logo">
-        </div>
+        <h1 class="title">Quite.News</h1>
         <p class="tagline">HONOR • CLARITY • CALM.</p>
         <p class="date">FRIDAY, {{ now.strftime('%A, %B %d, %Y') }}</p>
     </div>
