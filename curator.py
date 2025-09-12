@@ -280,8 +280,7 @@ def select_top_per_category(articles):
 
     return top_articles
 
-# === GENERATE HTML ===
-HTML_TEMPLATE = """
+HTML_TEMPLATE =
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -308,34 +307,49 @@ HTML_TEMPLATE = """
             padding-bottom: 10px;
         }
 
-        .top-bar {
+        .logo-container {
             display: flex;
-            justify-content: space-between;
-            font-size: 0.7rem;
-            letter-spacing: 1px;
-            margin-bottom: 10px;
-            color: #2c1e1e;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 15px;
         }
 
-        .title {
-            font-family: 'Old Standard TT', 'Times New Roman', serif;
-            font-size: 3.2rem;
-            font-weight: bold;
-            letter-spacing: 2px;
-            margin: 10px 0;
-            color: #2c1e1e;
+        .logo {
+            max-width: 350px;
+            margin: 0 auto;
+            display: block;
+            filter: contrast(1.1) brightness(0.9);
+            transition: transform 0.2s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.02);
         }
 
         .tagline {
             font-size: 0.9rem;
             margin: 5px 0;
             color: #6b5c45;
+            font-weight: normal;
         }
 
         .date {
             font-size: 1.1rem;
             margin: 10px 0;
             color: #2c1e1e;
+        }
+
+        /* === QUOTE OF THE DAY === */
+        .quote-of-the-day {
+            font-style: italic;
+            font-size: 1.2rem;
+            color: #6b5c45;
+            margin: 20px 0;
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 30px;
+            border-top: 1px solid #ccc;
+            padding-top: 15px;
         }
 
         /* === MAIN ARTICLE === */
@@ -384,51 +398,6 @@ HTML_TEMPLATE = """
             font-size: 1.1rem;
         }
 
-        /* === SIDE COLUMN === */
-        .sidebar {
-            width: 300px;
-            margin-left: 20px;
-            font-size: 0.9rem;
-        }
-
-        .weather-box {
-            background: #f0f0f0;
-            border: 1px solid #ccc;
-            padding: 15px;
-            margin-bottom: 20px;
-        }
-
-        .weather-title {
-            font-weight: bold;
-            margin: 0;
-            margin-bottom: 10px;
-        }
-
-        .temperature {
-            font-size: 1.8rem;
-            font-weight: bold;
-            margin: 0;
-        }
-
-        .brief-news {
-            background: #fff;
-            border: 1px solid #ccc;
-            padding: 15px;
-            margin-top: 20px;
-        }
-
-        .brief-news h3 {
-            font-size: 0.9rem;
-            margin: 0 0 5px;
-            color: #2c1e1e;
-        }
-
-        .brief-news p {
-            margin: 0;
-            margin-bottom: 15px;
-            color: #6b5c45;
-        }
-
         /* === CATEGORY SECTION === */
         .category-section {
             margin: 40px 0;
@@ -465,7 +434,7 @@ HTML_TEMPLATE = """
             font-size: 1rem;
             color: #444;
             margin: 10px 0;
-            text-align: justify;
+            text-align:justify;
         }
 
         .meta {
@@ -519,26 +488,28 @@ HTML_TEMPLATE = """
 <body>
     <!-- === MASTHEAD === -->
     <div class="masthead">
-        <div class="top-bar">
-            <span>ESTABLISHED 1892</span>
-            <span>PRICE: 5 CENTS</span>
-            <span>VOL. CXXX NO. 245</span>
+        <div class="logo-container">
+            <img src="/logo.png" alt="Quiet.News Logo" class="logo">
         </div>
-        <h1 class="title">Quiet.News</h1>
-        <p class="tagline">★ TRUTH • HONOR • PROGRESS ★</p>
-        <p class="date">FRIDAY, {{ now.strftime('%A, %B %d, %Y') }}</p>
+        <p class="tagline">HONOR • CLARITY • CALM.</p>
+        <p class="date">FRIDAY, {{nov.strftime('%A, %B %d, %Y') }}</p>
+    </div>
+
+    <!-- === QUOTE OF THE DAY === -->
+    <div class="quote-of-the-day">
+        "The best way to predict the future is to create it."
     </div>
 
     <!-- === MAIN ARTICLE === -->
-    {% if categorized.get('India') and categorized['India'] %}
+    {% if categorized.get('India') and categorized['india'] %}
         <div class="main-article">
             <div class="main-image">
-                {% if categorized['India'][0].image_url %}
-                    <img src="{{ categorized['India'][0].image_url }}" alt="{{ categorized['India'][0].title }}" style="width:100%; height:auto;">
+                {% if categorized['india'][0].image_url %}
+                    <img src="{{ categorized['india'][0].image_url }}" alt="{{ categorized['india'][0].title }}" style="width:100%; height:auto;">
                 {% endif %}
-                <p class="image-caption">Artist's rendering of the proposed transportation hub</p>
-                <h2 class="headline">{{ categorized['India'][0].title }}</h2>
-                <p class="subhead">{{ categorized['India'][0].summary }}</p>
+                <p class="image-caption">Artist's rendering of the proposed transportation Hub</p>
+                <h2 class="headline">{{ categorized['india'][0].title }}</h2>
+                <p class="subhead">{{ categorized['india'][0].summary }}</p>
             </div>
             <div class="main-text">
                 <div class="weather-box">
@@ -560,9 +531,9 @@ HTML_TEMPLATE = """
 
     <!-- === CATEGORY SECTIONS === -->
     {% for category, articles in categorized.items() %}
-        {% if category != 'India' and articles|length > 0 %}
+        {% if category != 'india' and articles|length > 0 %}
         <div class="category-section">
-            <h2 class="category-title">{{ category }}</h2>
+            <h2 class="category-title">{{category }}</h2>
             {% for article in articles %}
             <div class="article-card">
                 {% if article.image_url %}
@@ -578,43 +549,13 @@ HTML_TEMPLATE = """
                 </div>
                 <a href="{{ article.url }}" target="_blank">Read full →</a>
             </div>
-            {% endfor %}
+            {%endfor %}
         </div>
         {% endif %}
     {% endfor %}
 
     <footer>
-        <p>Curated and updated automatically • {{ now.strftime('%A, %B %d, %Y') }}</p>
+        <p>Curated and updated automatically • {{nov.strftime('%A, %B %d, %Y') }}</p>
     </footer>
 </body>
 </html>
-"""
-
-def generate_html(categorized):
-    template = Template(HTML_TEMPLATE)
-    html = template.render(
-        categorized=categorized,
-        now=datetime.utcnow()  # ✅ Pass 'now' to template
-    )
-    with open("index.html", "w", encoding="utf-8") as f:
-        f.write(html)
-    logger.info("HTML generated: index.html")
-
-# === MAIN EXECUTION ===
-if __name__ == "__main__":
-    logger.info("Starting automated news curator...")
-    articles = fetch_articles()
-    if not articles:
-        logger.error("No articles fetched. Exiting.")
-        exit(1)
-
-    articles = classify_articles(articles)
-
-    now = datetime.utcnow()
-    for article in articles:
-        calculate_score(article, now)
-
-    articles = deduplicate_articles(articles)
-    categorized = select_top_per_category(articles)
-    generate_html(categorized)
-    logger.info("✅ Done. Website updated.")
