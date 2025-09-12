@@ -25,34 +25,49 @@
             padding-bottom: 10px;
         }
 
-        .top-bar {
+        .logo-container {
             display: flex;
-            justify-content: space-between;
-            font-size: 0.7rem;
-            letter-spacing: 1px;
-            margin-bottom: 10px;
-            color: #2c1e1e;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 15px;
         }
 
-        .title {
-            font-family: 'Old Standard TT', 'Times New Roman', serif;
-            font-size: 3.2rem;
-            font-weight: bold;
-            letter-spacing: 2px;
-            margin: 10px 0;
-            color: #2c1e1e;
+        .logo {
+            max-width: 350px;
+            margin: 0 auto;
+            display: block;
+            filter: contrast(1.1) brightness(0.9);
+            transition: transform 0.2s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.02);
         }
 
         .tagline {
             font-size: 0.9rem;
             margin: 5px 0;
             color: #6b5c45;
+            font-weight: normal;
         }
 
         .date {
             font-size: 1.1rem;
             margin: 10px 0;
             color: #2c1e1e;
+        }
+
+        /* === QUOTE OF THE DAY === */
+        .quote-of-the-day {
+            font-style: italic;
+            font-size: 1.2rem;
+            color: #6b5c45;
+            margin: 20px 0;
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 30px;
+            border-top: 1px solid #ccc;
+            padding-top: 15px;
         }
 
         /* === MAIN ARTICLE === */
@@ -99,51 +114,6 @@
             color: #6b5c45;
             margin: 5px 0;
             font-size: 1.1rem;
-        }
-
-        /* === SIDE COLUMN === */
-        .sidebar {
-            width: 300px;
-            margin-left: 20px;
-            font-size: 0.9rem;
-        }
-
-        .weather-box {
-            background: #f0f0f0;
-            border: 1px solid #ccc;
-            padding: 15px;
-            margin-bottom: 20px;
-        }
-
-        .weather-title {
-            font-weight: bold;
-            margin: 0;
-            margin-bottom: 10px;
-        }
-
-        .temperature {
-            font-size: 1.8rem;
-            font-weight: bold;
-            margin: 0;
-        }
-
-        .brief-news {
-            background: #fff;
-            border: 1px solid #ccc;
-            padding: 15px;
-            margin-top: 20px;
-        }
-
-        .brief-news h3 {
-            font-size: 0.9rem;
-            margin: 0 0 5px;
-            color: #2c1e1e;
-        }
-
-        .brief-news p {
-            margin: 0;
-            margin-bottom: 15px;
-            color: #6b5c45;
         }
 
         /* === CATEGORY SECTION === */
@@ -236,46 +206,102 @@
 <body>
     <!-- === MASTHEAD === -->
     <div class="masthead">
-        <div class="top-bar">
-            <span>ESTABLISHED 1892</span>
-            <span>PRICE: 5 CENTS</span>
-            <span>VOL. CXXX NO. 245</span>
+        <div class="logo-container">
+            <img src="/logo.png" alt="Quiet.News Logo" class="logo">
         </div>
-        <h1 class="title">Quiet.News</h1>
-        <p class="tagline">★ TRUTH • HONOR • PROGRESS ★</p>
+        <p class="tagline">HONOR • CLARITY • CALM.</p>
         <p class="date">FRIDAY, Friday, September 12, 2025</p>
     </div>
 
-    <!-- === MAIN ARTICLE === -->
+    <!-- === QUOTE OF THE DAY === -->
+    <div class="quote-of-the-day">
+        "The best way to predict the future is to create it."
+    </div>
+
+    <!-- === INDIA SECTION === -->
     
-        <div class="main-article">
-            <div class="main-image">
+        <div class="category-section">
+            <h2 class="category-title">INDIA</h2>
+            
+            <div class="article-card">
                 
-                    <img src="https://static.toiimg.com/photo/msid-123853133,imgsize-74006.cms" alt="Read: Raj Kundra denies Rs 60 cr fraud allegations; Manoj Bajpayee on stardom & more" style="width:100%; height:auto;">
+                    <img src="https://static.toiimg.com/photo/msid-123853133,imgsize-74006.cms" alt="Read: Raj Kundra denies Rs 60 cr fraud allegations; Manoj Bajpayee on stardom & more" style="width:100%; max-width:300px; height:auto; margin:10px 0; border-radius:4px;">
                 
-                <p class="image-caption">Artist's rendering of the proposed transportation hub</p>
-                <h2 class="headline">Read: Raj Kundra denies Rs 60 cr fraud allegations; Manoj Bajpayee on stardom & more</h2>
-                <p class="subhead">Bollywood buzz includes Raj Kundra's denial of fraud allegations and the Delhi High Court's protection of Abhishek Bachchan's personality rights. Manoj Bajpayee shared his views on fame compared to Shah Rukh and Salman Khan. Vivek Oberoi addressed comments about his relationship with cousin Aksha...</p>
-            </div>
-            <div class="main-text">
-                <div class="weather-box">
-                    <h3 class="weather-title">TODAY'S WEATHER</h3>
-                    <p class="temperature">72°F</p>
-                    <p>Partly Cloudy</p>
-                    <p style="font-size:0.8rem;">High: 78° Low: 65°</p>
+                <div class="article-title">Read: Raj Kundra denies Rs 60 cr fraud allegations; Manoj Bajpayee on stardom & more</div>
+                <div class="article-summary">Bollywood buzz includes Raj Kundra's denial of fraud allegations and the Delhi High Court's protection of Abhishek Bachchan's personality rights. Manoj Bajpayee shared his views on fame compared to Shah Rukh and Salman Khan. Vivek Oberoi addressed comments about his relationship with cousin Aksha...</div>
+                <div class="meta">
+                    → Times of India
+                    
+                    
+                    <span class="tag debatable">Debatable</span>
                 </div>
-                <div class="brief-news">
-                    <h3>BRIEF NEWS</h3>
-                    <p><strong>Railway Schedule Changes</strong><br>
-                        Effective Monday, the evening express will depart fifteen minutes earlier to accommodate increased ridership.</p>
-                    <p><strong>Library Expands Hours</strong><br>
-                        The Public Library announces extended evening hours on weekdays to better serve the community.</p>
-                </div>
+                <a href="https://timesofindia.indiatimes.com/entertainment/hindi/bollywood/news/raj-kundra-denies-rs-60-crore-fraud-allegations-delhi-hc-grants-protection-of-personality-rights-to-abhishek-bachchan-manoj-bajpayee-on-shah-rukh-khan-salman-khans-stardom-top-5-entertainment-news-of-the-day/articleshow/123853133.cms" target="_blank">Read full →</a>
             </div>
+            
+            <div class="article-card">
+                
+                    <img src="https://static.toiimg.com/photo/msid-123854435,imgsize-48462.cms" alt="Asia Cup: Samson receives official batting message - 'He hasn't batted at 5-6'" style="width:100%; max-width:300px; height:auto; margin:10px 0; border-radius:4px;">
+                
+                <div class="article-title">Asia Cup: Samson receives official batting message - 'He hasn't batted at 5-6'</div>
+                <div class="article-summary">Ahead of the highly anticipated Asia Cup 2025 clash against Pakistan, India's batting coach Sitanshu Kotak confirmed Sanju Samson's readiness to bat in the middle order. While the team remains tight-lipped about the final XI, Kotak emphasized the team's focus and competitiveness. He highlighted t...</div>
+                <div class="meta">
+                    → Times of India
+                    
+                    
+                    <span class="tag debatable">Debatable</span>
+                </div>
+                <a href="https://timesofindia.indiatimes.com/sports/cricket/asia-cup/ahead-of-india-vs-pakistan-in-asia-cup-sanju-samson-receives-official-message-he-has-not-batted-at-5-6-but-/articleshow/123854042.cms" target="_blank">Read full →</a>
+            </div>
+            
+            <div class="article-card">
+                
+                    <img src="https://static.toiimg.com/photo/msid-123854899,imgsize-89104.cms" alt="Asia Cup: Pak legend Akram makes bold prediction - 'India look stronger'" style="width:100%; max-width:300px; height:auto; margin:10px 0; border-radius:4px;">
+                
+                <div class="article-title">Asia Cup: Pak legend Akram makes bold prediction - 'India look stronger'</div>
+                <div class="article-summary">Wasim Akram believes Pakistan can challenge India in their Asia Cup clash, despite India's strong form and recent victories. Akram acknowledges India's strength but emphasizes Pakistan's confidence from their recent tri-series win. He also points out concerns about Pakistan's batting order and bo...</div>
+                <div class="meta">
+                    → Times of India
+                    
+                    
+                    <span class="tag debatable">Debatable</span>
+                </div>
+                <a href="https://timesofindia.indiatimes.com/sports/cricket/asia-cup/pakistan-cricket-legend-wasim-akram-makes-bold-asia-cup-prediction-india-look-stronger-but-/articleshow/123854597.cms" target="_blank">Read full →</a>
+            </div>
+            
+            <div class="article-card">
+                
+                    <img src="https://static.toiimg.com/photo/msid-123850189,imgsize-64294.cms" alt="Asia Cup | 'Who is SRK?' - Pak player gets trolled for 'Hollywood actor' post" style="width:100%; max-width:300px; height:auto; margin:10px 0; border-radius:4px;">
+                
+                <div class="article-title">Asia Cup | 'Who is SRK?' - Pak player gets trolled for 'Hollywood actor' post</div>
+                <div class="article-summary">Pakistani cricketer Iftikhar Ahmed's playful Instagram post ignited social media ahead of the Asia Cup clash with India, drawing humorous reactions from fans. Despite the lighthearted moment, former Pakistan captain Rashid Latif cautioned against over-exuberance, citing India's consistent perform...</div>
+                <div class="meta">
+                    → Times of India
+                    
+                    
+                    <span class="tag debatable">Debatable</span>
+                </div>
+                <a href="https://timesofindia.indiatimes.com/sports/cricket/asia-cup/who-is-shah-rukh-khan-pakistan-player-gets-trolled-for-hollywood-actor-post/articleshow/123849536.cms" target="_blank">Read full →</a>
+            </div>
+            
+            <div class="article-card">
+                
+                    <img src="https://static.toiimg.com/photo/msid-123850771,imgsize-51444.cms" alt="Asia Cup: Why do Pakistan lose to India 'most of the times'? Ex-captain answers" style="width:100%; max-width:300px; height:auto; margin:10px 0; border-radius:4px;">
+                
+                <div class="article-title">Asia Cup: Why do Pakistan lose to India 'most of the times'? Ex-captain answers</div>
+                <div class="article-summary">Rashid Latif believes Pakistan's emotional approach in India matches leads to losses, contrasting with India's composed play. He praised India's balanced team, highlighting Hardik Pandya and Jasprit Bumrah as key strengths. Latif acknowledged Pakistan's pressure but notes India's lack of recent T...</div>
+                <div class="meta">
+                    → Times of India
+                    
+                    
+                    <span class="tag debatable">Debatable</span>
+                </div>
+                <a href="https://timesofindia.indiatimes.com/sports/cricket/asia-cup/asia-cup-why-pakistan-lose-most-of-the-times-to-india-in-cricket-as-per-ex-captain/articleshow/123850683.cms" target="_blank">Read full →</a>
+            </div>
+            
         </div>
     
 
-    <!-- === CATEGORY SECTIONS === -->
+    <!-- === OTHER CATEGORIES === -->
     
         
     
@@ -296,6 +322,36 @@
                     <span class="tag debatable">Debatable</span>
                 </div>
                 <a href="https://timesofindia.indiatimes.com/world/europe/who-is-diella-albania-appoints-worlds-first-ai-minister-public-tenders-to-be-100-corruption-free/articleshow/123852634.cms" target="_blank">Read full →</a>
+            </div>
+            
+            <div class="article-card">
+                
+                    <img src="https://static.toiimg.com/photo/msid-123855205,imgsize-45948.cms" alt="Charlie Kirk murder: Shooter caught in 33 hours; FBI chief gives timeline of probe" style="width:100%; max-width:300px; height:auto; margin:10px 0; border-radius:4px;">
+                
+                <div class="article-title">Charlie Kirk murder: Shooter caught in 33 hours; FBI chief gives timeline of probe</div>
+                <div class="article-summary"></div>
+                <div class="meta">
+                    → Times of India
+                    
+                    
+                    
+                </div>
+                <a href="https://timesofindia.indiatimes.com/world/us/charlie-kirk-murder-shooter-caught-in-33-hours-fbi-chief-gives-timeline-of-probe/articleshow/123855087.cms" target="_blank">Read full →</a>
+            </div>
+            
+            <div class="article-card">
+                
+                    <img src="https://static.toiimg.com/photo/msid-123853873,imgsize-23246.cms" alt="'Father of justice': Who is Matt Robinson? Kirk shooter's dad who turned him in" style="width:100%; max-width:300px; height:auto; margin:10px 0; border-radius:4px;">
+                
+                <div class="article-title">'Father of justice': Who is Matt Robinson? Kirk shooter's dad who turned him in</div>
+                <div class="article-summary"></div>
+                <div class="meta">
+                    → Times of India
+                    
+                    
+                    
+                </div>
+                <a href="https://timesofindia.indiatimes.com/world/us/father-of-justice-who-is-matt-robinson-charlie-kirk-shooter-tyler-robinsons-dad-who-turned-in-him/articleshow/123853877.cms" target="_blank">Read full →</a>
             </div>
             
             <div class="article-card">
@@ -328,32 +384,6 @@
                 <a href="https://timesofindia.indiatimes.com/world/us/who-is-anastasia-casey-no-one-knows-if-the-writer-of-the-shooting-of-charlie-kirk-is-a-real-person/articleshow/123852890.cms" target="_blank">Read full →</a>
             </div>
             
-            <div class="article-card">
-                
-                <div class="article-title">UN Security Council unite in condemning Israeli bombing of Qatar</div>
-                <div class="article-summary">In a rare move, the US backed a UN Security Council statement condemning Israel’s attack on Hamas’s Doha office.</div>
-                <div class="meta">
-                    → Al Jazeera - Asia
-                    
-                    
-                    
-                </div>
-                <a href="https://www.aljazeera.com/video/newsfeed/2025/9/12/un-security-council-unite-in-condemning-israeli-bombing-of-qatar?traffic_source=rss" target="_blank">Read full →</a>
-            </div>
-            
-            <div class="article-card">
-                
-                <div class="article-title">LIVE: Israel kills 50 in Gaza, Qatari PM to meet top US officials</div>
-                <div class="article-summary">Israeli onslaught on Gaza intensifies as US Security Council issues statement condemning attack on Qatari capital.</div>
-                <div class="meta">
-                    → Al Jazeera - Asia
-                    
-                    
-                    
-                </div>
-                <a href="https://www.aljazeera.com/news/liveblog/2025/9/12/live-israel-kills-dozens-in-gaza-unsc-condemns-doha-attack?traffic_source=rss" target="_blank">Read full →</a>
-            </div>
-            
         </div>
         
     
@@ -363,32 +393,43 @@
             
             <div class="article-card">
                 
-                    <img src="https://static.toiimg.com/photo/msid-123854008,imgsize-46556.cms" alt="Nepal unrest: Sushila Karki to take oath as interim PM; parliament dissolved" style="width:100%; max-width:300px; height:auto; margin:10px 0; border-radius:4px;">
+                    <img src="https://static.toiimg.com/photo/msid-123855598,imgsize-925773.cms" alt="Nepal interim govt: Sushila Karki takes oath as PM; first woman in top post" style="width:100%; max-width:300px; height:auto; margin:10px 0; border-radius:4px;">
                 
-                <div class="article-title">Nepal unrest: Sushila Karki to take oath as interim PM; parliament dissolved</div>
-                <div class="article-summary"></div>
-                <div class="meta">
-                    → Times of India
-                    
-                    
-                    
-                </div>
-                <a href="https://timesofindia.indiatimes.com/world/south-asia/nepal-unrest-sushila-karki-to-take-oath-as-interim-pm-what-will-be-her-first-decision/articleshow/123854013.cms" target="_blank">Read full →</a>
-            </div>
-            
-            <div class="article-card">
-                
-                    <img src="https://static.toiimg.com/photo/msid-123851408,imgsize-102770.cms" alt="Charlie Kirk: X mourns him as free speech martyr; nation debates violence" style="width:100%; max-width:300px; height:auto; margin:10px 0; border-radius:4px;">
-                
-                <div class="article-title">Charlie Kirk: X mourns him as free speech martyr; nation debates violence</div>
-                <div class="article-summary">Conservative activist Charlie Kirk was assassinated during a debate on free speech at Utah Valley University. His death, framed as a martyrdom for free expression, has ignited debates over political violence and polarization in the U.S. Turning Point USA now faces a leadership vacuum and heighten...</div>
+                <div class="article-title">Nepal interim govt: Sushila Karki takes oath as PM; first woman in top post</div>
+                <div class="article-summary">Sushila Karki became the Prime Minister of Nepal. This followed protests against the previous government. Karki is an alumna of Banaras Hindu University. She was selected after consultations with key figures. The protests were sparked by a social media ban. They grew into a rejection of corruptio...</div>
                 <div class="meta">
                     → Times of India
                     
                     
                     <span class="tag debatable">Debatable</span>
                 </div>
-                <a href="https://timesofindia.indiatimes.com/world/us/charlie-has-become-the-americas-greatest-martyr-to-free-speech-charlie-kirks-x-handle-mourns-his-death/articleshow/123851417.cms" target="_blank">Read full →</a>
+                <a href="https://timesofindia.indiatimes.com/world/south-asia/nepal-interim-govt-sushila-karki-takes-oath-as-pm-first-woman-in-top-post/articleshow/123854804.cms" target="_blank">Read full →</a>
+            </div>
+            
+            <div class="article-card">
+                
+                <div class="article-title">‘Going to Memphis’: Trump to deploy troops to another Democratic-led city</div>
+                <div class="article-summary">Trump says Memphis &#039;deeply troubled,&#039; as he plans to replicate Washington&#039;s federal control measures to address crime.</div>
+                <div class="meta">
+                    → Al Jazeera - Asia
+                    
+                    
+                    
+                </div>
+                <a href="https://www.aljazeera.com/news/2025/9/12/going-to-memphis-trump-to-deploy-troops-to-another-democratic-led-city?traffic_source=rss" target="_blank">Read full →</a>
+            </div>
+            
+            <div class="article-card">
+                
+                <div class="article-title">Nepal appoints first female PM in wake of deadly protests</div>
+                <div class="article-summary">The country&#039;s former Chief Justice Sushila Karki has been appointed interim prime minister.</div>
+                <div class="meta">
+                    → Al Jazeera - Asia
+                    
+                    
+                    <span class="tag debatable">Debatable</span>
+                </div>
+                <a href="https://www.aljazeera.com/news/2025/9/12/nepal-protest-death-toll-reaches-51-as-12500-prisoners-remain-on-the-run?traffic_source=rss" target="_blank">Read full →</a>
             </div>
             
             <div class="article-card">
@@ -419,19 +460,6 @@
                 <a href="https://timesofindia.indiatimes.com/world/europe/russia-ukraine-war-kremlin-pauses-peace-talks-trumps-truce-move-falters/articleshow/123851908.cms" target="_blank">Read full →</a>
             </div>
             
-            <div class="article-card">
-                
-                <div class="article-title">The US “has beef with Brazil” on more than just Bolsonaro issue</div>
-                <div class="article-summary">“Bolsonaro may actually be a convenient excuse for Trump to do what he would already be willing to do [in Brazil].&quot;</div>
-                <div class="meta">
-                    → Al Jazeera - Asia
-                    
-                    
-                    
-                </div>
-                <a href="https://www.aljazeera.com/video/quotable/2025/9/12/the-us-has-beef-with-brazil-on-more-than-just-bolsonaro-issue?traffic_source=rss" target="_blank">Read full →</a>
-            </div>
-            
         </div>
         
     
@@ -441,30 +469,17 @@
             
             <div class="article-card">
                 
-                <div class="article-title">FBI releases CCTV video of Charlie Kirk’s alleged killer escaping</div>
-                <div class="article-summary">The FBI released CCTV video showing what they said was the moment the suspect in the shooting of Charlie Kirk escaped.</div>
-                <div class="meta">
-                    → Al Jazeera - Asia
-                    
-                    
-                    
-                </div>
-                <a href="https://www.aljazeera.com/video/newsfeed/2025/9/12/fbi-releases-cctv-video-of-charlie-kirks-alleged-killer-escaping?traffic_source=rss" target="_blank">Read full →</a>
-            </div>
-            
-            <div class="article-card">
+                    <img src="https://static.toiimg.com/photo/msid-123855108,imgsize-1090354.cms" alt="Charlie Kirk murder: Messages, casings & rifle - How Tyler Robinson was caught" style="width:100%; max-width:300px; height:auto; margin:10px 0; border-radius:4px;">
                 
-                    <img src="https://static.toiimg.com/photo/msid-123848744,imgsize-339763.cms" alt="YouTuber Tectone reacts to commentator Steven Crowder’s claims about Charlie Kirk’s shooter" style="width:100%; max-width:300px; height:auto; margin:10px 0; border-radius:4px;">
-                
-                <div class="article-title">YouTuber Tectone reacts to commentator Steven Crowder’s claims about Charlie Kirk’s shooter</div>
-                <div class="article-summary">Following Charlie Kirk's tragic shooting, online debates intensified after Steven Crowder shared alleged ATF information. Crowder claimed the shooter's ammunition had engravings linked to transgender and anti-fascist ideology. Reacting to these claims, streamer Tectone amplified the conversation ...</div>
+                <div class="article-title">Charlie Kirk murder: Messages, casings & rifle - How Tyler Robinson was caught</div>
+                <div class="article-summary">Tyler Robinson, 22, has been apprehended in Utah for the assassination of conservative activist Charlie Kirk. Digital messages on Discord, unusual bullet casings, and campus surveillance footage led to Robinson's identification. The messages detailed plans to conceal a rifle and engrave bullets w...</div>
                 <div class="meta">
                     → Times of India
                     
                     
-                    <span class="tag debatable">Debatable</span>
+                    
                 </div>
-                <a href="https://timesofindia.indiatimes.com/sports/international-sports/tectone-reacts-to-steven-crowders-claims-about-charlie-kirks-shooter-with-controversial-trans-radical-remark/articleshow/123848081.cms" target="_blank">Read full →</a>
+                <a href="https://timesofindia.indiatimes.com/world/us/chilling-discord-gun-casings-how-authorities-confirmed-tyler-robinson-as-charlie-kirks-killer/articleshow/123855122.cms" target="_blank">Read full →</a>
             </div>
             
         </div>
@@ -473,21 +488,6 @@
         
         <div class="category-section">
             <h2 class="category-title">Business</h2>
-            
-            <div class="article-card">
-                
-                    <img src="https://static.toiimg.com/photo/msid-123845941,imgsize-20982.cms" alt="Microsoft CEO admits ‘lack of empathy’: Tells staff in meeting; ‘We will do better’" style="width:100%; max-width:300px; height:auto; margin:10px 0; border-radius:4px;">
-                
-                <div class="article-title">Microsoft CEO admits ‘lack of empathy’: Tells staff in meeting; ‘We will do better’</div>
-                <div class="article-summary">Microsoft CEO Satya Nadella acknowledged the need to rebuild employee trust following layoffs and a return-to-office mandate. He addressed concerns about a perceived lack of empathy and committed to improvement.</div>
-                <div class="meta">
-                    → Times of India
-                    
-                    
-                    
-                </div>
-                <a href="https://timesofindia.indiatimes.com/technology/tech-news/microsoft-ceo-satya-nadella-admits-lack-of-empathy-after-layoffs-and-return-to-office-push-tells-employees-we-will-do-better/articleshow/123845950.cms" target="_blank">Read full →</a>
-            </div>
             
             <div class="article-card">
                 
@@ -502,6 +502,21 @@
                     
                 </div>
                 <a href="https://timesofindia.indiatimes.com/technology/tech-news/amazon-suspends-engineer-who-sent-threatening-letter-to-ceo-andy-jassy-saying-i-am-left-with-no-choice-but-to-/articleshow/123849551.cms" target="_blank">Read full →</a>
+            </div>
+            
+            <div class="article-card">
+                
+                    <img src="https://static.toiimg.com/photo/msid-123852778,imgsize-23894.cms" alt="Tesla engineer resigns after 8 yrs; points to Musk as reason, accuses him of lying" style="width:100%; max-width:300px; height:auto; margin:10px 0; border-radius:4px;">
+                
+                <div class="article-title">Tesla engineer resigns after 8 yrs; points to Musk as reason, accuses him of lying</div>
+                <div class="article-summary">After eight years with Tesla, a senior engineer, Giorgio Balestrieri, has resigned, citing concerns over Elon Musk's leadership and its detrimental impact on Tesla's mission. Balestrieri praised his colleagues and the company's growth in energy storage but criticized Musk for allegedly lying to t...</div>
+                <div class="meta">
+                    → Times of India
+                    
+                    
+                    
+                </div>
+                <a href="https://timesofindia.indiatimes.com/technology/tech-news/tesla-engineer-resigns-after-8-years-points-to-ceo-elon-musk-as-main-reason-accuses-him-of-lying-to-the-public-manipulating/articleshow/123852792.cms" target="_blank">Read full →</a>
             </div>
             
         </div>
@@ -545,6 +560,34 @@
             
             <div class="article-card">
                 
+                <div class="article-title">Bangladesh vs Sri Lanka: T20 Asia Cup – start time, teams/lineups</div>
+                <div class="article-summary">Sri Lanka play their opening match of the Asia Cup against a Bangladesh side given a scare by Hong Kong in their opener.</div>
+                <div class="meta">
+                    → Al Jazeera - Asia
+                    
+                    
+                    
+                </div>
+                <a href="https://www.aljazeera.com/sports/2025/9/12/sri-lanka-vs-bangladesh-t20-asia-cup-teams-start-time-lineups?traffic_source=rss" target="_blank">Read full →</a>
+            </div>
+            
+            <div class="article-card">
+                
+                    <img src="https://static.toiimg.com/photo/msid-123853514,imgsize-46208.cms" alt="LeBron James reacts to Kawhi Leonard's $28 million endorsement deal controversy" style="width:100%; max-width:300px; height:auto; margin:10px 0; border-radius:4px;">
+                
+                <div class="article-title">LeBron James reacts to Kawhi Leonard's $28 million endorsement deal controversy</div>
+                <div class="article-summary">LeBron James reacted to Kevin Love's humorous take on Kawhi Leonard's $28 million endorsement deal controversy with Aspiration. The NBA is seriously investigating allegations that the LA Clippers circumvented salary cap rules through a shell agreement.</div>
+                <div class="meta">
+                    → Times of India
+                    
+                    
+                    <span class="tag debatable">Debatable</span>
+                </div>
+                <a href="https://timesofindia.indiatimes.com/sports/nba/top-stories/lebron-james-reacts-to-kawhi-leonards-28-million-endorsement-deal-controversy-with-a-two-word-message/articleshow/123852537.cms" target="_blank">Read full →</a>
+            </div>
+            
+            <div class="article-card">
+                
                     <img src="https://static.toiimg.com/photo/msid-123849365,imgsize-67224.cms" alt="Matthew Hayden to 'walk nude'? Daughter Grace makes plea to Joe Root" style="width:100%; max-width:300px; height:auto; margin:10px 0; border-radius:4px;">
                 
                 <div class="article-title">Matthew Hayden to 'walk nude'? Daughter Grace makes plea to Joe Root</div>
@@ -567,6 +610,21 @@
             
             <div class="article-card">
                 
+                    <img src="https://static.toiimg.com/photo/msid-123855436,imgsize-24166.cms" alt="Enigma of Charlie Kirk: Academics slam 'digital hitlist' - MAGA calls him martyr" style="width:100%; max-width:300px; height:auto; margin:10px 0; border-radius:4px;">
+                
+                <div class="article-title">Enigma of Charlie Kirk: Academics slam 'digital hitlist' - MAGA calls him martyr</div>
+                <div class="article-summary">Charlie Kirk's assassination has sparked debate, with conservatives mourning him as a culture warrior and liberals criticizing his "Professors Watchlist." This list, targeting academics deemed leftist, led to harassment and threats, particularly against women and minority scholars. While Trump co...</div>
+                <div class="meta">
+                    → Times of India
+                    
+                    
+                    <span class="tag debatable">Debatable</span>
+                </div>
+                <a href="https://timesofindia.indiatimes.com/world/us/amid-grief-over-kirks-assassination-some-liberal-academics-are-irked-over-martyrdom/articleshow/123855431.cms" target="_blank">Read full →</a>
+            </div>
+            
+            <div class="article-card">
+                
                 <div class="article-title">More than 300 South Korean workers return home after US immigration raid</div>
                 <div class="article-summary">Images of arrested workers in handcuffs and chains have caused outrage over what many see as a betrayal of an ally.</div>
                 <div class="meta">
@@ -580,17 +638,17 @@
             
             <div class="article-card">
                 
-                    <img src="https://static.toiimg.com/photo/msid-123845647,imgsize-992054.cms" alt="'No words left': Man seeing cheering during Charlie Kirk assassination" style="width:100%; max-width:300px; height:auto; margin:10px 0; border-radius:4px;">
+                    <img src="https://static.toiimg.com/photo/msid-123853909,imgsize-1327061.cms" alt="'We got him': Charlie Kirk shooter's name revealed; Utah officials, FBI chief give big update" style="width:100%; max-width:300px; height:auto; margin:10px 0; border-radius:4px;">
                 
-                <div class="article-title">'No words left': Man seeing cheering during Charlie Kirk assassination</div>
-                <div class="article-summary">A video has surfaced showing a man celebrating near the scene of Charlie Kirk's assassination at Utah Valley University. The man, seen pumping his fists and shouting "USA! USA! USA!", has sparked outrage online. While his identity remains unverified, an X account claiming to be him denies celebra...</div>
+                <div class="article-title">'We got him': Charlie Kirk shooter's name revealed; Utah officials, FBI chief give big update</div>
+                <div class="article-summary"></div>
                 <div class="meta">
                     → Times of India
                     
                     
-                    <span class="tag debatable">Debatable</span>
+                    
                 </div>
-                <a href="https://timesofindia.indiatimes.com/world/us/no-words-left-man-seeing-cheering-during-charlie-kirk-assassination-sparks-outrage/articleshow/123845464.cms" target="_blank">Read full →</a>
+                <a href="https://timesofindia.indiatimes.com/world/us/charlie-kirk-murder-shooters-name-tyler-robinson-revealed-utah-officials-fbi-chief-give-big-update/articleshow/123853907.cms" target="_blank">Read full →</a>
             </div>
             
             <div class="article-card">
@@ -610,28 +668,15 @@
             
             <div class="article-card">
                 
-                <div class="article-title">UN warns online scam centres hitting Southeast Asia moving to East Timor</div>
-                <div class="article-summary">Warning from the United Nations Office on Drugs and Crime follows a law enforcement raid on suspected scam centre.</div>
+                <div class="article-title">Islamophobic incidents in Australia ‘skyrocketed’ since Israel’s Gaza war</div>
+                <div class="article-summary">Anti-Muslim incidents in person have increased by 150% - and by 250% online - according to an independent report.</div>
                 <div class="meta">
                     → Al Jazeera - Asia
                     
                     
                     
                 </div>
-                <a href="https://www.aljazeera.com/news/2025/9/12/un-warns-online-scam-centres-hitting-southeast-asia-moving-to-east-timor?traffic_source=rss" target="_blank">Read full →</a>
-            </div>
-            
-            <div class="article-card">
-                
-                <div class="article-title">Manhunt for Charlie Kirk’s shooter: What we know on day two</div>
-                <div class="article-summary">Investigators have released photographs and video footage of suspect, are calling on the public to help identify him.</div>
-                <div class="meta">
-                    → Al Jazeera - Asia
-                    
-                    <span class="tag trending">Trending</span>
-                    
-                </div>
-                <a href="https://www.aljazeera.com/news/2025/9/12/manhunt-for-charlie-kirks-shooter-what-we-know-on-day-two?traffic_source=rss" target="_blank">Read full →</a>
+                <a href="https://www.aljazeera.com/news/2025/9/12/islamophobic-incidents-in-australia-skyrocketed-since-israels-gaza-war?traffic_source=rss" target="_blank">Read full →</a>
             </div>
             
         </div>
