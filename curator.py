@@ -121,6 +121,7 @@ def fetch_articles():
             logger.info(f"Fetching from {source['name']}...")
             feed = feedparser.parse(source['url'])
             for entry in feed.entries:
+                # Parse and normalize publish date
                 try:
                     if hasattr(entry, 'published'):
                         pub_date = date_parser.parse(entry.published)
@@ -132,9 +133,11 @@ def fetch_articles():
                     logger.error(f"Failed to parse date for {entry.title}: {e}")
                     pub_date = now
 
+                # Skip if older than 48h
                 if pub_date < cutoff:
                     continue
 
+                # Extract summary
                 summary = getattr(entry, 'summary', '')
                 if len(summary) > 300:
                     summary = summary[:297] + "..."
@@ -145,6 +148,19 @@ def fetch_articles():
                         logger.warning(f"Could not extract content: {e}")
                         summary = ""
 
+                # Extract image URL
+                image_url = ""
+                if hasattr(entry, 'media_content'):
+                    for media in entry.media_content:
+                        if media.type == 'image/jpeg' or media.type == 'image/png':
+                            image_url = media.url
+                            break
+                elif hasattr(entry, 'enclosures'):
+                    for enclosure in entry.enclosures:
+                        if 'image' in enclosure.type:
+                            image_url = enclosure.href
+                            break
+
                 articles.append({
                     "title": entry.title,
                     "summary": summary,
@@ -152,7 +168,8 @@ def fetch_articles():
                     "source": source["name"],
                     "source_weight": source["weight"],
                     "published_at": pub_date,
-                    "text_for_ai": f"{entry.title}. {summary}"
+                    "text_for_ai": f"{entry.title}. {summary}",
+                    "image_url": image_url
                 })
         except Exception as e:
             logger.error(f"Error fetching {source['name']}: {e}")
@@ -176,7 +193,6 @@ def classify_articles(articles):
             article["is_trending"] = is_trending(article["text_for_ai"])
             article["is_debatable"] = is_debatable(article["text_for_ai"])
             article["is_must_know"] = is_must_know(article["text_for_ai"])
-
         except Exception as e:
             logger.error(f"Classification failed for '{article['title']}': {e}")
             article["category"] = "World"
@@ -202,7 +218,7 @@ def calculate_score(article, now):
     # Confidence bonus
     score *= article["category_confidence"]
 
-    # 🇮🇳 India relevance boost
+    # 🇮 India relevance boost
     if is_india_related(article["text_for_ai"]):
         score *= 1.5
 
@@ -245,7 +261,7 @@ def deduplicate_articles(articles):
                     break
 
     deduped = [a for i, a in enumerate(articles) if i not in to_remove]
-    logger.info(f"Deduplicated: {len(articles)} -> {len(deduped)} articles.")
+    logger.info(f"Deduplicated: {len(articles)} → {len(deduped)} articles.")
     return deduped
 
 # === RANK & SELECT TOP N PER CATEGORY ===
@@ -276,61 +292,155 @@ HTML_TEMPLATE = """
         /* === BASE === */
         body {
             font-family: 'Georgia', 'Times New Roman', serif;
-            background: url('https://www.transparenttextures.com/patterns/cream-paper.png'), #f8f4e9;
-            background-attachment: fixed;
-            color: #3a3a3a;
-            max-width: 900px;
+            background: #f8f4e9;
+            color: #2c1e1e;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 30px 20px;
+            padding: 20px;
             line-height: 1.6;
         }
 
         /* === HEADER === */
-        header {
+        .masthead {
             text-align: center;
-            margin-bottom: 40px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid #c9b89b;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #2c1e1e;
+            padding-bottom: 10px;
         }
 
-        .logo {
-            max-width: 350px;
-            margin: 0 auto 15px;
-            display: block;
-            filter: contrast(1.1) brightness(0.9);
-            transition: transform 0.2s ease;
-        }
-
-        .logo:hover {
-            transform: scale(1.02);
-        }
-
-        h1 {
-            font-family: 'Old Standard TT', 'Times New Roman', serif;
-            font-weight: normal;
-            letter-spacing: 2px;
-            font-size: 2.4rem;
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
             color: #2c1e1e;
-            margin: 10px 0 5px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .title {
+            font-family: 'Old Standard TT', 'Times New Roman', serif;
+            font-size: 3.2rem;
+            font-weight: bold;
+            letterSpacing: 2px;
+            margin: 10px 0;
+            color: #2c1e1e;
         }
 
         .tagline {
+            font-size: 0.9rem;
+            margin: 5px 0;
+            color: #6b5c45;
+        }
+
+        .date {
+            font-size: 1.1rem;
+            margin: 10px 0;
+            color: #2c1e1e;
+        }
+
+        /* === MAIN ARTICLE === */
+        .main-article {
+            display: flex;
+            margin-bottom: 40px;
+            border-top: 3px solid #2c1e1e;
+            padding-top: 20px;
+        }
+
+        .main-image {
+            flex: 3;
+            margin-right: 20px;
+        }
+
+        .main-image img {
+            width: 100%;
+            height: auto;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .main-text {
+            flex: 2;
+            font-size: 0.9rem;
+        }
+
+        .image-caption {
             font-style: italic;
             color: #6b5c45;
+            margin: 5px 0;
+            font-size: 0.8rem;
+        }
+
+        .headline {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin: 10px 0;
+            color: #2c1e1e;
+        }
+
+        .subhead {
+            font-style: italic;
+            color: #6b5c45;
+            margin: 5px 0;
             font-size: 1.1rem;
+        }
+
+        /* === SIDE COLUMN === */
+        .sidebar {
+            width: 300px;
+            margin-left: 20px;
+            font-size: 0.9rem;
+        }
+
+        .weather-box {
+            background: #f0f0f0;
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .weather-title {
+            font-weight: bold;
+            margin: 0;
+            margin-bottom: 10px;
+        }
+
+        .temperature {
+            font-size: 1.8rem;
+            font-weight: bold;
             margin: 0;
         }
 
-        /* === CATEGORY HEADINGS === */
-        h2 {
-            font-family: 'Old Standard TT', Georgia, serif;
+        .brief-news {
+            background: #fff;
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        .brief-news h3 {
+            font-size: 0.9rem;
+            margin: 0 0 5px;
             color: #2c1e1e;
-            border-left: 5px solid #c9b89b;
-            padding-left: 15px;
-            margin: 40px 0 20px;
-            font-size: 1.6rem;
-            letter-spacing: 1px;
+        }
+
+        .brief-news p {
+            margin: 0;
+            margin-bottom: 15px;
+            color: #6b5c45;
+        }
+
+        /* === CATEGORY SECTION === */
+        .category-section {
+            margin: 40px 0;
+        }
+
+        .category-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin: 0 0 20px;
+            color: #2c1e1e;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 5px;
         }
 
         /* === ARTICLE CARD === */
@@ -341,15 +451,9 @@ HTML_TEMPLATE = """
             padding: 20px;
             margin-bottom: 25px;
             box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-            transition: box-shadow 0.2s ease;
-        }
-
-        .article-card:hover {
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
 
         .article-title {
-            font-family: 'Old Standard TT', Georgia, serif;
             font-size: 1.3rem;
             font-weight: normal;
             margin: 0 0 10px;
@@ -361,7 +465,7 @@ HTML_TEMPLATE = """
             font-size: 1rem;
             color: #444;
             margin: 10px 0;
-            text-align: justify;
+            text-align:justify;
         }
 
         .meta {
@@ -371,7 +475,6 @@ HTML_TEMPLATE = """
             font-style: italic;
         }
 
-        /* === TAGS === */
         .tag {
             display: inline-block;
             padding: 3px 8px;
@@ -379,7 +482,7 @@ HTML_TEMPLATE = """
             font-size: 0.8rem;
             font-weight: bold;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letterSpacing: 0.5px;
             margin-right: 5px;
             color: white;
         }
@@ -411,44 +514,74 @@ HTML_TEMPLATE = """
             font-size: 0.95rem;
             text-align: center;
         }
-
-        /* === TYPOGRAPHY ENHANCEMENTS === */
-        @import url('https://fonts.googleapis.com/css2?family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&display=swap');
-
-        /* === PRINT-LIKE TEXTURE === */
-        .article-card {
-            background-image: linear-gradient(rgba(255,255,255,0.8), rgba(250,245,235,0.8));
-        }
     </style>
 </head>
 <body>
-    <header>
-        <img src="/logo.png" alt="Quiet.News Logo" class="logo">
-        <h1>Quiet.News</h1>
-        <p class="tagline">Timeless news for India. No ads. No noise.</p>
-    </header>
-
-    {% for category, articles in categorized.items() %}
-        {% if articles|length > 0 %}
-        <h2>{{ category }}</h2>
-        {% for article in articles %}
-        <div class="article-card">
-            <div class="article-title">{{ article.title }}</div>
-            <div class="article-summary">{{ article.summary }}</div>
-            <div class="meta">
-                → {{ article.source }}
-                {% if article.is_must_know %}<span class="tag must-know">Must-Know</span>{% endif %}
-                {% if article.is_trending %}<span class="tag trending">Trending</span>{% endif %}
-                {% if article.is_debatable %}<span class="tag debatable">Debatable</span>{% endif %}
-            </div>
-            <a href="{{ article.url }}" target="_blank">Read full →</a>
+    <!-- === MASTHEAD === -->
+    <div class="masthead">
+        <div class="top-bar">
+            <span>ESTABLISHED 1892</span>
+            <span>PRICE: 5 CENTS</span>
+            <span>VOL. CXXX NO. 245</span>
         </div>
-        {% endfor %}
+        <h1 class="title">Quiet.News</h1>
+        <p class="tagline">★ TRUTH • HONOR • PROGRESS ★</p>
+        <p class="date">FRIDAY, {{now.strftime('%B %d, %Y') }}</p>
+    </div>
+
+    <!-- === MAIN ARTICLE === -->
+    {% if categorized.get('India') and categorized['india'] %}
+        <div class="main-article">
+            <div class="main-image">
+                {% if categorized['india'][0].image_url %}
+                    <img src="{{ categorized['india'][0].image_url }}" alt="{{ categorized['india'][0].title }}" style="width:100%; height:auto;">
+                {% endif %}
+                <p class="image-caption">Artist's rendering of the proposed transportation hub</p>
+                <h2 class="headline">{{ categorized['india'][0].title }}</h2>
+                <p class="subhead">{{ categorized['india'][0].summary }}</p>
+            </div>
+            <div class="main-text">
+                <div class="weather-box">
+                    <h3 class="weather-title">TODAY'S WEATHER</h3>
+                    <p class="temperature">72°F</p>
+                    <p>Partly Cloudy</p>
+                    <p style="font-size:0.8rem;">High: 78° Low: 65°</p>
+                </div>
+                <div class="brief-news">
+                    <h3>BRIEF NEWS</h3>
+                    <p><strong>Railway Schedule Changes</strong><br>
+                        Effective Monday, the evening express will depart fifteen minutes earlier to accommodate increased ridership.</p>
+                    <p><strong>Library Expands Hours</strong><br>
+                        The Public Library announces extended evening hours on weekdayssto better serve the community.</p>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    <!-- === CATEGORY SECTIONS === -->
+    {% for category, articles in categorized.items() %}
+        {% if category != 'india' and articles|length > 0 %}
+        <div class="category-section">
+            <h2 class="category-title">{{category }}</h2>
+            {% for article in articles %}
+            <div class="article-card">
+                <div class="article-title">{{ article.title }}</div>
+                <div class="article-summary">{{ article.summary }}</div>
+                <div class="meta">
+                    → {{ article.source }}
+                    {% if article.is_must_know %}<span class="tag must-know">Must-Know</span>{% endif %}
+                    {% if article.is_trending %}<span class="tag trending">Trending</span>{% endif %}
+                    {% if article.is_debatable %}<span class="tag debatable">Debatable</span>{% endif %}
+                </div>
+                <a href="{{ article.url }}" target="_blank">Read full →</a>
+            </div>
+            {% endfor %}
+        </div>
         {% endif %}
-    {% endfor %}
+    {%endfor %}
 
     <footer>
-        <p>Curated and updated automatically • {{ now.strftime('%A, %B %d, %Y') }}</p>
+        <p>Curated and updated automatically • {{nov.strftime('%A, %B %d, %Y') }}</p>
     </footer>
 </body>
 </html>
