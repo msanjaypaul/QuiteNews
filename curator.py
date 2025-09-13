@@ -12,26 +12,91 @@ import logging
 
 # === CONFIG ===
 SOURCES = [
-    {"name": "The Hindu", "url": "https://www.thehindu.com/feeder/default.rss", "weight": 1.0},
-    {"name": "Indian Express", "url": "https://indianexpress.com/section/india/feed/", "weight": 0.95},
-    {"name": "NDTV", "url": "https://feeds.feedburner.com/ndtvnews-india-news", "weight": 0.9},
-    {"name": "Times of India", "url": "https://timesofindia.indiatimes.com/rssfeedstopstories.cms", "weight": 0.85},
-    {"name": "BBC News India", "url": "http://feeds.bbci.co.uk/news/world/asia/india/rss.xml", "weight": 0.85},
-    {"name": "Reuters India", "url": "https://www.reuters.com/world/india/rss", "weight": 0.9},
-    {"name": "Al Jazeera - Asia", "url": "https://www.aljazeera.com/xml/rss/all.xml", "weight": 0.8},
-    {"name": "AP News - Asia", "url": "https://rsshub.app/apnews/topics/asia", "weight": 0.8},
+    # National Education & Exams
+    {"name": "CBSE Latest", "url": "https://cbse.gov.in/cbsenew/rss.xml", "weight": 1.0},
+    {"name": "UGC Updates", "url": "https://www.ugc.ac.in/rss.aspx", "weight": 0.95},
+    {"name": "AICTE News", "url": "https://www.aicte-india.org/rss.xml", "weight": 0.9},
+    {"name": "NTA (JEE/NEET)", "url": "https://nta.ac.in/rss", "weight": 0.95},
+    {"name": "UPSC Updates", "url": "https://upsc.gov.in/rss.xml", "weight": 0.9},
+    {"name": "SSC Latest", "url": "https://ssc.nic.in/SSCFileServer/RSS/Notice.xml", "weight": 0.85},
+    {"name": "IGNOU News", "url": "http://ignou.ac.in/ignou/rss.xml", "weight": 0.8},
+
+    # Top Colleges
+    {"name": "DU Latest", "url": "https://www.du.ac.in/rss.xml", "weight": 0.9},
+    {"name": "IIT Delhi News", "url": "https://home.iitd.ac.in/rss.php", "weight": 0.85},
+    {"name": "IIT Bombay", "url": "https://www.iitb.ac.in/en/feed", "weight": 0.85},
+    {"name": "IIT Madras", "url": "https://www.iitm.ac.in/rss.xml", "weight": 0.85},
+    {"name": "NIT Trichy", "url": "https://www.nitt.edu/home/rss.xml", "weight": 0.8},
+    {"name": "JNU Updates", "url": "https://www.jnu.ac.in/rss.xml", "weight": 0.85},
+    {"name": "BHU News", "url": "https://www.bhu.ac.in/rss.xml", "weight": 0.8},
+    {"name": "AIIMS Delhi", "url": "https://www.aiims.edu/en/rss.html", "weight": 0.8},
+    {"name": "TIFR Mumbai", "url": "https://www.tifr.res.in/rss.xml", "weight": 0.8},
+
+    # News Portals - Education
+    {"name": "The Indian Express - Education", "url": "https://indianexpress.com/section/education/feed/", "weight": 1.0},
+    {"name": "Hindustan Times - Campus", "url": "https://www.hindustantimes.com/rss/campus/rssfeed.xml", "weight": 0.95},
+    {"name": "NDTV Education", "url": "https://feeds.feedburner.com/ndtvnews-education", "weight": 0.9},
+    {"name": "The Hindu - Education", "url": "https://www.thehindu.com/education/feeder/default.rss", "weight": 0.9},
+    {"name": "Times of India - Education", "url": "https://timesofindia.indiatimes.com/rssfeeds/913168846.cms", "weight": 0.85},
+    {"name": "India Today - Education", "url": "https://www.indiatoday.in/rss/1206514", "weight": 0.85},
+
+    # Internships & Careers
+    {"name": "Internshala Blog", "url": "https://internshala.com/blog/feed/", "weight": 0.9},
+    {"name": "LetsIntern", "url": "https://www.letsintern.com/blog/feed/", "weight": 0.85},
+    {"name": "Naukri Campus", "url": "https://www.naukri.com/campus-recruitment-blog/feed", "weight": 0.85},
+    {"name": "LinkedIn Student Blog", "url": "https://blog.linkedin.com/topics/students/rss.xml", "weight": 0.8},
+    {"name": "Indeed Career Guide", "url": "https://www.indeed.com/career-advice/feed", "weight": 0.8},
+
+    # Mental Health & Wellness
+    {"name": "YourDOST Blog", "url": "https://www.yourdost.com/blog/feed/", "weight": 0.9},
+    {"name": "Manastha Blog", "url": "https://manastha.com/blog/feed/", "weight": 0.85},
+    {"name": "The Better India - Mental Health", "url": "https://www.thebetterindia.com/category/mental-health/feed/", "weight": 0.85},
+    {"name": "MindPeers Blog", "url": "https://mindpeers.co/blogs/news.atom", "weight": 0.8},
+
+    # Startups & Innovation
+    {"name": "YourStory - Campus", "url": "https://yourstory.com/feed", "weight": 0.9},
+    {"name": "Inc42 - Student Startups", "url": "https://inc42.com/feed/", "weight": 0.85},
+    {"name": "The Ken - Education", "url": "https://the-ken.com/feed/", "weight": 0.8},
+    {"name": "FactorDaily - Education", "url": "https://factordaily.com/feed/", "weight": 0.8},
+
+    # Global & Study Abroad
+    {"name": "BBC Education", "url": "http://feeds.bbci.co.uk/news/education/rss.xml", "weight": 0.85},
+    {"name": "Times Higher Education", "url": "https://www.timeshighereducation.com/rss", "weight": 0.85},
+    {"name": "Study International", "url": "https://www.studyinternational.com/feed/", "weight": 0.8},
+    {"name": "University World News", "url": "https://www.universityworldnews.com/rss.php", "weight": 0.8},
+    {"name": "QS Top Universities", "url": "https://www.qs.com/feed/", "weight": 0.8},
+    {"name": "The PIE News - Student Mobility", "url": "https://thepienews.com/feed/", "weight": 0.8},
+
+    # Scholarships
+    {"name": "Scholarships in India", "url": "https://www.scholarshipsinindia.com/feed/", "weight": 0.9},
+    {"name": "Buddy4Study Blog", "url": "https://www.buddy4study.com/blog/feed/", "weight": 0.85},
+    {"name": "DAAD India", "url": "https://www.daad.in/en/rss/", "weight": 0.8},
+
+    # Student Voices & Opinions
+    {"name": "Youth Ki Awaaz", "url": "https://www.youthkiawaaz.com/feed/", "weight": 0.9},
+    {"name": "The Wire Campus", "url": "https://thewire.in/category/education/feed", "weight": 0.85},
+    {"name": "ScoopWhoop - Education", "url": "https://www.scoopwhoop.com/education/feed/", "weight": 0.85},
+    {"name": "The Bastion - Education", "url": "https://thebastion.co.in/category/education/feed/", "weight": 0.8},
+
+    # Campus Life & Culture
+    {"name": "Campus Diaries", "url": "https://www.campusdiaries.com/feed/", "weight": 0.85},
+    {"name": "CollegeDekho Blog", "url": "https://www.collegedekho.com/blogs/feed/", "weight": 0.8},
+    {"name": "Shiksha Blog", "url": "https://www.shiksha.com/studyabroad/blog/feed", "weight": 0.8},
 ]
 
 CATEGORIES = [
-    "India",
-    "World",
-    "Politics",
-    "Technology",
-    "Business",
-    "Health",
-    "Environment",
-    "Sports",
-    "Culture"
+    "Exams & Results",
+    "Campus Life",
+    "Internships & Jobs",
+    "Scholarships",
+    "Mental Health",
+    "Student Startups",
+    "Education Policy",
+    "Student Protests",
+    "Study Abroad",
+    "Career Advice",
+    "Campus Events",
+    "Online Learning"
 ]
 
 TOP_N = 5
@@ -51,19 +116,20 @@ except Exception as e:
     logger.error(f"Failed to load AI models: {e}")
     exit(1)
 
-# === HELPER: Detect India-related content ===
-def is_india_related(text):
-    india_keywords = [
-        'india', 'indian', 'delhi', 'mumbai', 'bangalore', 'chennai', 'kolkata',
-        'modi', 'bjp', 'congress', 'aadhaar', 'upi', 'india gdp', 'india economy',
-        'supreme court india', 'india election', 'lok sabha', 'rajya sabha',
-        'india china', 'india pakistan', 'jammu', 'kashmir', 'gujarat', 'tamil nadu',
-        'bihar', 'uttar pradesh', 'maharashtra', 'karnataka', 'telangana', 'andhra',
-        'punjab', 'haryana', 'rajasthan', 'assam', 'bengal', 'odisha', 'kerela',
-        'indian rupee', 'rbi', 'sebi', 'nifty', 'sensex'
+# === HELPER: Detect Student-Related Content ===
+def is_student_related(text):
+    student_keywords = [
+        'student', 'students', 'college', 'university', 'campus', 'exam', 'exams', 'result', 'results',
+        'jee', 'neet', 'cat', 'gate', 'upsc', 'internship', 'internships', 'placement', 'placements',
+        'scholarship', 'scholarships', 'study abroad', 'study visa', 'mental health', 'anxiety', 'stress',
+        'startup', 'founder', 'entrepreneur', 'edtech', 'online class', 'attendance', 'fee hike', 'protest',
+        'hostel', 'mess', 'ragging', 'counselling', 'career', 'job', 'jobs', 'resume', 'cv', 'skill', 'skills',
+        'iit', 'nit', 'du', 'bhu', 'aiims', 'nda', 'nda exam', 'clat', 'cuet', 'board exam', 'cbse', 'icse',
+        'grade', 'grading', 'pass', 'fail', 'reappear', 'backlog', 'project', 'thesis', 'dissertation',
+        'study group', 'peer', 'mentor', 'teacher', 'professor', 'lecture', 'syllabus', 'curriculum'
     ]
     text_lower = text.lower()
-    for kw in india_keywords:
+    for kw in student_keywords:
         if kw in text_lower:
             return True
     return False
@@ -98,7 +164,7 @@ def is_debatable(text):
 
 def is_must_know(text):
     must_know_keywords = [
-        'new law', 'policy change', 'supreme court rules', 'election results',
+        'new law', 'policy change', 'supreme court rules', 'exam dates', 'admit card', 'result date',
         'major study', 'who should know', 'everyone needs to know', 'urgent',
         'critical', 'essential', 'what you need to know', 'implications',
         'long-term', 'affects everyone', 'national security', 'public health',
@@ -179,28 +245,31 @@ def fetch_articles():
 
 # === CLASSIFY ARTICLES ===
 def classify_articles(articles):
+    filtered_articles = []
     for article in articles:
         try:
-            if is_india_related(article["text_for_ai"]):
-                article["category"] = "India"
-                article["category_confidence"] = 1.0
-            else:
+            if is_student_related(article["text_for_ai"]):
                 result = classifier(article["text_for_ai"], CATEGORIES, multi_label=False)
                 article["category"] = result["labels"][0]
                 article["category_confidence"] = result["scores"][0]
 
-            # Tag with editorial dimensions
-            article["is_trending"] = is_trending(article["text_for_ai"])
-            article["is_debatable"] = is_debatable(article["text_for_ai"])
-            article["is_must_know"] = is_must_know(article["text_for_ai"])
+                # Tag with editorial dimensions
+                article["is_trending"] = is_trending(article["text_for_ai"])
+                article["is_debatable"] = is_debatable(article["text_for_ai"])
+                article["is_must_know"] = is_must_know(article["text_for_ai"])
+
+                filtered_articles.append(article)
+            else:
+                continue
         except Exception as e:
             logger.error(f"Classification failed for '{article['title']}': {e}")
-            article["category"] = "World"
+            article["category"] = "Campus Life"
             article["category_confidence"] = 0.5
             article["is_trending"] = False
             article["is_debatable"] = False
             article["is_must_know"] = False
-    return articles
+            filtered_articles.append(article)
+    return filtered_articles
 
 # === CALCULATE IMPORTANCE SCORE ===
 def calculate_score(article, now):
@@ -218,8 +287,8 @@ def calculate_score(article, now):
     # Confidence bonus
     score *= article["category_confidence"]
 
-    # 🇮🇳 India relevance boost
-    if is_india_related(article["text_for_ai"]):
+    # 🎓 Student relevance boost
+    if is_student_related(article["text_for_ai"]):
         score *= 1.5
 
     # 📈 Editorial dimension boosts
@@ -287,7 +356,7 @@ HTML_TEMPLATE = """
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiet.News - Timeless News for India</title>
+    <title>Student.News — Real News for Real Students</title>
     <style>
         /* === BASE === */
         body {
@@ -300,16 +369,12 @@ HTML_TEMPLATE = """
             line-height: 1.6;
         }
 
-        /* === STICKY HEADER === */
+        /* === HEADER === */
         .masthead {
             text-align: center;
-            padding: 20px 0;
+            padding: 40px 0;
             border-bottom: 1px solid #2c1e1e;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            background: #f8f4e9;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
         }
 
         .title {
@@ -323,10 +388,11 @@ HTML_TEMPLATE = """
         }
 
         .tagline {
-            font-size: 0.9rem;
+            font-size: 1.1rem;
             margin: 5px 0;
             color: #6b5c45;
             font-weight: normal;
+            font-style: italic;
         }
 
         .date {
@@ -436,42 +502,19 @@ HTML_TEMPLATE = """
 <body>
     <!-- === MASTHEAD === -->
     <div class="masthead">
-        <h1 class="title">Quite.News</h1>
-        <p class="tagline">HONOR • CLARITY • CALM.</p>
-        <p class="date">FRIDAY, {{ now.strftime('%A, %B %d, %Y') }}</p>
+        <h1 class="title">Student.News</h1>
+        <p class="tagline">Real news for real students. No fluff. No noise.</p>
+        <p class="date">{{ now.strftime('%A, %B %d, %Y') }}</p>
     </div>
 
     <!-- === QUOTE OF THE DAY === -->
     <div class="quote-of-the-day">
-        "The best way to predict the future is to create it."
+        "Education is not the filling of a pail, but the lighting of a fire." — W.B. Yeats
     </div>
 
-    <!-- === INDIA SECTION === -->
-    {% if categorized.get('India') and categorized['India'] %}
-        <div class="category-section">
-            <h2 class="category-title">INDIA</h2>
-            {% for article in categorized['India'] %}
-            <div class="article-card">
-                {% if article.image_url %}
-                    <img src="{{ article.image_url }}" alt="{{ article.title }}" style="width:100%; max-width:300px; height:auto; margin:10px 0; border-radius:4px;">
-                {% endif %}
-                <div class="article-title">{{ article.title }}</div>
-                <div class="article-summary">{{ article.summary }}</div>
-                <div class="meta">
-                    → {{ article.source }}
-                    {% if article.is_must_know %}<span class="tag must-know">Must-Know</span>{% endif %}
-                    {% if article.is_trending %}<span class="tag trending">Trending</span>{% endif %}
-                    {% if article.is_debatable %}<span class="tag debatable">Debatable</span>{% endif %}
-                </div>
-                <a href="{{ article.url }}" target="_blank">Read full →</a>
-            </div>
-            {% endfor %}
-        </div>
-    {% endif %}
-
-    <!-- === OTHER CATEGORIES === -->
+    <!-- === CATEGORIES === -->
     {% for category, articles in categorized.items() %}
-        {% if category != 'India' and articles|length > 0 %}
+        {% if articles|length > 0 %}
         <div class="category-section">
             <h2 class="category-title">{{ category }}</h2>
             {% for article in articles %}
@@ -505,7 +548,7 @@ def generate_html(categorized):
     template = Template(HTML_TEMPLATE)
     html = template.render(
         categorized=categorized,
-        now=datetime.utcnow()  # ✅ Pass 'now' to template
+        now=datetime.utcnow()
     )
     with open("index.html", "w", encoding="utf-8") as f:
         f.write(html)
@@ -513,19 +556,19 @@ def generate_html(categorized):
 
 # === MAIN EXECUTION ===
 if __name__ == "__main__":
-    logger.info("Starting automated news curator...")
+    logger.info("Starting automated student news curator...")
     articles = fetch_articles()
     if not articles:
         logger.error("No articles fetched. Exiting.")
         exit(1)
 
     articles = classify_articles(articles)
+    articles = deduplicate_articles(articles)
 
     now = datetime.utcnow()
     for article in articles:
         calculate_score(article, now)
 
-    articles = deduplicate_articles(articles)
     categorized = select_top_per_category(articles)
     generate_html(categorized)
-    logger.info("✅ Done. Website updated.")
+    logger.info("✅ Done. Student.News updated.")
