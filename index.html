@@ -9,8 +9,8 @@
         /* === BASE === */
         body {
             font-family: 'Georgia', 'Times New Roman', serif;
-            background: #f8f4e9; /* Warm cream */
-            color: #2c1e1e; /* Dark brown */
+            background: #f8f4e9;
+            color: #2c1e1e;
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
@@ -26,20 +26,18 @@
         }
 
         .title {
-            font-family: 'Old Standard TT', 'Times New Roman', serif;
+            font-family: 'Old Standard TT', serif;
             font-size: 3.2rem;
             font-weight: bold;
             letter-spacing: 2px;
             margin: 10px 0;
             color: #2c1e1e;
-            margin-bottom: 5px;
         }
 
         .tagline {
             font-size: 1.1rem;
             margin: 5px 0;
             color: #6b5c45;
-            font-weight: normal;
             font-style: italic;
         }
 
@@ -49,18 +47,18 @@
             color: #2c1e1e;
         }
 
-        /* === QUOTE OF THE DAY === */
+        /* === QUOTE === */
         .quote-of-the-day {
             font-style: italic;
             font-size: 1.2rem;
             color: #6b5c45;
             text-align: center;
             margin: 20px 0;
+            padding: 15px;
             border-top: 1px solid #ccc;
-            padding-top: 15px;
         }
 
-        /* === CATEGORY SECTION === */
+        /* === CATEGORY === */
         .category-section {
             margin: 40px 0;
         }
@@ -70,37 +68,37 @@
             font-weight: bold;
             margin: 0 0 20px;
             color: #2c1e1e;
-            border-bottom: 1px solid #ccc;
+            border-bottom: 2px solid #c9b89b;
             padding-bottom: 5px;
         }
 
         /* === ARTICLE CARD === */
         .article-card {
-            background: #fffaf2; /* Light cream */
+            background: #fffaf2;
             border: 1px solid #e0d5c1;
-            border-radius: 4px;
-            padding: 20px;
-            margin-bottom: 25px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
         }
 
         .article-title {
-            font-size: 1.3rem;
-            font-weight: normal;
-            margin: 0 0 10px;
-            line-height: 1.3;
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin: 0 0 12px;
             color: #222;
+            line-height: 1.3;
         }
 
         .article-summary {
-            font-size: 1rem;
+            font-size: 1.05rem;
             color: #444;
-            margin: 10px 0;
+            margin: 12px 0;
             text-align: justify;
         }
 
         .meta {
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             color: #7a6c5d;
             margin: 15px 0 10px;
             font-style: italic;
@@ -108,35 +106,37 @@
 
         .tag {
             display: inline-block;
-            padding: 3px 8px;
-            border-radius: 3px;
+            padding: 4px 10px;
+            border-radius: 4px;
             font-size: 0.8rem;
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin-right: 5px;
+            margin-right: 8px;
             color: white;
         }
 
-        .must-know { background: #8b0000; border: 1px solid #5a0000; }
-        .trending { background: #004080; border: 1px solid #00264d; }
-        .debatable { background: #b35900; border: 1px solid #7a3d00; }
+        .must-know { background: #8b0000; }
+        .trending { background: #004080; }
+        .debatable { background: #b35900; }
 
-        /* === LINK === */
         a {
             color: #004080;
             text-decoration: none;
             font-weight: bold;
-            border-bottom: 1px dotted #004080;
-            padding-bottom: 2px;
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 16px;
+            border: 2px solid #004080;
+            border-radius: 4px;
+            transition: all 0.2s;
         }
 
         a:hover {
-            color: #00264d;
-            border-bottom-style: solid;
+            background: #004080;
+            color: white;
         }
 
-        /* === FOOTER === */
         footer {
             margin-top: 60px;
             padding-top: 25px;
@@ -148,19 +148,16 @@
     </style>
 </head>
 <body>
-    <!-- === MASTHEAD === -->
     <div class="masthead">
         <h1 class="title">Student.News</h1>
         <p class="tagline">Real news for real students. No fluff. No noise.</p>
         <p class="date">Saturday, September 13, 2025</p>
     </div>
 
-    <!-- === QUOTE OF THE DAY === -->
     <div class="quote-of-the-day">
         "Education is not the filling of a pail, but the lighting of a fire." — W.B. Yeats
     </div>
 
-    <!-- === CATEGORIES === -->
     
         
         <div class="category-section">
@@ -168,104 +165,72 @@
             
             <div class="article-card">
                 
-                <div class="article-title">RBI fines PhonePe Rs 21 lakh for prepaid wallet compliance lapse</div>
-                <div class="article-summary">The RBI said its inspection of PhonePe’s operations between October 2023 and December 2024 revealed that the company’s escrow account balance fell short of the value of outstanding wallets and payments due to merchants on certain days.</div>
+                <h3 class="article-title">RBI fines PhonePe Rs 21 lakh for prepaid wallet compliance lapse</h3>
+                <p class="article-summary">The RBI said its inspection of PhonePe’s operations between October 2023 and December 2024 revealed that the company’s escrow account balance fell short of the value of outstanding wallets and payments due to merchants on certain days.</p>
                 <div class="meta">
-                    → YourStory - Campus
+                    <em>Source: YourStory - Campus</em>
                     
                     
                     
                 </div>
-                <a href="https://yourstory.com/2025/09/rbi-fines-phonepe-rs-21-lakh-compliance-lapse" target="_blank">Read full →</a>
+                <a href="https://yourstory.com/2025/09/rbi-fines-phonepe-rs-21-lakh-compliance-lapse" target="_blank">📚 Read Full Article</a>
             </div>
             
             <div class="article-card">
                 
-                <div class="article-title">This healtech startup is managing progressive conditions like Parkinson’s disease with deeptech</div>
-                <div class="article-summary">Mumbai-based Lifespark Technologies is creating and manufacturing in-house products to mitigate mobility problems of people diagnosed with various neurological disorders.</div>
+                <h3 class="article-title">IPO-Bound Turtlemint Slips Into Red, Post INR 47 Cr Loss In FY25</h3>
+                <p class="article-summary"><img alt="" class="webfeedsFeaturedVisual wp-post-image" height="1020" src="https://inc42.com/cdn-cgi/image/quality=75/https://asset.inc42.com/2025/09/Turtlemint-ftr.jpg" style="display: block; margin: auto; margin-bottom: 5px;" width="1360" />In the run-up to its IPO, Turtlemint&#8217;s insuranc...</p>
                 <div class="meta">
-                    → YourStory - Campus
+                    <em>Source: Inc42 - Student Startups</em>
                     
                     
                     
                 </div>
-                <a href="https://yourstory.com/2025/09/this-healtech-startup-is-managing-progressive-conditions-with-deeptech" target="_blank">Read full →</a>
+                <a href="https://inc42.com/buzz/ipo-bound-turtlemint-slips-into-red-post-inr-47-cr-loss-in-fy25/" target="_blank">📚 Read Full Article</a>
             </div>
             
             <div class="article-card">
                 
-                <div class="article-title">[Weekly funding roundup Sept 6-12] VC inflow continues to remain muted</div>
-                <div class="article-summary">Venture capital funding into Indian startups continues to remain in the lower ranges, and this is largely due to the lower number of deals each week.</div>
+                <h3 class="article-title">This healtech startup is managing progressive conditions like Parkinson’s disease with deeptech</h3>
+                <p class="article-summary">Mumbai-based Lifespark Technologies is creating and manufacturing in-house products to mitigate mobility problems of people diagnosed with various neurological disorders.</p>
                 <div class="meta">
-                    → YourStory - Campus
+                    <em>Source: YourStory - Campus</em>
                     
                     
                     
                 </div>
-                <a href="https://yourstory.com/2025/09/weekly-funding-roundup-sept-6-12-vc-inflow-continues-muted-investors" target="_blank">Read full →</a>
+                <a href="https://yourstory.com/2025/09/this-healtech-startup-is-managing-progressive-conditions-with-deeptech" target="_blank">📚 Read Full Article</a>
             </div>
             
             <div class="article-card">
                 
-                <div class="article-title">InsuranceDekho Slips Into The Red In FY25 Despite 73% Top Line Growth</div>
-                <div class="article-summary"><img alt="" class="webfeedsFeaturedVisual wp-post-image" height="1020" src="https://inc42.com/cdn-cgi/image/quality=75/https://asset.inc42.com/2025/09/InsuranceDekho-FY25-ftr.jpg" style="display: block; margin: auto; margin-bottom: 5px;" width="1360" />Insurtech startup InsuranceDekho slipped int...</div>
+                <h3 class="article-title">[Weekly funding roundup Sept 6-12] VC inflow continues to remain muted</h3>
+                <p class="article-summary">Venture capital funding into Indian startups continues to remain in the lower ranges, and this is largely due to the lower number of deals each week.</p>
                 <div class="meta">
-                    → Inc42 - Student Startups
+                    <em>Source: YourStory - Campus</em>
                     
                     
                     
                 </div>
-                <a href="https://inc42.com/buzz/insurancedekho-slips-into-red-posts-inr-47-5-cr-loss-in-fy25/" target="_blank">Read full →</a>
+                <a href="https://yourstory.com/2025/09/weekly-funding-roundup-sept-6-12-vc-inflow-continues-muted-investors" target="_blank">📚 Read Full Article</a>
             </div>
             
             <div class="article-card">
                 
-                <div class="article-title">Mintifi’s FY25 Profit Surges 56% To INR 145 Cr</div>
-                <div class="article-summary"><img alt="" class="webfeedsFeaturedVisual wp-post-image" height="1020" src="https://inc42.com/cdn-cgi/image/quality=75/https://asset.inc42.com/2025/09/Mintifi-ftr.jpg" style="display: block; margin: auto; margin-bottom: 5px;" width="1360" />Fintech startup Mintifi’s (Minitifi Pvt Ltd) consolidate...</div>
+                <h3 class="article-title">InsuranceDekho Slips Into The Red In FY25 Despite 73% Top Line Growth</h3>
+                <p class="article-summary"><img alt="" class="webfeedsFeaturedVisual wp-post-image" height="1020" src="https://inc42.com/cdn-cgi/image/quality=75/https://asset.inc42.com/2025/09/InsuranceDekho-FY25-ftr.jpg" style="display: block; margin: auto; margin-bottom: 5px;" width="1360" />Insurtech startup InsuranceDekho slipped int...</p>
                 <div class="meta">
-                    → Inc42 - Student Startups
+                    <em>Source: Inc42 - Student Startups</em>
                     
                     
                     
                 </div>
-                <a href="https://inc42.com/buzz/mintifis-fy25-profit-surges-56-to-inr-145-cr/" target="_blank">Read full →</a>
+                <a href="https://inc42.com/buzz/insurancedekho-slips-into-red-posts-inr-47-5-cr-loss-in-fy25/" target="_blank">📚 Read Full Article</a>
             </div>
             
         </div>
         
     
-        
-        <div class="category-section">
-            <h2 class="category-title">Campus Life</h2>
-            
-            <div class="article-card">
-                
-                <div class="article-title">What I wish I'd known: Four students on life as a fresher</div>
-                <div class="article-summary">Four second year students give their advice on starting uni to this year's freshers.</div>
-                <div class="meta">
-                    → BBC Education
-                    
-                    
-                    
-                </div>
-                <a href="https://www.bbc.com/news/articles/ce801vd85q0o?at_medium=RSS&at_campaign=rss" target="_blank">Read full →</a>
-            </div>
-            
-            <div class="article-card">
-                
-                <div class="article-title">Spotlight on… South East Technological University</div>
-                <div class="article-summary"><p>Ahead of The PIE Live Ireland in October, we sat down with South East Technological University to talk about what sets Ireland’s first technological university apart, why they’re excited to be part of the conference, and the one thing no visitor to Ireland should miss.</p>
-<p>The post <a href=...</div>
-                <div class="meta">
-                    → The PIE News - Student Mobility
-                    
-                    
-                    <span class="tag debatable">Debatable</span>
-                </div>
-                <a href="https://thepienews.com/spotlight-on-south-east-technological-university/" target="_blank">Read full →</a>
-            </div>
-            
-        </div>
         
     
         
@@ -274,55 +239,41 @@
             
             <div class="article-card">
                 
-                <div class="article-title">Cost to Hire a Web Developer in India: 2025 Pricing Guide</div>
-                <div class="article-summary"><p>Hiring a skilled web developer in India can be a game-changing move for businesses seeking high-quality development without incurring significant costs. The job market in India is known for its</p>
-<p>The post <a href="https://internshala.com/blog/employer-cost-to-hire-a-web-developer/">Cost t...</div>
+                <h3 class="article-title">Cost to Hire a Web Developer in India: 2025 Pricing Guide</h3>
+                <p class="article-summary"><p>Hiring a skilled web developer in India can be a game-changing move for businesses seeking high-quality development without incurring significant costs. The job market in India is known for its</p> <p>The post <a href="https://internshala.com/blog/employer-cost-to-hire-a-web-developer/">Cost t...</p>
                 <div class="meta">
-                    → Internshala Blog
+                    <em>Source: Internshala Blog</em>
                     
                     
                     
                 </div>
-                <a href="https://internshala.com/blog/employer-cost-to-hire-a-web-developer/" target="_blank">Read full →</a>
+                <a href="https://internshala.com/blog/employer-cost-to-hire-a-web-developer/" target="_blank">📚 Read Full Article</a>
             </div>
             
             <div class="article-card">
                 
-                <div class="article-title">Family offices are rethinking succession as millennials prioritise impact over wealth preservation</div>
-                <div class="article-summary">Succession, in this evolving narrative, is not only about relinquishing control or wealth transfer to the next generation; it is also about renewing purpose. Wealth is no longer merely preserved; it is actively deployed as a catalyst for impact.</div>
+                <h3 class="article-title">Family offices are rethinking succession as millennials prioritise impact over wealth preservation</h3>
+                <p class="article-summary">Succession, in this evolving narrative, is not only about relinquishing control or wealth transfer to the next generation; it is also about renewing purpose. Wealth is no longer merely preserved; it is actively deployed as a catalyst for impact.</p>
                 <div class="meta">
-                    → YourStory - Campus
+                    <em>Source: YourStory - Campus</em>
                     
                     
                     
                 </div>
-                <a href="https://yourstory.com/2025/09/family-offices-are-rethinking-succession-as-millennials-impact-wealth" target="_blank">Read full →</a>
+                <a href="https://yourstory.com/2025/09/family-offices-are-rethinking-succession-as-millennials-impact-wealth" target="_blank">📚 Read Full Article</a>
             </div>
             
             <div class="article-card">
                 
-                <div class="article-title">Can PW Redeem Indian Edtech, Zupee Axes 170 Jobs & More</div>
-                <div class="article-summary"><img alt="Can PW Redeem Indian Edtech, Zupee Axes 170 Jobs &amp; More" class="webfeedsFeaturedVisual wp-post-image" height="1020" src="https://inc42.com/cdn-cgi/image/quality=75/https://asset.inc42.com/2025/09/FTR-Daily-Brief-98.png" style="display: block; margin: auto; margin-bottom: 5px;" width...</div>
+                <h3 class="article-title">Can PW Redeem Indian Edtech, Zupee Axes 170 Jobs & More</h3>
+                <p class="article-summary"><img alt="Can PW Redeem Indian Edtech, Zupee Axes 170 Jobs &amp; More" class="webfeedsFeaturedVisual wp-post-image" height="1020" src="https://inc42.com/cdn-cgi/image/quality=75/https://asset.inc42.com/2025/09/FTR-Daily-Brief-98.png" style="display: block; margin: auto; margin-bottom: 5px;" width...</p>
                 <div class="meta">
-                    → Inc42 - Student Startups
+                    <em>Source: Inc42 - Student Startups</em>
                     
                     
                     
                 </div>
-                <a href="https://inc42.com/buzz/can-pw-redeem-indian-edtech-zupee-axes-170-jobs-more/" target="_blank">Read full →</a>
-            </div>
-            
-            <div class="article-card">
-                
-                <div class="article-title">‘MBA is for people who can’t build’: This co-founder proved critics wrong</div>
-                <div class="article-summary">See how he turned criticism into startup fuel.</div>
-                <div class="meta">
-                    → Study International
-                    
-                    
-                    <span class="tag debatable">Debatable</span>
-                </div>
-                <a href="https://studyinternational.com/news/mba-unfair-advantage-co-founder/" target="_blank">Read full →</a>
+                <a href="https://inc42.com/buzz/can-pw-redeem-indian-edtech-zupee-axes-170-jobs-more/" target="_blank">📚 Read Full Article</a>
             </div>
             
         </div>
@@ -338,28 +289,15 @@
             
             <div class="article-card">
                 
-                <div class="article-title">Startups, young researchers must work to make India global hub of green hydrogen innovation: Union Minister Naik</div>
-                <div class="article-summary">About the National Green Hydrogen Mission, the minister said that the initiative is about more than clean energy, it is about economic growth, industrial competitiveness, and environmental responsibility.</div>
+                <h3 class="article-title">RBI Fines IPO-Bound PhonePe For Flouting PPI Norms</h3>
+                <p class="article-summary"><img alt="" class="webfeedsFeaturedVisual wp-post-image" height="1020" src="https://inc42.com/cdn-cgi/image/quality=75/https://asset.inc42.com/2025/02/phonePe-SL-featured-1.png" style="display: block; margin: auto; margin-bottom: 5px;" width="1360" />The Reserve Bank of India (RBI) has imposed a ...</p>
                 <div class="meta">
-                    → YourStory - Campus
-                    
-                    
-                    <span class="tag debatable">Debatable</span>
-                </div>
-                <a href="https://yourstory.com/2025/09/startups-young-researchers-must-work-to-make-india-global-hub-of-green-hydrogen-innovation-naik" target="_blank">Read full →</a>
-            </div>
-            
-            <div class="article-card">
-                
-                <div class="article-title">More school-starters missing key skills like toilet training, teachers say</div>
-                <div class="article-summary">Teaching unions say schools are "picking up the pieces" as more children are starting reception without key skills.</div>
-                <div class="meta">
-                    → BBC Education
+                    <em>Source: Inc42 - Student Startups</em>
                     
                     
                     
                 </div>
-                <a href="https://www.bbc.com/news/articles/cy85pwg3dyjo?at_medium=RSS&at_campaign=rss" target="_blank">Read full →</a>
+                <a href="https://inc42.com/buzz/rbi-fines-ipo-bound-phonepe-for-flouting-ppi-norms/" target="_blank">📚 Read Full Article</a>
             </div>
             
         </div>
@@ -371,72 +309,32 @@
             
             <div class="article-card">
                 
-                    <img src="https://static.toiimg.com/photo/msid-123830656,imgsize-97189.cms" alt="US student loan crisis: What Gen Z needs to know before signing up" style="width:100%; max-width:300px; height:auto; margin:10px 0; border-radius:4px;">
+                    <img src="https://static.toiimg.com/photo/msid-123830656,imgsize-97189.cms" alt="US student loan crisis: What Gen Z needs to know before signing up" style="width:100%; max-width:400px; height:auto; margin:15px 0; border-radius:8px;">
                 
-                <div class="article-title">US student loan crisis: What Gen Z needs to know before signing up</div>
-                <div class="article-summary"><img align="left" border="0" hspace="10" src="https://timesofindia.indiatimes.com/photo/123809468.cms" style="margin-top: 3px; margin-right: 5px;" />The US student loan crisis, exceeding $1.7 trillion, significantly impacts Gen Z, who face rising tuition costs and potential debt traps. Careful pl...</div>
+                <h3 class="article-title">US student loan crisis: What Gen Z needs to know before signing up</h3>
+                <p class="article-summary"><img align="left" border="0" hspace="10" src="https://timesofindia.indiatimes.com/photo/123809468.cms" style="margin-top: 3px; margin-right: 5px;" />The US student loan crisis, exceeding $1.7 trillion, significantly impacts Gen Z, who face rising tuition costs and potential debt traps. Careful pl...</p>
                 <div class="meta">
-                    → Times of India - Education
+                    <em>Source: Times of India - Education</em>
                     
                     
                     
                 </div>
-                <a href="https://timesofindia.indiatimes.com/education/news/us-student-loan-crisis-what-gen-z-needs-to-know-before-signing-up/articleshow/123809468.cms" target="_blank">Read full →</a>
+                <a href="https://timesofindia.indiatimes.com/education/news/us-student-loan-crisis-what-gen-z-needs-to-know-before-signing-up/articleshow/123809468.cms" target="_blank">📚 Read Full Article</a>
             </div>
             
             <div class="article-card">
                 
-                    <img src="https://static.toiimg.com/photo/msid-123830465,imgsize-120262.cms" alt="US kids are learning math in the metaverse: Here's how new education trend is unfolding" style="width:100%; max-width:300px; height:auto; margin:10px 0; border-radius:4px;">
+                    <img src="https://static.toiimg.com/photo/msid-123830465,imgsize-120262.cms" alt="US kids are learning math in the metaverse: Here's how new education trend is unfolding" style="width:100%; max-width:400px; height:auto; margin:15px 0; border-radius:8px;">
                 
-                <div class="article-title">US kids are learning math in the metaverse: Here's how new education trend is unfolding</div>
-                <div class="article-summary"><img align="left" border="0" hspace="10" src="https://timesofindia.indiatimes.com/photo/123784584.cms" style="margin-top: 3px; margin-right: 5px;" />Educators across the U.S. are embracing metaverse environments, particularly VR, to revolutionise math education. Students in Georgia are grasping c...</div>
+                <h3 class="article-title">US kids are learning math in the metaverse: Here's how new education trend is unfolding</h3>
+                <p class="article-summary"><img align="left" border="0" hspace="10" src="https://timesofindia.indiatimes.com/photo/123784584.cms" style="margin-top: 3px; margin-right: 5px;" />Educators across the U.S. are embracing metaverse environments, particularly VR, to revolutionise math education. Students in Georgia are grasping c...</p>
                 <div class="meta">
-                    → Times of India - Education
+                    <em>Source: Times of India - Education</em>
                     
                     
                     
                 </div>
-                <a href="https://timesofindia.indiatimes.com/education/news/us-kids-are-learning-math-in-the-metaverse-heres-how-new-education-trend-is-unfolding/articleshow/123784584.cms" target="_blank">Read full →</a>
-            </div>
-            
-            <div class="article-card">
-                
-                <div class="article-title">ATEC to provide long-term stewardship and shape international education growth</div>
-                <div class="article-summary"><p>In Australia, ministers have detailed how the new Tertiary Education Commission will steer higher education reform, balancing domestic priorities with international growth.</p>
-<p>The post <a href="https://thepienews.com/atec-to-provide-long-term-stewardship-and-shape-international-education-g...</div>
-                <div class="meta">
-                    → The PIE News - Student Mobility
-                    <span class="tag must-know">Must-Know</span>
-                    
-                    
-                </div>
-                <a href="https://thepienews.com/atec-to-provide-long-term-stewardship-and-shape-international-education-growth/" target="_blank">Read full →</a>
-            </div>
-            
-            <div class="article-card">
-                
-                <div class="article-title">Reimagining education finance with real-time payments, stablecoins, and blockchain</div>
-                <div class="article-summary"><p>Managing tuition and fee payments from international students has long been a complex, costly, and time-consuming process for educational institutions. These challenges continue to expand as global student mobility increases, however, three emerging financial technologies are poised to simplif...</div>
-                <div class="meta">
-                    → The PIE News - Student Mobility
-                    
-                    
-                    
-                </div>
-                <a href="https://thepienews.com/reimagining-education-finance-with-real-time-payments-stablecoins-and-blockchain/" target="_blank">Read full →</a>
-            </div>
-            
-            <div class="article-card">
-                
-                <div class="article-title">Leeds Conservatoire: A forward-thinking music and performing arts education</div>
-                <div class="article-summary">From niche creative arts programmes to holistic wellbeing support for students — no arts institution is doing it quite like Leeds Conservatoire.</div>
-                <div class="meta">
-                    → Study International
-                    
-                    
-                    
-                </div>
-                <a href="https://studyinternational.com/news/leeds-conservatoire-a-forward-thinking-music-and-performing-arts-education/" target="_blank">Read full →</a>
+                <a href="https://timesofindia.indiatimes.com/education/news/us-kids-are-learning-math-in-the-metaverse-heres-how-new-education-trend-is-unfolding/articleshow/123784584.cms" target="_blank">📚 Read Full Article</a>
             </div>
             
         </div>
@@ -450,104 +348,72 @@
             
             <div class="article-card">
                 
-                <div class="article-title">From the US to Italy: A first-generation college student’s journey through the unknown</div>
-                <div class="article-summary">Tyler Butler now holds two degrees.</div>
+                <h3 class="article-title">Prosus bets on India AI startups; Inside the journey of Parnika India</h3>
+                <p class="article-summary">Prosus is navigating the artificial intelligence landscape in India. Parnika India supplies women’s ethnic wear to retailers and resellers across India. Vivek Oberoi reflects on his journey in social impact.</p>
                 <div class="meta">
-                    → Study International
+                    <em>Source: YourStory - Campus</em>
                     
                     
                     
                 </div>
-                <a href="https://studyinternational.com/news/first-generation-college-student/" target="_blank">Read full →</a>
+                <a href="https://yourstory.com/2025/09/prosus-bets-india-ai-startups-inside-journey-parnika-india" target="_blank">📚 Read Full Article</a>
             </div>
             
             <div class="article-card">
                 
-                <div class="article-title">Prosus bets on India AI startups; Inside the journey of Parnika India</div>
-                <div class="article-summary">Prosus is navigating the artificial intelligence landscape in India. Parnika India supplies women’s ethnic wear to retailers and resellers across India. Vivek Oberoi reflects on his journey in social impact.</div>
+                <h3 class="article-title">FY25 Financial Tracker: Tracking The Financial Performance Of Indian Startups</h3>
+                <p class="article-summary"><img alt="" class="webfeedsFeaturedVisual wp-post-image" height="1020" src="https://inc42.com/cdn-cgi/image/quality=75/https://asset.inc42.com/2025/09/Financial-Tracker-FY25_FTR.jpg" style="display: block; margin: auto; margin-bottom: 5px;" width="1360" />The Indian startup ecosystem has witnesse...</p>
                 <div class="meta">
-                    → YourStory - Campus
+                    <em>Source: Inc42 - Student Startups</em>
                     
                     
                     
                 </div>
-                <a href="https://yourstory.com/2025/09/prosus-bets-india-ai-startups-inside-journey-parnika-india" target="_blank">Read full →</a>
+                <a href="https://inc42.com/features/fy25-financial-tracker-tracking-the-financial-performance-of-indian-startups/" target="_blank">📚 Read Full Article</a>
             </div>
             
             <div class="article-card">
                 
-                <div class="article-title">FY25 Financial Tracker: Tracking The Financial Performance Of Indian Startups</div>
-                <div class="article-summary"><img alt="" class="webfeedsFeaturedVisual wp-post-image" height="1020" src="https://inc42.com/cdn-cgi/image/quality=75/https://asset.inc42.com/2025/09/Financial-Tracker-FY25_FTR.jpg" style="display: block; margin: auto; margin-bottom: 5px;" width="1360" />The Indian startup ecosystem has witnesse...</div>
+                <h3 class="article-title">SEBI Eases IPO, Minimum Public Shareholding Norms For Large Companies</h3>
+                <p class="article-summary"><img alt="SEBI Eases IPO, Minimum Public Shareholding Norms For Large Companies" class="webfeedsFeaturedVisual wp-post-image" height="1020" src="https://inc42.com/cdn-cgi/image/quality=75/https://asset.inc42.com/2025/05/SEBI-FO-featured.jpeg" style="display: block; margin: auto; margin-bottom: 5p...</p>
                 <div class="meta">
-                    → Inc42 - Student Startups
+                    <em>Source: Inc42 - Student Startups</em>
                     
                     
                     
                 </div>
-                <a href="https://inc42.com/features/fy25-financial-tracker-tracking-the-financial-performance-of-indian-startups/" target="_blank">Read full →</a>
+                <a href="https://inc42.com/buzz/sebi-eases-ipo-minimum-public-shareholding-norms-for-large-companies/" target="_blank">📚 Read Full Article</a>
             </div>
             
             <div class="article-card">
                 
-                <div class="article-title">Astrotalk Plans Offline Stores: Inside Astrology Giant’s Big Bet Before IPO</div>
-                <div class="article-summary"><img alt="" class="webfeedsFeaturedVisual wp-post-image" height="1020" src="https://inc42.com/cdn-cgi/image/quality=75/https://asset.inc42.com/2025/09/Astrotalk-ftr.jpg" style="display: block; margin: auto; margin-bottom: 5px;" width="1360" />India’s passion for celestial bodies goes back thousan...</div>
+                <h3 class="article-title">From Flipspaces To Indrajaal — Indian Startups Raised $48 Mn This Week</h3>
+                <p class="article-summary"><img alt="From Flipspaces To Indrajaal — Indian Startups Raised $48 Mn This Week" class="webfeedsFeaturedVisual wp-post-image" height="1020" src="https://inc42.com/cdn-cgi/image/quality=75/https://asset.inc42.com/2025/09/Funding-Galore-Sep_Ftr.jpg" style="display: block; margin: auto; margin-bott...</p>
                 <div class="meta">
-                    → Inc42 - Student Startups
+                    <em>Source: Inc42 - Student Startups</em>
                     
                     
                     
                 </div>
-                <a href="https://inc42.com/features/astrotalk-plans-offline-stores-inside-astrology-giants-big-bet-before-ipo/" target="_blank">Read full →</a>
+                <a href="https://inc42.com/buzz/from-flipspaces-to-indrajaal-indian-startups-raised-48-mn-this-week/" target="_blank">📚 Read Full Article</a>
             </div>
             
             <div class="article-card">
                 
-                <div class="article-title">Segal recognised for outstanding contribution to the industry award</div>
-                <div class="article-summary"><p>Awarded the outstanding contribution to the industry award 2025, Keith Segal reflects on the challenges and successes of the past 30 years in international education, and pays tribute to the dedicated staff who have stood alongside him on this journey. </p>
-<p>The post <a href="https://thepien...</div>
+                <h3 class="article-title">Startup news and updates: Daily roundup (September 12, 2025)</h3>
+                <p class="article-summary">YourStory presents the news roundup from the Indian startup ecosystem and beyond. Here's the roundup for Friday, September 12, 2025.</p>
                 <div class="meta">
-                    → The PIE News - Student Mobility
+                    <em>Source: YourStory - Campus</em>
                     
                     
                     
                 </div>
-                <a href="https://thepienews.com/segal-recognised-for-outstanding-contribution-to-the-industry-award/" target="_blank">Read full →</a>
+                <a href="https://yourstory.com/2025/09/startup-news-updates-daily-roundup-september-12-2025" target="_blank">📚 Read Full Article</a>
             </div>
             
         </div>
         
     
-        
-        <div class="category-section">
-            <h2 class="category-title">Career Advice</h2>
-            
-            <div class="article-card">
-                
-                <div class="article-title">[INTERACTIVE CONTENT] Management and Science University: Turn your creativity into a career at Management and Science University</div>
-                <div class="article-summary">Management and Science University in Malaysia offers, global internships, industry-focused creative programmes, and most importantly, 99% employability.</div>
-                <div class="meta">
-                    → Study International
-                    
-                    
-                    
-                </div>
-                <a href="https://studyinternational.com/news/turn-your-creativity-into-a-career-at-management-and-science-university/" target="_blank">Read full →</a>
-            </div>
-            
-            <div class="article-card">
-                
-                <div class="article-title">Kelley School of Business: Where business meets data science</div>
-                <div class="article-summary">Get ready for the future of work with Kelley School of Business’s STEM-designated BIDS degree. It gives you the tools and skills to stand out from day one.</div>
-                <div class="meta">
-                    → Study International
-                    
-                    
-                    
-                </div>
-                <a href="https://studyinternational.com/news/kelley-school-of-business-where-business-meets-data-science/" target="_blank">Read full →</a>
-            </div>
-            
-        </div>
         
     
         
@@ -556,15 +422,15 @@
             
             <div class="article-card">
                 
-                <div class="article-title">Bihar Idea Festival: 25,000 Startup Ideas, Bold Policies, and Promises of a New Bihar</div>
-                <div class="article-summary">The Bihar Idea Festival, launched two months ago by YourStory in partnership with the Bihar Industries Department and CIMP, reached its grand finale</div>
+                <h3 class="article-title">Bihar Idea Festival: 25,000 Startup Ideas, Bold Policies, and Promises of a New Bihar</h3>
+                <p class="article-summary">The Bihar Idea Festival, launched two months ago by YourStory in partnership with the Bihar Industries Department and CIMP, reached its grand finale</p>
                 <div class="meta">
-                    → YourStory - Campus
+                    <em>Source: YourStory - Campus</em>
                     
                     
                     
                 </div>
-                <a href="https://yourstory.com/2025/09/bihar-bihar-idea-festival-2025-25000-startup-ideas" target="_blank">Read full →</a>
+                <a href="https://yourstory.com/2025/09/bihar-bihar-idea-festival-2025-25000-startup-ideas" target="_blank">📚 Read Full Article</a>
             </div>
             
         </div>
@@ -576,41 +442,67 @@
             
             <div class="article-card">
                 
-                <div class="article-title">With AINA, Infinity Learn pushes the boundaries of AI-led mentorship to drive real learning outcomes</div>
-                <div class="article-summary">Over the past decade, India’s edtech sector has gone from an emerging curiosity to a multi-billion-dollar force shaping the future of education</div>
+                <h3 class="article-title">With AINA, Infinity Learn pushes the boundaries of AI-led mentorship to drive real learning outcomes</h3>
+                <p class="article-summary">Over the past decade, India’s edtech sector has gone from an emerging curiosity to a multi-billion-dollar force shaping the future of education</p>
                 <div class="meta">
-                    → YourStory - Campus
+                    <em>Source: YourStory - Campus</em>
                     
                     
                     
                 </div>
-                <a href="https://yourstory.com/2025/09/with-aina-infinity-learn-pushes-ai-led-mentorship-boundaries" target="_blank">Read full →</a>
+                <a href="https://yourstory.com/2025/09/with-aina-infinity-learn-pushes-ai-led-mentorship-boundaries" target="_blank">📚 Read Full Article</a>
             </div>
             
             <div class="article-card">
                 
-                <div class="article-title">West Bengal | Abhishek spreads his wings</div>
-                <div class="article-summary"><a href="https://www.indiatoday.in/magazine/nation/story/20250922-west-bengal-abhishek-spreads-his-wings-2786201-2025-09-12"> <img align="left" alt="" border="0" height="180" hspace="2" src="https://akm-img-a-in.tosshub.com/indiatoday/images/story/202509/abhishek-banerjee-122711978-16x9_0.jpg?Ver...</div>
+                <h3 class="article-title">Marico To Take 100% Control Of True Elements With Additional 46% Stake Buy</h3>
+                <p class="article-summary"><img alt="Marico To Take 100% Control Of True Elements With Additional 46% Stake Buy" class="webfeedsFeaturedVisual wp-post-image" height="1020" src="https://inc42.com/cdn-cgi/image/quality=75/https://asset.inc42.com/2024/10/marico-D2c-featured-1.png" style="display: block; margin: auto; margin-b...</p>
                 <div class="meta">
-                    → India Today - Education
+                    <em>Source: Inc42 - Student Startups</em>
                     
                     
                     
                 </div>
-                <a href="https://www.indiatoday.in/magazine/nation/story/20250922-west-bengal-abhishek-spreads-his-wings-2786201-2025-09-12?utm_source=rss" target="_blank">Read full →</a>
+                <a href="https://inc42.com/buzz/marico-to-take-100-control-of-true-elements-with-additional-46-stake-buy/" target="_blank">📚 Read Full Article</a>
             </div>
             
             <div class="article-card">
                 
-                <div class="article-title">Centre Launches INR 100 Cr Scheme To Back Green Hydrogen Startups</div>
-                <div class="article-summary"><img alt="Govt Unveils INR 100 Cr Sops To Back Green Hydrogen Startups" class="webfeedsFeaturedVisual wp-post-image" height="1020" src="https://inc42.com/cdn-cgi/image/quality=75/https://asset.inc42.com/2025/09/green-hyd-scheme-featured.png" style="display: block; margin: auto; margin-bottom: 5px...</div>
+                <h3 class="article-title">How Wastelink Is Solving Food Waste Crisis By Turning Surplus Into Animal Feed</h3>
+                <p class="article-summary"><img alt="Wastelink- Early stage profile" class="webfeedsFeaturedVisual wp-post-image" height="1020" src="https://inc42.com/cdn-cgi/image/quality=75/https://asset.inc42.com/2025/09/Wastelink-early-stage_ftr.jpg" style="display: block; margin: auto; margin-bottom: 5px;" width="1360" />Whatever we ...</p>
                 <div class="meta">
-                    → Inc42 - Student Startups
+                    <em>Source: Inc42 - Student Startups</em>
                     
                     
                     
                 </div>
-                <a href="https://inc42.com/buzz/centre-launches-inr-100-cr-scheme-to-back-green-hydrogen-startups/" target="_blank">Read full →</a>
+                <a href="https://inc42.com/startups/how-wastelink-is-solving-food-wastage-plight-by-turning-surplus-into-animal-feed/" target="_blank">📚 Read Full Article</a>
+            </div>
+            
+            <div class="article-card">
+                
+                <h3 class="article-title">World Bank’s IFC To Infuse $37 Mn In GreenCell Mobility</h3>
+                <p class="article-summary"><img alt="World Bank’s IFC To Infuse $37 Mn In GreenCell Mobility" class="webfeedsFeaturedVisual wp-post-image" height="1020" src="https://inc42.com/cdn-cgi/image/quality=75/https://asset.inc42.com/2025/09/greencell-funding-featured.png" style="display: block; margin: auto; margin-bottom: 5px;" w...</p>
+                <div class="meta">
+                    <em>Source: Inc42 - Student Startups</em>
+                    
+                    
+                    
+                </div>
+                <a href="https://inc42.com/buzz/world-banks-ifc-to-infuse-37-mn-in-greencell-mobility/" target="_blank">📚 Read Full Article</a>
+            </div>
+            
+            <div class="article-card">
+                
+                <h3 class="article-title">K’taka HC Directs Tax Dept To Refund INR 16.11 Cr To Flipkart</h3>
+                <p class="article-summary"><img alt="K’taka HC Directs Tax Dept To Refund INR 16.11 Cr To Flipkart" class="webfeedsFeaturedVisual wp-post-image" height="1020" src="https://inc42.com/cdn-cgi/image/quality=75/https://asset.inc42.com/2025/09/flipkart-taxes-featured.png" style="display: block; margin: auto; margin-bottom: 5px;...</p>
+                <div class="meta">
+                    <em>Source: Inc42 - Student Startups</em>
+                    
+                    
+                    
+                </div>
+                <a href="https://inc42.com/buzz/ktaka-hc-directs-tax-dept-to-refund-inr-16-11-cr-to-flipkart/" target="_blank">📚 Read Full Article</a>
             </div>
             
         </div>
@@ -618,7 +510,7 @@
     
 
     <footer>
-        <p>Curated and updated automatically • Saturday, September 13, 2025</p>
+        <p>Curated for Indian students • Updated: Saturday, September 13, 2025</p>
     </footer>
 </body>
 </html>
