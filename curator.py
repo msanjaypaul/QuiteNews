@@ -59,14 +59,6 @@ SOURCES = [
     {"name": "The Ken - Education", "url": "https://the-ken.com/feed/", "weight": 0.8},
     {"name": "FactorDaily - Education", "url": "https://factordaily.com/feed/", "weight": 0.8},
 
-    # Global & Study Abroad
-    {"name": "BBC Education", "url": "http://feeds.bbci.co.uk/news/education/rss.xml", "weight": 0.85},
-    {"name": "Times Higher Education", "url": "https://www.timeshighereducation.com/rss", "weight": 0.85},
-    {"name": "Study International", "url": "https://www.studyinternational.com/feed/", "weight": 0.8},
-    {"name": "University World News", "url": "https://www.universityworldnews.com/rss.php", "weight": 0.8},
-    {"name": "QS Top Universities", "url": "https://www.qs.com/feed/", "weight": 0.8},
-    {"name": "The PIE News - Student Mobility", "url": "https://thepienews.com/feed/", "weight": 0.8},
-
     # Scholarships
     {"name": "Scholarships in India", "url": "https://www.scholarshipsinindia.com/feed/", "weight": 0.9},
     {"name": "Buddy4Study Blog", "url": "https://www.buddy4study.com/blog/feed/", "weight": 0.85},
@@ -118,21 +110,28 @@ except Exception as e:
 
 # === HELPER: Detect Student-Related Content ===
 def is_student_related(text):
-    student_keywords = [
-        'student', 'students', 'college', 'university', 'campus', 'exam', 'exams', 'result', 'results',
-        'jee', 'neet', 'cat', 'gate', 'upsc', 'internship', 'internships', 'placement', 'placements',
-        'scholarship', 'scholarships', 'study abroad', 'study visa', 'mental health', 'anxiety', 'stress',
-        'startup', 'founder', 'entrepreneur', 'edtech', 'online class', 'attendance', 'fee hike', 'protest',
-        'hostel', 'mess', 'ragging', 'counselling', 'career', 'job', 'jobs', 'resume', 'cv', 'skill', 'skills',
-        'iit', 'nit', 'du', 'bhu', 'aiims', 'nda', 'nda exam', 'clat', 'cuet', 'board exam', 'cbse', 'icse',
-        'grade', 'grading', 'pass', 'fail', 'reappear', 'backlog', 'project', 'thesis', 'dissertation',
-        'study group', 'peer', 'mentor', 'teacher', 'professor', 'lecture', 'syllabus', 'curriculum'
-    ]
     text_lower = text.lower()
-    for kw in student_keywords:
-        if kw in text_lower:
-            return True
-    return False
+
+    # Must contain at least one strong student keyword
+    strong_keywords = [
+        'student', 'students', 'college', 'university', 'campus', 'exam', 'exams', 'result', 'results',
+        'jee', 'neet', 'cat', 'gate', 'upsc', 'internship', 'placement', 'scholarship', 'admit card',
+        'iit', 'nit', 'du', 'bhu', 'cbse', 'icse', 'board exam', 'cuet', 'clat', 'nda', 'aiims',
+        'hostel', 'attendance', 'fee', 'protest', 'mental health', 'anxiety', 'stress', 'career',
+        'resume', 'job', 'startup', 'founder', 'edtech', 'online class', 'syllabus', 'grade'
+    ]
+
+    has_strong = any(kw in text_lower for kw in strong_keywords)
+
+    # Reject if too global/vague
+    reject_keywords = [
+        'ireland', 'australia', 'uk', 'usa', 'canada', 'europe', 'global', 'international student',
+        'the pie news', 'tertiary education commission', 'south east technological university'
+    ]
+
+    has_reject = any(kw in text_lower for kw in reject_keywords)
+
+    return has_strong and not has_reject
 
 # === HELPER: Editorial Dimensions ===
 def is_trending(text):
@@ -203,16 +202,29 @@ def fetch_articles():
                 if pub_date < cutoff:
                     continue
 
+                # Extract title
+                title = getattr(entry, 'title', '').strip()
+                if not title:
+                    continue
+
                 # Extract summary
                 summary = getattr(entry, 'summary', '')
-                if len(summary) > 300:
-                    summary = summary[:297] + "..."
                 if not summary and hasattr(entry, 'content'):
                     try:
-                        summary = BeautifulSoup(entry.content[0].value, "html.parser").get_text()[:300] + "..."
-                    except Exception as e:
-                        logger.warning(f"Could not extract content: {e}")
-                        summary = ""
+                        summary = BeautifulSoup(entry.content[0].value, "html.parser").get_text()
+                    except:
+                        pass
+
+                # Clean and truncate summary
+                summary = summary.replace('\n', ' ').strip()
+                if len(summary) > 300:
+                    summary = summary[:297] + "..."
+                if not summary:
+                    summary = "No summary available."
+
+                # Skip if summary is too short
+                if len(summary) < 20:
+                    continue
 
                 # Extract image URL
                 image_url = ""
@@ -228,13 +240,13 @@ def fetch_articles():
                             break
 
                 articles.append({
-                    "title": entry.title,
+                    "title": title,
                     "summary": summary,
                     "url": entry.link,
                     "source": source["name"],
                     "source_weight": source["weight"],
                     "published_at": pub_date,
-                    "text_for_ai": f"{entry.title}. {summary}",
+                    "text_for_ai": f"{title}. {summary}",
                     "image_url": image_url
                 })
         except Exception as e:
@@ -361,8 +373,8 @@ HTML_TEMPLATE = """
         /* === BASE === */
         body {
             font-family: 'Georgia', 'Times New Roman', serif;
-            background: #f8f4e9; /* Warm cream */
-            color: #2c1e1e; /* Dark brown */
+            background: #f8f4e9;
+            color: #2c1e1e;
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
@@ -378,20 +390,18 @@ HTML_TEMPLATE = """
         }
 
         .title {
-            font-family: 'Old Standard TT', 'Times New Roman', serif;
+            font-family: 'Old Standard TT', serif;
             font-size: 3.2rem;
             font-weight: bold;
             letter-spacing: 2px;
             margin: 10px 0;
             color: #2c1e1e;
-            margin-bottom: 5px;
         }
 
         .tagline {
             font-size: 1.1rem;
             margin: 5px 0;
             color: #6b5c45;
-            font-weight: normal;
             font-style: italic;
         }
 
@@ -401,18 +411,18 @@ HTML_TEMPLATE = """
             color: #2c1e1e;
         }
 
-        /* === QUOTE OF THE DAY === */
+        /* === QUOTE === */
         .quote-of-the-day {
             font-style: italic;
             font-size: 1.2rem;
             color: #6b5c45;
             text-align: center;
             margin: 20px 0;
+            padding: 15px;
             border-top: 1px solid #ccc;
-            padding-top: 15px;
         }
 
-        /* === CATEGORY SECTION === */
+        /* === CATEGORY === */
         .category-section {
             margin: 40px 0;
         }
@@ -422,37 +432,37 @@ HTML_TEMPLATE = """
             font-weight: bold;
             margin: 0 0 20px;
             color: #2c1e1e;
-            border-bottom: 1px solid #ccc;
+            border-bottom: 2px solid #c9b89b;
             padding-bottom: 5px;
         }
 
         /* === ARTICLE CARD === */
         .article-card {
-            background: #fffaf2; /* Light cream */
+            background: #fffaf2;
             border: 1px solid #e0d5c1;
-            border-radius: 4px;
-            padding: 20px;
-            margin-bottom: 25px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
         }
 
         .article-title {
-            font-size: 1.3rem;
-            font-weight: normal;
-            margin: 0 0 10px;
-            line-height: 1.3;
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin: 0 0 12px;
             color: #222;
+            line-height: 1.3;
         }
 
         .article-summary {
-            font-size: 1rem;
+            font-size: 1.05rem;
             color: #444;
-            margin: 10px 0;
+            margin: 12px 0;
             text-align: justify;
         }
 
         .meta {
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             color: #7a6c5d;
             margin: 15px 0 10px;
             font-style: italic;
@@ -460,35 +470,37 @@ HTML_TEMPLATE = """
 
         .tag {
             display: inline-block;
-            padding: 3px 8px;
-            border-radius: 3px;
+            padding: 4px 10px;
+            border-radius: 4px;
             font-size: 0.8rem;
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin-right: 5px;
+            margin-right: 8px;
             color: white;
         }
 
-        .must-know { background: #8b0000; border: 1px solid #5a0000; }
-        .trending { background: #004080; border: 1px solid #00264d; }
-        .debatable { background: #b35900; border: 1px solid #7a3d00; }
+        .must-know { background: #8b0000; }
+        .trending { background: #004080; }
+        .debatable { background: #b35900; }
 
-        /* === LINK === */
         a {
             color: #004080;
             text-decoration: none;
             font-weight: bold;
-            border-bottom: 1px dotted #004080;
-            padding-bottom: 2px;
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 16px;
+            border: 2px solid #004080;
+            border-radius: 4px;
+            transition: all 0.2s;
         }
 
         a:hover {
-            color: #00264d;
-            border-bottom-style: solid;
+            background: #004080;
+            color: white;
         }
 
-        /* === FOOTER === */
         footer {
             margin-top: 60px;
             padding-top: 25px;
@@ -500,19 +512,16 @@ HTML_TEMPLATE = """
     </style>
 </head>
 <body>
-    <!-- === MASTHEAD === -->
     <div class="masthead">
         <h1 class="title">Student.News</h1>
         <p class="tagline">Real news for real students. No fluff. No noise.</p>
         <p class="date">{{ now.strftime('%A, %B %d, %Y') }}</p>
     </div>
 
-    <!-- === QUOTE OF THE DAY === -->
     <div class="quote-of-the-day">
         "Education is not the filling of a pail, but the lighting of a fire." — W.B. Yeats
     </div>
 
-    <!-- === CATEGORIES === -->
     {% for category, articles in categorized.items() %}
         {% if articles|length > 0 %}
         <div class="category-section">
@@ -520,17 +529,17 @@ HTML_TEMPLATE = """
             {% for article in articles %}
             <div class="article-card">
                 {% if article.image_url %}
-                    <img src="{{ article.image_url }}" alt="{{ article.title }}" style="width:100%; max-width:300px; height:auto; margin:10px 0; border-radius:4px;">
+                    <img src="{{ article.image_url }}" alt="{{ article.title }}" style="width:100%; max-width:400px; height:auto; margin:15px 0; border-radius:8px;">
                 {% endif %}
-                <div class="article-title">{{ article.title }}</div>
-                <div class="article-summary">{{ article.summary }}</div>
+                <h3 class="article-title">{{ article.title }}</h3>
+                <p class="article-summary">{{ article.summary }}</p>
                 <div class="meta">
-                    → {{ article.source }}
+                    <em>Source: {{ article.source }}</em>
                     {% if article.is_must_know %}<span class="tag must-know">Must-Know</span>{% endif %}
                     {% if article.is_trending %}<span class="tag trending">Trending</span>{% endif %}
                     {% if article.is_debatable %}<span class="tag debatable">Debatable</span>{% endif %}
                 </div>
-                <a href="{{ article.url }}" target="_blank">Read full →</a>
+                <a href="{{ article.url }}" target="_blank">📚 Read Full Article</a>
             </div>
             {% endfor %}
         </div>
@@ -538,7 +547,7 @@ HTML_TEMPLATE = """
     {% endfor %}
 
     <footer>
-        <p>Curated and updated automatically • {{ now.strftime('%A, %B %d, %Y') }}</p>
+        <p>Curated for Indian students • Updated: {{ now.strftime('%A, %B %d, %Y') }}</p>
     </footer>
 </body>
 </html>
