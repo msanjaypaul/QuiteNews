@@ -12,83 +12,56 @@ import logging
 
 # === CONFIG ===
 SOURCES = [
-    # National Education & Exams
+    # 🎓 SCHOLARSHIPS (NEW SOURCES ADDED)
+    {"name": "Scholarships in India", "url": "https://www.scholarshipsinindia.com/feed/", "weight": 1.0},
+    {"name": "Buddy4Study", "url": "https://www.buddy4study.com/blog/feed/", "weight": 0.95},
+    {"name": "Vidya Lakshmi", "url": "https://www.vidyalakshmi.co.in/NewsFeed", "weight": 0.9},
+    {"name": "National Scholarship Portal", "url": "https://scholarships.gov.in/NewsRSS", "weight": 1.0},
+    {"name": "AICTE Scholarships", "url": "https://www.aicte-india.org/scholarships/rss", "weight": 0.9},
+    {"name": "UP Scholarship", "url": "https://scholarship.up.nic.in/RSSFeed.aspx", "weight": 0.85},
+    {"name": "DAAD India", "url": "https://www.daad.in/en/rss/", "weight": 0.85},
+
+    # 💼 INTERNSHIPS & JOBS (NEW SOURCES ADDED)
+    {"name": "Internshala", "url": "https://internshala.com/blog/feed/", "weight": 1.0},
+    {"name": "LetsIntern", "url": "https://www.letsintern.com/blog/feed/", "weight": 0.95},
+    {"name": "Twenty19", "url": "https://twenty19.com/blog/feed", "weight": 0.9},
+    {"name": "Hello Intern", "url": "https://www.hellointern.com/blog/feed/", "weight": 0.9},
+    {"name": "Naukri Campus", "url": "https://www.naukri.com/campus-recruitment-blog/feed", "weight": 0.95},
+    {"name": "Freshersworld", "url": "https://www.freshersworld.com/rss/jobs", "weight": 0.9},
+    {"name": "Indeed Campus", "url": "https://www.indeed.com/career-advice/feed", "weight": 0.85},
+
+    # 🏛 GOVERNMENT JOBS (NEWLY ADDED)
+    {"name": "Sarkari Naukri", "url": "https://www.sarkarinaukri.com/feed/", "weight": 1.0},
+    {"name": "Sarkari Result", "url": "https://www.sarkariresult.com/rss", "weight": 0.95},
+    {"name": "FreeJobAlert", "url": "https://www.freejobalert.com/feed/", "weight": 0.95},
+    {"name": "SSC Adda", "url": "https://www.sscadda.com/feeds/posts/default", "weight": 0.9},
+    {"name": "Bankers Adda", "url": "https://www.bankersadda.com/feeds/posts/default", "weight": 0.9},
+    {"name": "UPSC Adda", "url": "https://www.upscadda.com/feeds/posts/default", "weight": 0.9},
+
+    # 🎓 EXAMS & RESULTS
     {"name": "CBSE Latest", "url": "https://cbse.gov.in/cbsenew/rss.xml", "weight": 1.0},
-    {"name": "UGC Updates", "url": "https://www.ugc.ac.in/rss.aspx", "weight": 0.95},
-    {"name": "AICTE News", "url": "https://www.aicte-india.org/rss.xml", "weight": 0.9},
-    {"name": "NTA (JEE/NEET)", "url": "https://nta.ac.in/rss", "weight": 0.95},
-    {"name": "UPSC Updates", "url": "https://upsc.gov.in/rss.xml", "weight": 0.9},
-    {"name": "SSC Latest", "url": "https://ssc.nic.in/SSCFileServer/RSS/Notice.xml", "weight": 0.85},
-    {"name": "IGNOU News", "url": "http://ignou.ac.in/ignou/rss.xml", "weight": 0.8},
+    {"name": "NTA (JEE/NEET)", "url": "https://nta.ac.in/rss", "weight": 1.0},
+    {"name": "UGC NET", "url": "https://ugcnet.nta.nic.in/rss", "weight": 0.95},
+    {"name": "GATE", "url": "https://gate.iitk.ac.in/rss.xml", "weight": 0.9},
 
-    # Top Colleges
+    # 🏫 COLLEGES & CAMPUS
     {"name": "DU Latest", "url": "https://www.du.ac.in/rss.xml", "weight": 0.9},
-    {"name": "IIT Delhi News", "url": "https://home.iitd.ac.in/rss.php", "weight": 0.85},
-    {"name": "IIT Bombay", "url": "https://www.iitb.ac.in/en/feed", "weight": 0.85},
-    {"name": "IIT Madras", "url": "https://www.iitm.ac.in/rss.xml", "weight": 0.85},
-    {"name": "NIT Trichy", "url": "https://www.nitt.edu/home/rss.xml", "weight": 0.8},
-    {"name": "JNU Updates", "url": "https://www.jnu.ac.in/rss.xml", "weight": 0.85},
-    {"name": "BHU News", "url": "https://www.bhu.ac.in/rss.xml", "weight": 0.8},
-    {"name": "AIIMS Delhi", "url": "https://www.aiims.edu/en/rss.html", "weight": 0.8},
-    {"name": "TIFR Mumbai", "url": "https://www.tifr.res.in/rss.xml", "weight": 0.8},
-
-    # News Portals - Education
-    {"name": "The Indian Express - Education", "url": "https://indianexpress.com/section/education/feed/", "weight": 1.0},
-    {"name": "Hindustan Times - Campus", "url": "https://www.hindustantimes.com/rss/campus/rssfeed.xml", "weight": 0.95},
-    {"name": "NDTV Education", "url": "https://feeds.feedburner.com/ndtvnews-education", "weight": 0.9},
+    {"name": "IIT Delhi", "url": "https://home.iitd.ac.in/rss.php", "weight": 0.85},
     {"name": "The Hindu - Education", "url": "https://www.thehindu.com/education/feeder/default.rss", "weight": 0.9},
-    {"name": "Times of India - Education", "url": "https://timesofindia.indiatimes.com/rssfeeds/913168846.cms", "weight": 0.85},
-    {"name": "India Today - Education", "url": "https://www.indiatoday.in/rss/1206514", "weight": 0.85},
-
-    # Internships & Careers
-    {"name": "Internshala Blog", "url": "https://internshala.com/blog/feed/", "weight": 0.9},
-    {"name": "LetsIntern", "url": "https://www.letsintern.com/blog/feed/", "weight": 0.85},
-    {"name": "Naukri Campus", "url": "https://www.naukri.com/campus-recruitment-blog/feed", "weight": 0.85},
-    {"name": "LinkedIn Student Blog", "url": "https://blog.linkedin.com/topics/students/rss.xml", "weight": 0.8},
-    {"name": "Indeed Career Guide", "url": "https://www.indeed.com/career-advice/feed", "weight": 0.8},
-
-    # Mental Health & Wellness
-    {"name": "YourDOST Blog", "url": "https://www.yourdost.com/blog/feed/", "weight": 0.9},
-    {"name": "Manastha Blog", "url": "https://manastha.com/blog/feed/", "weight": 0.85},
-    {"name": "The Better India - Mental Health", "url": "https://www.thebetterindia.com/category/mental-health/feed/", "weight": 0.85},
-    {"name": "MindPeers Blog", "url": "https://mindpeers.co/blogs/news.atom", "weight": 0.8},
-
-    # Startups & Innovation
-    {"name": "YourStory - Campus", "url": "https://yourstory.com/feed", "weight": 0.9},
-    {"name": "Inc42 - Student Startups", "url": "https://inc42.com/feed/", "weight": 0.85},
-    {"name": "The Ken - Education", "url": "https://the-ken.com/feed/", "weight": 0.8},
-    {"name": "FactorDaily - Education", "url": "https://factordaily.com/feed/", "weight": 0.8},
-
-    # Scholarships
-    {"name": "Scholarships in India", "url": "https://www.scholarshipsinindia.com/feed/", "weight": 0.9},
-    {"name": "Buddy4Study Blog", "url": "https://www.buddy4study.com/blog/feed/", "weight": 0.85},
-    {"name": "DAAD India", "url": "https://www.daad.in/en/rss/", "weight": 0.8},
-
-    # Student Voices & Opinions
-    {"name": "Youth Ki Awaaz", "url": "https://www.youthkiawaaz.com/feed/", "weight": 0.9},
-    {"name": "The Wire Campus", "url": "https://thewire.in/category/education/feed", "weight": 0.85},
-    {"name": "ScoopWhoop - Education", "url": "https://www.scoopwhoop.com/education/feed/", "weight": 0.85},
-    {"name": "The Bastion - Education", "url": "https://thebastion.co.in/category/education/feed/", "weight": 0.8},
-
-    # Campus Life & Culture
-    {"name": "Campus Diaries", "url": "https://www.campusdiaries.com/feed/", "weight": 0.85},
-    {"name": "CollegeDekho Blog", "url": "https://www.collegedekho.com/blogs/feed/", "weight": 0.8},
-    {"name": "Shiksha Blog", "url": "https://www.shiksha.com/studyabroad/blog/feed", "weight": 0.8},
+    {"name": "Indian Express - Education", "url": "https://indianexpress.com/section/education/feed/", "weight": 0.95},
 ]
 
 CATEGORIES = [
+    "Scholarships",
+    "Internships & Jobs",
+    "Government Jobs",
     "Exams & Results",
     "Campus Life",
-    "Internships & Jobs",
-    "Scholarships",
     "Mental Health",
     "Student Startups",
     "Education Policy",
-    "Student Protests",
     "Study Abroad",
     "Career Advice",
-    "Campus Events",
-    "Online Learning"
 ]
 
 TOP_N = 5
@@ -118,20 +91,25 @@ def is_student_related(text):
         'jee', 'neet', 'cat', 'gate', 'upsc', 'internship', 'placement', 'scholarship', 'admit card',
         'iit', 'nit', 'du', 'bhu', 'cbse', 'icse', 'board exam', 'cuet', 'clat', 'nda', 'aiims',
         'hostel', 'attendance', 'fee', 'protest', 'mental health', 'anxiety', 'stress', 'career',
-        'resume', 'job', 'startup', 'founder', 'edtech', 'online class', 'syllabus', 'grade'
+        'resume', 'job', 'startup', 'founder', 'edtech', 'online class', 'syllabus', 'grade',
+        'government job', 'sarkari naukri', 'apply online', 'notification', 'eligibility', 'salary'
     ]
 
     has_strong = any(kw in text_lower for kw in strong_keywords)
 
-    # Reject if too global/vague
+    # Reject if too global/vague (unless India-relevant)
     reject_keywords = [
         'ireland', 'australia', 'uk', 'usa', 'canada', 'europe', 'global', 'international student',
-        'the pie news', 'tertiary education commission', 'south east technological university'
+        'south east technological university', 'tertiary education commission'
     ]
 
     has_reject = any(kw in text_lower for kw in reject_keywords)
 
-    return has_strong and not has_reject
+    # Allow global content if it mentions "India" or "Indian"
+    if has_reject and not ('india' in text_lower or 'indian' in text_lower):
+        return False
+
+    return has_strong
 
 # === HELPER: Editorial Dimensions ===
 def is_trending(text):
@@ -167,7 +145,8 @@ def is_must_know(text):
         'major study', 'who should know', 'everyone needs to know', 'urgent',
         'critical', 'essential', 'what you need to know', 'implications',
         'long-term', 'affects everyone', 'national security', 'public health',
-        'economy update', 'market crash', 'inflation', 'unemployment'
+        'economy update', 'market crash', 'inflation', 'unemployment',
+        'last date', 'apply now', 'notification released', 'exam postponed'
     ]
     text_lower = text.lower()
     for kw in must_know_keywords:
@@ -220,7 +199,7 @@ def fetch_articles():
                 if len(summary) > 300:
                     summary = summary[:297] + "..."
                 if not summary:
-                    summary = "No summary available."
+                    summary = "Details inside — click to read full announcement."
 
                 # Skip if summary is too short
                 if len(summary) < 20:
@@ -264,6 +243,17 @@ def classify_articles(articles):
                 result = classifier(article["text_for_ai"], CATEGORIES, multi_label=False)
                 article["category"] = result["labels"][0]
                 article["category_confidence"] = result["scores"][0]
+
+                # Force classification for key terms
+                text_lower = article["text_for_ai"].lower()
+                if any(kw in text_lower for kw in ['scholarship', 'vidyalakshmi', 'national scholarship']):
+                    article["category"] = "Scholarships"
+                elif any(kw in text_lower for kw in ['internship', 'intern', 'twenty19', 'hello intern']):
+                    article["category"] = "Internships & Jobs"
+                elif any(kw in text_lower for kw in ['sarkari naukri', 'government job', 'ssc', 'bankers adda', 'upsc adda']):
+                    article["category"] = "Government Jobs"
+                elif any(kw in text_lower for kw in ['exam', 'result', 'admit card', 'nta', 'cbse', 'gate', 'jee', 'neet']):
+                    article["category"] = "Exams & Results"
 
                 # Tag with editorial dimensions
                 article["is_trending"] = is_trending(article["text_for_ai"])
@@ -368,7 +358,7 @@ HTML_TEMPLATE = """
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student.News — Real News for Real Students</title>
+    <title>Student.News — Scholarships, Internships, Govt Jobs</title>
     <style>
         /* === BASE === */
         body {
@@ -461,6 +451,16 @@ HTML_TEMPLATE = """
             text-align: justify;
         }
 
+        /* ✅ FIXED IMAGE DIMENSIONS */
+        .article-card img {
+            width: 100%;
+            max-width: 100%; /* ✅ No overflow */
+            height: auto;
+            margin: 15px 0;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
         .meta {
             font-size: 0.95rem;
             color: #7a6c5d;
@@ -514,12 +514,12 @@ HTML_TEMPLATE = """
 <body>
     <div class="masthead">
         <h1 class="title">Student.News</h1>
-        <p class="tagline">Real news for real students. No fluff. No noise.</p>
+        <p class="tagline">Scholarships, Internships, Govt Jobs. No fluff. No noise.</p>
         <p class="date">{{ now.strftime('%A, %B %d, %Y') }}</p>
     </div>
 
     <div class="quote-of-the-day">
-        "Education is not the filling of a pail, but the lighting of a fire." — W.B. Yeats
+        "Your future is created by what you do today, not tomorrow." — Robert Kiyosaki
     </div>
 
     {% for category, articles in categorized.items() %}
@@ -529,7 +529,7 @@ HTML_TEMPLATE = """
             {% for article in articles %}
             <div class="article-card">
                 {% if article.image_url %}
-                    <img src="{{ article.image_url }}" alt="{{ article.title }}" style="width:100%; max-width:400px; height:auto; margin:15px 0; border-radius:8px;">
+                    <img src="{{ article.image_url }}" alt="{{ article.title }}">
                 {% endif %}
                 <h3 class="article-title">{{ article.title }}</h3>
                 <p class="article-summary">{{ article.summary }}</p>
