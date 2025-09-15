@@ -12,7 +12,7 @@ import logging
 
 # === CONFIG ===
 SOURCES = [
-    # 🎓 SCHOLARSHIPS (NEW SOURCES ADDED)
+    # 🎓 SCHOLARSHIPS
     {"name": "Scholarships in India", "url": "https://www.scholarshipsinindia.com/feed/", "weight": 1.0},
     {"name": "Buddy4Study", "url": "https://www.buddy4study.com/blog/feed/", "weight": 0.95},
     {"name": "Vidya Lakshmi", "url": "https://www.vidyalakshmi.co.in/NewsFeed", "weight": 0.9},
@@ -21,7 +21,7 @@ SOURCES = [
     {"name": "UP Scholarship", "url": "https://scholarship.up.nic.in/RSSFeed.aspx", "weight": 0.85},
     {"name": "DAAD India", "url": "https://www.daad.in/en/rss/", "weight": 0.85},
 
-    # 💼 INTERNSHIPS & JOBS (NEW SOURCES ADDED)
+    # 💼 INTERNSHIPS & JOBS
     {"name": "Internshala", "url": "https://internshala.com/blog/feed/", "weight": 1.0},
     {"name": "LetsIntern", "url": "https://www.letsintern.com/blog/feed/", "weight": 0.95},
     {"name": "Twenty19", "url": "https://twenty19.com/blog/feed", "weight": 0.9},
@@ -30,7 +30,7 @@ SOURCES = [
     {"name": "Freshersworld", "url": "https://www.freshersworld.com/rss/jobs", "weight": 0.9},
     {"name": "Indeed Campus", "url": "https://www.indeed.com/career-advice/feed", "weight": 0.85},
 
-    # 🏛 GOVERNMENT JOBS (NEWLY ADDED)
+    # 🏛 GOVERNMENT JOBS
     {"name": "Sarkari Naukri", "url": "https://www.sarkarinaukri.com/feed/", "weight": 1.0},
     {"name": "Sarkari Result", "url": "https://www.sarkariresult.com/rss", "weight": 0.95},
     {"name": "FreeJobAlert", "url": "https://www.freejobalert.com/feed/", "weight": 0.95},
@@ -85,7 +85,6 @@ except Exception as e:
 def is_student_related(text):
     text_lower = text.lower()
 
-    # Must contain at least one strong student keyword
     strong_keywords = [
         'student', 'students', 'college', 'university', 'campus', 'exam', 'exams', 'result', 'results',
         'jee', 'neet', 'cat', 'gate', 'upsc', 'internship', 'placement', 'scholarship', 'admit card',
@@ -97,7 +96,6 @@ def is_student_related(text):
 
     has_strong = any(kw in text_lower for kw in strong_keywords)
 
-    # Reject if too global/vague (unless India-relevant)
     reject_keywords = [
         'ireland', 'australia', 'uk', 'usa', 'canada', 'europe', 'global', 'international student',
         'south east technological university', 'tertiary education commission'
@@ -105,7 +103,6 @@ def is_student_related(text):
 
     has_reject = any(kw in text_lower for kw in reject_keywords)
 
-    # Allow global content if it mentions "India" or "Indian"
     if has_reject and not ('india' in text_lower or 'indian' in text_lower):
         return False
 
@@ -158,7 +155,7 @@ def is_must_know(text):
 def fetch_articles():
     articles = []
     now = datetime.utcnow()
-    cutoff = now - timedelta(hours=48)
+    cutoff = now - timedelta(days=7)  # ✅ Fetch from last 7 days (not 48h)
 
     for source in SOURCES:
         try:
@@ -177,7 +174,7 @@ def fetch_articles():
                     logger.error(f"Failed to parse date for {entry.title}: {e}")
                     pub_date = now
 
-                # Skip if older than 48h
+                # Skip if older than 7 days
                 if pub_date < cutoff:
                     continue
 
@@ -277,9 +274,9 @@ def classify_articles(articles):
 def calculate_score(article, now):
     score = article["source_weight"]
 
-    # Recency decay
+    # Recency decay (over 7 days)
     age_hours = (now - article["published_at"]).total_seconds() / 3600
-    recency_multiplier = max(0.1, 1 - (age_hours / 48))
+    recency_multiplier = max(0.1, 1 - (age_hours / (7*24)))  # ✅ 7-day window
     score *= recency_multiplier
 
     # Entity bonus
@@ -357,7 +354,7 @@ HTML_TEMPLATE = """
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  <!-- ✅ Mobile Responsive -->
     <title>Student.News — Scholarships, Internships, Govt Jobs</title>
     <style>
         /* === BASE === */
@@ -367,36 +364,36 @@ HTML_TEMPLATE = """
             color: #2c1e1e;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 15px;  /* ✅ Reduced padding for mobile */
             line-height: 1.6;
         }
 
         /* === HEADER === */
         .masthead {
             text-align: center;
-            padding: 40px 0;
+            padding: 30px 0;
             border-bottom: 1px solid #2c1e1e;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
 
         .title {
             font-family: 'Old Standard TT', serif;
-            font-size: 3.2rem;
+            font-size: 2.5rem;  /* ✅ Smaller on mobile */
             font-weight: bold;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
             margin: 10px 0;
             color: #2c1e1e;
         }
 
         .tagline {
-            font-size: 1.1rem;
+            font-size: 1rem;
             margin: 5px 0;
             color: #6b5c45;
             font-style: italic;
         }
 
         .date {
-            font-size: 1.1rem;
+            font-size: 1rem;
             margin: 10px 0;
             color: #2c1e1e;
         }
@@ -404,7 +401,7 @@ HTML_TEMPLATE = """
         /* === QUOTE === */
         .quote-of-the-day {
             font-style: italic;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: #6b5c45;
             text-align: center;
             margin: 20px 0;
@@ -414,13 +411,13 @@ HTML_TEMPLATE = """
 
         /* === CATEGORY === */
         .category-section {
-            margin: 40px 0;
+            margin: 30px 0;
         }
 
         .category-title {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             font-weight: bold;
-            margin: 0 0 20px;
+            margin: 0 0 15px;
             color: #2c1e1e;
             border-bottom: 2px solid #c9b89b;
             padding-bottom: 5px;
@@ -431,30 +428,30 @@ HTML_TEMPLATE = """
             background: #fffaf2;
             border: 1px solid #e0d5c1;
             border-radius: 8px;
-            padding: 25px;
-            margin-bottom: 30px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
 
         .article-title {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             font-weight: bold;
-            margin: 0 0 12px;
+            margin: 0 0 10px;
             color: #222;
             line-height: 1.3;
         }
 
         .article-summary {
-            font-size: 1.05rem;
+            font-size: 1rem;
             color: #444;
-            margin: 12px 0;
+            margin: 10px 0;
             text-align: justify;
         }
 
-        /* ✅ FIXED IMAGE DIMENSIONS */
+        /* ✅ FIXED IMAGE DIMENSIONS + MOBILE RESPONSIVE */
         .article-card img {
             width: 100%;
-            max-width: 100%; /* ✅ No overflow */
+            max-width: 100%;
             height: auto;
             margin: 15px 0;
             border-radius: 8px;
@@ -462,7 +459,7 @@ HTML_TEMPLATE = """
         }
 
         .meta {
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             color: #7a6c5d;
             margin: 15px 0 10px;
             font-style: italic;
@@ -470,13 +467,13 @@ HTML_TEMPLATE = """
 
         .tag {
             display: inline-block;
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-size: 0.8rem;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 0.75rem;
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin-right: 8px;
+            margin-right: 6px;
             color: white;
         }
 
@@ -494,6 +491,7 @@ HTML_TEMPLATE = """
             border: 2px solid #004080;
             border-radius: 4px;
             transition: all 0.2s;
+            font-size: 0.95rem;
         }
 
         a:hover {
@@ -502,12 +500,31 @@ HTML_TEMPLATE = """
         }
 
         footer {
-            margin-top: 60px;
-            padding-top: 25px;
+            margin-top: 50px;
+            padding-top: 20px;
             border-top: 2px solid #c9b89b;
             color: #6b5c45;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             text-align: center;
+        }
+
+        /* ✅ MOBILE OPTIMIZATION */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            .title {
+                font-size: 2rem;
+            }
+            .article-title {
+                font-size: 1.2rem;
+            }
+            .category-title {
+                font-size: 1.4rem;
+            }
+            .article-card {
+                padding: 15px;
+            }
         }
     </style>
 </head>
