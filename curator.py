@@ -11,67 +11,117 @@ from bs4 import BeautifulSoup
 import logging
 
 # === CONFIG ===
-SOURCES = [
-    # 🎓 SCHOLARSHIPS
-    {"name": "Scholarships in India", "url": "https://www.scholarshipsinindia.com/feed/", "weight": 1.0},
-    {"name": "Buddy4Study", "url": "https://www.buddy4study.com/blog/feed/", "weight": 0.95},
-    {"name": "Vidya Lakshmi", "url": "https://www.vidyalakshmi.co.in/NewsFeed", "weight": 0.9},
+SCHOLARSHIP_SOURCES = [
+    # GOVERNMENT & NATIONAL
     {"name": "National Scholarship Portal", "url": "https://scholarships.gov.in/NewsRSS", "weight": 1.0},
-    {"name": "AICTE Scholarships", "url": "https://www.aicte-india.org/scholarships/rss", "weight": 0.9},
-    {"name": "UP Scholarship", "url": "https://scholarship.up.nic.in/RSSFeed.aspx", "weight": 0.85},
-    {"name": "DAAD India", "url": "https://www.daad.in/en/rss/", "weight": 0.85},
+    {"name": "Vidya Lakshmi Portal", "url": "https://www.vidyalakshmi.co.in/NewsFeed", "weight": 0.95},
+    {"name": "AICTE Scholarships", "url": "https://www.aicte-india.org/scholarships/rss", "weight": 0.95},
+    {"name": "UGC Scholarships", "url": "https://nsp.ugc.ac.in/RSSFeed.aspx", "weight": 0.95},
+    {"name": "Ministry of Minority Affairs", "url": "https://scholarships.gov.in/minority/rss", "weight": 0.9},
 
-    # 💼 INTERNSHIPS & JOBS
+    # STATE SCHOLARSHIPS
+    {"name": "UP Scholarship", "url": "https://scholarship.up.nic.in/RSSFeed.aspx", "weight": 0.9},
+    {"name": "Bihar Scholarship", "url": "https://www.biharscholarship.in/RSSFeed.aspx", "weight": 0.9},
+    {"name": "MP Scholarship", "url": "https://scholarshipportal.mp.nic.in/RSSFeed.aspx", "weight": 0.9},
+    {"name": "Karnataka Scholarship", "url": "https://karepass.cgg.gov.in/rssFeed.jsp", "weight": 0.9},
+    {"name": "Maharashtra Scholarship", "url": "https://mahadbt.maharashtra.gov.in/RSSFeed.aspx", "weight": 0.9},
+    {"name": "Tamil Nadu Scholarship", "url": "https://www.tn.gov.in/scholarship/rss", "weight": 0.9},
+
+    # CORPORATE & TRUSTS
+    {"name": "Tata Trust Scholarships", "url": "https://www.tatatrusts.org/scholarships/rss", "weight": 0.95},
+    {"name": "Reliance Foundation", "url": "https://www.reliancefoundation.org/rss/scholarships", "weight": 0.95},
+    {"name": "Aditya Birla Scholarships", "url": "https://www.adityabirlafoundation.org/rss", "weight": 0.9},
+    {"name": "L'Oréal For Women in Science", "url": "https://www.loreal.in/rss", "weight": 0.9},
+    {"name": "Google India Scholarships", "url": "https://buildyourfuture.withgoogle.com/scholarships/rss", "weight": 0.95},
+    {"name": "Microsoft India Scholarships", "url": "https://news.microsoft.com/india/feed/", "weight": 0.9},
+
+    # UNIVERSITY & INSTITUTIONS
+    {"name": "DU Scholarships", "url": "https://www.du.ac.in/index.php/scholarships/rss", "weight": 0.85},
+    {"name": "IIT Delhi Scholarships", "url": "https://ird.iitd.ac.in/scholarships/rss", "weight": 0.85},
+    {"name": "IIT Bombay Scholarships", "url": "https://www.iitb.ac.in/en/scholarships/rss", "weight": 0.85},
+    {"name": "JNU Scholarships", "url": "https://www.jnu.ac.in/scholarships/rss", "weight": 0.85},
+
+    # AGGREGATORS
+    {"name": "Scholarships in India", "url": "https://www.scholarshipsinindia.com/feed/", "weight": 0.95},
+    {"name": "Buddy4Study", "url": "https://www.buddy4study.com/blog/feed/", "weight": 0.95},
+    {"name": "India Scholarships", "url": "https://www.indiascholarships.org.in/feed/", "weight": 0.9},
+]
+
+INTERNSHIP_SOURCES = [
+    # TOP TECH COMPANIES
+    {"name": "Google Careers India", "url": "https://careers.google.com/jobs/results/?company=Google&location=India&rss", "weight": 1.0},
+    {"name": "Microsoft India Careers", "url": "https://careers.microsoft.com/in/en/rss", "weight": 1.0},
+    {"name": "Amazon India Careers", "url": "https://www.amazon.jobs/en/teams/india/rss", "weight": 1.0},
+    {"name": "Flipkart Careers", "url": "https://www.flipkartcareers.com/feed/", "weight": 0.95},
+    {"name": "Swiggy Careers", "url": "https://www.swiggy.com/careers/rss", "weight": 0.95},
+    {"name": "Zomato Careers", "url": "https://www.zomato.com/careers/rss", "weight": 0.95},
+
+    # STARTUPS & UNICORNS
+    {"name": "Byju's Careers", "url": "https://byjus.com/careers/feed/", "weight": 0.95},
+    {"name": "Unacademy Careers", "url": "https://unacademy.com/careers/rss", "weight": 0.95},
+    {"name": "Paytm Careers", "url": "https://paytm.com/careers/feed/", "weight": 0.95},
+    {"name": "Ola Careers", "url": "https://careers.olacabs.com/feed/", "weight": 0.95},
+
+    # GOVERNMENT & PSU
+    {"name": "ISRO Careers", "url": "https://www.isro.gov.in/careers/rss", "weight": 0.95},
+    {"name": "DRDO Careers", "url": "https://www.drdo.gov.in/careers/rss", "weight": 0.95},
+    {"name": "BARC Careers", "url": "https://www.barc.gov.in/careers/rss", "weight": 0.95},
+    {"name": "Sarkari Naukri", "url": "https://www.sarkarinaukri.com/feed/", "weight": 0.95},
+
+    # BANKING & FINANCE
+    {"name": "RBI Careers", "url": "https://www.rbi.org.in/Scripts/RSSFeed.aspx", "weight": 0.95},
+    {"name": "SEBI Careers", "url": "https://www.sebi.gov.in/rss.html", "weight": 0.95},
+    {"name": "ICICI Careers", "url": "https://www.icicicareers.com/rss", "weight": 0.9},
+    {"name": "HDFC Careers", "url": "https://www.hdfcbank.com/careers/rss", "weight": 0.9},
+
+    # CONSULTING & FMCG
+    {"name": "McKinsey India Careers", "url": "https://www.mckinsey.com/careers/rss", "weight": 0.95},
+    {"name": "BCG India Careers", "url": "https://www.bcg.com/careers/rss", "weight": 0.95},
+    {"name": "HUL Careers", "url": "https://www.hul.co.in/careers/rss", "weight": 0.95},
+    {"name": "ITC Careers", "url": "https://www.itcportal.com/careers/rss", "weight": 0.95},
+
+    # PORTALS
     {"name": "Internshala", "url": "https://internshala.com/blog/feed/", "weight": 1.0},
     {"name": "LetsIntern", "url": "https://www.letsintern.com/blog/feed/", "weight": 0.95},
-    {"name": "Twenty19", "url": "https://twenty19.com/blog/feed", "weight": 0.9},
-    {"name": "Hello Intern", "url": "https://www.hellointern.com/blog/feed/", "weight": 0.9},
+    {"name": "Twenty19", "url": "https://twenty19.com/blog/feed", "weight": 0.95},
     {"name": "Naukri Campus", "url": "https://www.naukri.com/campus-recruitment-blog/feed", "weight": 0.95},
-    {"name": "Freshersworld", "url": "https://www.freshersworld.com/rss/jobs", "weight": 0.9},
-    {"name": "Indeed Campus", "url": "https://www.indeed.com/career-advice/feed", "weight": 0.85},
-
-    # 🏛 GOVERNMENT JOBS
-    {"name": "Sarkari Naukri", "url": "https://www.sarkarinaukri.com/feed/", "weight": 1.0},
-    {"name": "Sarkari Result", "url": "https://www.sarkariresult.com/rss", "weight": 0.95},
-    {"name": "FreeJobAlert", "url": "https://www.freejobalert.com/feed/", "weight": 0.95},
-    {"name": "SSC Adda", "url": "https://www.sscadda.com/feeds/posts/default", "weight": 0.9},
-    {"name": "Bankers Adda", "url": "https://www.bankersadda.com/feeds/posts/default", "weight": 0.9},
-    {"name": "UPSC Adda", "url": "https://www.upscadda.com/feeds/posts/default", "weight": 0.9},
-
-    # 🎓 EXAMS & RESULTS
-    {"name": "CBSE Latest", "url": "https://cbse.gov.in/cbsenew/rss.xml", "weight": 1.0},
-    {"name": "NTA (JEE/NEET)", "url": "https://nta.ac.in/rss", "weight": 1.0},
-    {"name": "UGC NET", "url": "https://ugcnet.nta.nic.in/rss", "weight": 0.95},
-    {"name": "GATE", "url": "https://gate.iitk.ac.in/rss.xml", "weight": 0.9},
-
-    # 🏫 COLLEGES & CAMPUS
-    {"name": "DU Latest", "url": "https://www.du.ac.in/rss.xml", "weight": 0.9},
-    {"name": "IIT Delhi", "url": "https://home.iitd.ac.in/rss.php", "weight": 0.85},
-    {"name": "The Hindu - Education", "url": "https://www.thehindu.com/education/feeder/default.rss", "weight": 0.9},
-    {"name": "Indian Express - Education", "url": "https://indianexpress.com/section/education/feed/", "weight": 0.95},
+    {"name": "Freshersworld", "url": "https://www.freshersworld.com/rss/jobs", "weight": 0.95},
 ]
+
+SOURCES = SCHOLARSHIP_SOURCES + INTERNSHIP_SOURCES
 
 CATEGORIES = [
     "Scholarships",
-    "Internships & Jobs",
-    "Government Jobs",
-    "Exams & Results",
-    "Campus Life",
-    "Mental Health",
-    "Student Startups",
-    "Education Policy",
-    "Study Abroad",
-    "Career Advice",
+    "Internships & Jobs"
 ]
 
-TOP_N = 5
+SUBCATEGORIES = {
+    "Scholarships": [
+        "Engineering & Tech",
+        "Medical & Health",
+        "Women & Girls",
+        "State-wise",
+        "Corporate",
+        "Government"
+    ],
+    "Internships & Jobs": [
+        "Tech Giants",
+        "Startups",
+        "Government & PSU",
+        "Banking & Finance",
+        "Consulting",
+        "Design & Media"
+    ]
+}
+
+TOP_N = 10  # Show more opportunities
 DEDUP_THRESHOLD = 0.85
 
 # === SETUP LOGGING ===
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# === AI MODELS (load once) ===
+# === AI MODELS ===
 logger.info("Loading AI models...")
 try:
     classifier = pipeline("zero-shot-classification", model="facebook/bart-large-mnli", device=0 if torch.cuda.is_available() else -1)
@@ -81,88 +131,41 @@ except Exception as e:
     logger.error(f"Failed to load AI models: {e}")
     exit(1)
 
-# === HELPER: Detect Student-Related Content ===
+# === HELPER: Strict India + Student Filter ===
 def is_student_related(text):
     text_lower = text.lower()
+    
+    # MUST contain India + student keyword
+    india_keywords = ['india', 'indian', 'delhi', 'mumbai', 'bengaluru', 'hyderabad', 'chennai', 'kolkata', 'pune', 'apply in india', 'for indian students']
+    student_keywords = ['scholarship', 'intern', 'internship', 'fresher job', 'apply', 'last date', 'notification', 'admit card', 'exam', 'result', 'career', 'placement', 'recruitment', 'govt job', 'sarkari', 'stipend', 'grant', 'award']
 
-    strong_keywords = [
-        'student', 'students', 'college', 'university', 'campus', 'exam', 'exams', 'result', 'results',
-        'jee', 'neet', 'cat', 'gate', 'upsc', 'internship', 'placement', 'scholarship', 'admit card',
-        'iit', 'nit', 'du', 'bhu', 'cbse', 'icse', 'board exam', 'cuet', 'clat', 'nda', 'aiims',
-        'hostel', 'attendance', 'fee', 'protest', 'mental health', 'anxiety', 'stress', 'career',
-        'resume', 'job', 'startup', 'founder', 'edtech', 'online class', 'syllabus', 'grade',
-        'government job', 'sarkari naukri', 'apply online', 'notification', 'eligibility', 'salary'
-    ]
+    has_india = any(kw in text_lower for kw in india_keywords)
+    has_student = any(kw in text_lower for kw in student_keywords)
 
-    has_strong = any(kw in text_lower for kw in strong_keywords)
-
-    reject_keywords = [
-        'ireland', 'australia', 'uk', 'usa', 'canada', 'europe', 'global', 'international student',
-        'south east technological university', 'tertiary education commission'
-    ]
-
+    # REJECT global content
+    reject_keywords = ['ireland', 'australia', 'uk', 'usa', 'canada', 'europe', 'global', 'international student', 'the pie news', 'tertiary education commission', 'south east technological university']
     has_reject = any(kw in text_lower for kw in reject_keywords)
 
-    if has_reject and not ('india' in text_lower or 'indian' in text_lower):
-        return False
-
-    return has_strong
+    return has_india and has_student and not has_reject
 
 # === HELPER: Editorial Dimensions ===
 def is_trending(text):
-    trending_keywords = [
-        'viral', 'trending', 'breaking', 'explainer', 'chart', 'graph', 'spike',
-        'record high', 'suddenly', 'overnight', 'everyone is talking about',
-        'blows up', 'skyrockets', 'plummets', 'goes viral', 'tops charts',
-        'most watched', 'most searched', 'google trends', 'twitter trends'
-    ]
-    text_lower = text.lower()
-    for kw in trending_keywords:
-        if kw in text_lower:
-            return True
-    return False
-
-def is_debatable(text):
-    debatable_keywords = [
-        'controversy', 'debate', 'divided', 'clash', 'protests', 'backlash',
-        'criticism', 'defends', 'slammed', 'outrage', 'calls for', 'demands',
-        'should', 'must', 'why', 'how could', 'scandal', 'allegations',
-        'court battle', 'legal fight', 'ethics', 'morality', 'cancel culture',
-        'free speech', 'censorship', 'bias', 'fake news'
-    ]
-    text_lower = text.lower()
-    for kw in debatable_keywords:
-        if kw in text_lower:
-            return True
-    return False
+    return any(kw in text.lower() for kw in ['viral', 'trending', 'breaking', 'record', 'skyrockets'])
 
 def is_must_know(text):
-    must_know_keywords = [
-        'new law', 'policy change', 'supreme court rules', 'exam dates', 'admit card', 'result date',
-        'major study', 'who should know', 'everyone needs to know', 'urgent',
-        'critical', 'essential', 'what you need to know', 'implications',
-        'long-term', 'affects everyone', 'national security', 'public health',
-        'economy update', 'market crash', 'inflation', 'unemployment',
-        'last date', 'apply now', 'notification released', 'exam postponed'
-    ]
-    text_lower = text.lower()
-    for kw in must_know_keywords:
-        if kw in text_lower:
-            return True
-    return False
+    return any(kw in text.lower() for kw in ['last date', 'apply now', 'urgent', 'deadline', 'closing soon'])
 
 # === FETCH & PARSE ARTICLES ===
 def fetch_articles():
     articles = []
     now = datetime.utcnow()
-    cutoff = now - timedelta(days=7)  # ✅ Fetch from last 7 days (not 48h)
+    cutoff = now - timedelta(days=7)
 
     for source in SOURCES:
         try:
             logger.info(f"Fetching from {source['name']}...")
             feed = feedparser.parse(source['url'])
             for entry in feed.entries:
-                # Parse and normalize publish date
                 try:
                     if hasattr(entry, 'published'):
                         pub_date = date_parser.parse(entry.published)
@@ -174,16 +177,13 @@ def fetch_articles():
                     logger.error(f"Failed to parse date for {entry.title}: {e}")
                     pub_date = now
 
-                # Skip if older than 7 days
                 if pub_date < cutoff:
                     continue
 
-                # Extract title
                 title = getattr(entry, 'title', '').strip()
                 if not title:
                     continue
 
-                # Extract summary
                 summary = getattr(entry, 'summary', '')
                 if not summary and hasattr(entry, 'content'):
                     try:
@@ -191,18 +191,15 @@ def fetch_articles():
                     except:
                         pass
 
-                # Clean and truncate summary
                 summary = summary.replace('\n', ' ').strip()
                 if len(summary) > 300:
                     summary = summary[:297] + "..."
                 if not summary:
-                    summary = "Details inside — click to read full announcement."
+                    summary = "Click to view full details and apply."
 
-                # Skip if summary is too short
                 if len(summary) < 20:
                     continue
 
-                # Extract image URL
                 image_url = ""
                 if hasattr(entry, 'media_content'):
                     for media in entry.media_content:
@@ -237,24 +234,22 @@ def classify_articles(articles):
     for article in articles:
         try:
             if is_student_related(article["text_for_ai"]):
-                result = classifier(article["text_for_ai"], CATEGORIES, multi_label=False)
-                article["category"] = result["labels"][0]
-                article["category_confidence"] = result["scores"][0]
-
-                # Force classification for key terms
                 text_lower = article["text_for_ai"].lower()
-                if any(kw in text_lower for kw in ['scholarship', 'vidyalakshmi', 'national scholarship']):
-                    article["category"] = "Scholarships"
-                elif any(kw in text_lower for kw in ['internship', 'intern', 'twenty19', 'hello intern']):
-                    article["category"] = "Internships & Jobs"
-                elif any(kw in text_lower for kw in ['sarkari naukri', 'government job', 'ssc', 'bankers adda', 'upsc adda']):
-                    article["category"] = "Government Jobs"
-                elif any(kw in text_lower for kw in ['exam', 'result', 'admit card', 'nta', 'cbse', 'gate', 'jee', 'neet']):
-                    article["category"] = "Exams & Results"
+                source = article["source"].lower()
 
-                # Tag with editorial dimensions
+                # FORCE classification
+                if any(kw in source or kw in text_lower for kw in ['scholarship', 'vidyalakshmi', 'aicte', 'ugc', 'tata', 'reliance', 'google scholarship']):
+                    article["category"] = "Scholarships"
+                elif any(kw in source or kw in text_lower for kw in ['intern', 'internship', 'google careers', 'microsoft india', 'amazon india', 'flipkart', 'isro', 'sarkari']):
+                    article["category"] = "Internships & Jobs"
+                else:
+                    result = classifier(article["text_for_ai"], CATEGORIES, multi_label=False)
+                    article["category"] = result["labels"][0]
+
+                article["category_confidence"] = 1.0
+
+                # Tag
                 article["is_trending"] = is_trending(article["text_for_ai"])
-                article["is_debatable"] = is_debatable(article["text_for_ai"])
                 article["is_must_know"] = is_must_know(article["text_for_ai"])
 
                 filtered_articles.append(article)
@@ -262,50 +257,25 @@ def classify_articles(articles):
                 continue
         except Exception as e:
             logger.error(f"Classification failed for '{article['title']}': {e}")
-            article["category"] = "Campus Life"
-            article["category_confidence"] = 0.5
-            article["is_trending"] = False
-            article["is_debatable"] = False
-            article["is_must_know"] = False
-            filtered_articles.append(article)
+            continue
     return filtered_articles
 
-# === CALCULATE IMPORTANCE SCORE ===
+# === CALCULATE SCORE ===
 def calculate_score(article, now):
     score = article["source_weight"]
-
-    # Recency decay (over 7 days)
     age_hours = (now - article["published_at"]).total_seconds() / 3600
-    recency_multiplier = max(0.1, 1 - (age_hours / (7*24)))  # ✅ 7-day window
+    recency_multiplier = max(0.1, 1 - (age_hours / (7*24)))
     score *= recency_multiplier
-
-    # Entity bonus
-    entity_bonus = min(len(article["title"].split()) * 0.02, 0.3)
-    score += entity_bonus
-
-    # Confidence bonus
     score *= article["category_confidence"]
-
-    # 🎓 Student relevance boost
-    if is_student_related(article["text_for_ai"]):
-        score *= 1.5
-
-    # 📈 Editorial dimension boosts
-    if article.get("is_trending", False):
-        score *= 1.3
-    if article.get("is_debatable", False):
-        score *= 1.2
     if article.get("is_must_know", False):
         score *= 1.5
-
     article["score"] = score
     return score
 
-# === DEDUPLICATE ARTICLES ===
+# === DEDUPLICATE & RANK ===
 def deduplicate_articles(articles):
     if len(articles) == 0:
         return []
-
     texts = [a["title"] + " " + a["summary"][:100] for a in articles]
     try:
         embeddings = embedder.encode(texts, convert_to_tensor=True)
@@ -313,10 +283,8 @@ def deduplicate_articles(articles):
     except Exception as e:
         logger.error(f"Embedding failed: {e}")
         return articles
-
     to_remove = set()
     n = len(articles)
-
     for i in range(n):
         if i in to_remove:
             continue
@@ -327,25 +295,18 @@ def deduplicate_articles(articles):
                 else:
                     to_remove.add(i)
                     break
+    return [a for i, a in enumerate(articles) if i not in to_remove]
 
-    deduped = [a for i, a in enumerate(articles) if i not in to_remove]
-    logger.info(f"Deduplicated: {len(articles)} → {len(deduped)} articles.")
-    return deduped
-
-# === RANK & SELECT TOP N PER CATEGORY ===
 def select_top_per_category(articles):
     categorized = {cat: [] for cat in CATEGORIES}
     now = datetime.utcnow()
-
     for article in articles:
         calculate_score(article, now)
         categorized[article["category"]].append(article)
-
     top_articles = {}
     for cat, articles_in_cat in categorized.items():
         sorted_articles = sorted(articles_in_cat, key=lambda x: x.get("score", 0), reverse=True)
         top_articles[cat] = sorted_articles[:TOP_N]
-
     return top_articles
 
 # === GENERATE HTML ===
@@ -354,218 +315,443 @@ HTML_TEMPLATE = """
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">  <!-- ✅ Mobile Responsive -->
-    <title>Student.News — Scholarships, Internships, Govt Jobs</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudentPulse — Scholarships & Internships for Indian Students</title>
     <style>
-        /* === BASE === */
-        body {
-            font-family: 'Georgia', 'Times New Roman', serif;
-            background: #f8f4e9;
-            color: #2c1e1e;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 15px;  /* ✅ Reduced padding for mobile */
-            line-height: 1.6;
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --accent: #4cc9f0;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4ade80;
+            --warning: #fbbf24;
+            --danger: #f87171;
         }
 
-        /* === HEADER === */
-        .masthead {
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: var(--dark);
+            min-height: 100vh;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* === SIDEBAR === */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -300px;
+            width: 280px;
+            height: 100vh;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 2px 0 20px rgba(0,0,0,0.1);
+            z-index: 1000;
+            transition: left 0.3s ease;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .sidebar.active {
+            left: 0;
+        }
+
+        .menu-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+            background: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .sidebar-header {
             text-align: center;
-            padding: 30px 0;
-            border-bottom: 1px solid #2c1e1e;
+            padding: 20px 0;
+            border-bottom: 2px solid var(--primary);
             margin-bottom: 20px;
         }
 
-        .title {
-            font-family: 'Old Standard TT', serif;
-            font-size: 2.5rem;  /* ✅ Smaller on mobile */
-            font-weight: bold;
-            letter-spacing: 1px;
-            margin: 10px 0;
-            color: #2c1e1e;
+        .sidebar h2 {
+            color: var(--primary);
+            font-size: 1.5rem;
         }
 
-        .tagline {
-            font-size: 1rem;
-            margin: 5px 0;
-            color: #6b5c45;
-            font-style: italic;
+        .sidebar-section {
+            margin-bottom: 30px;
+        }
+
+        .sidebar-section h3 {
+            color: var(--secondary);
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .sidebar-section a {
+            display: block;
+            padding: 10px 15px;
+            color: var(--dark);
+            text-decoration: none;
+            border-radius: 8px;
+            margin-bottom: 5px;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+
+        .sidebar-section a:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        /* === MAIN CONTENT === */
+        .main-content {
+            padding: 80px 20px 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 40px 20px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--secondary);
+            max-width: 800px;
+            margin: 0 auto;
         }
 
         .date {
-            font-size: 1rem;
-            margin: 10px 0;
-            color: #2c1e1e;
+            margin-top: 20px;
+            color: #666;
+            font-weight: 500;
         }
 
-        /* === QUOTE === */
-        .quote-of-the-day {
-            font-style: italic;
-            font-size: 1.1rem;
-            color: #6b5c45;
-            text-align: center;
-            margin: 20px 0;
-            padding: 15px;
-            border-top: 1px solid #ccc;
+        /* === SECTION === */
+        .section {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            backdrop-filter: blur(10px);
         }
 
-        /* === CATEGORY === */
-        .category-section {
-            margin: 30px 0;
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--primary);
         }
 
-        .category-title {
-            font-size: 1.6rem;
+        .section-header h2 {
+            font-size: 2.2rem;
+            color: var(--primary);
+            margin: 0;
+        }
+
+        .section-header .icon {
+            font-size: 2rem;
+            margin-right: 15px;
+            color: var(--accent);
+        }
+
+        /* === CARD === */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .card-image {
+            height: 200px;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
             font-weight: bold;
-            margin: 0 0 15px;
-            color: #2c1e1e;
-            border-bottom: 2px solid #c9b89b;
-            padding-bottom: 5px;
         }
 
-        /* === ARTICLE CARD === */
-        .article-card {
-            background: #fffaf2;
-            border: 1px solid #e0d5c1;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 25px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
-
-        .article-title {
-            font-size: 1.3rem;
-            font-weight: bold;
-            margin: 0 0 10px;
-            color: #222;
-            line-height: 1.3;
-        }
-
-        .article-summary {
-            font-size: 1rem;
-            color: #444;
-            margin: 10px 0;
-            text-align: justify;
-        }
-
-        /* ✅ FIXED IMAGE DIMENSIONS + MOBILE RESPONSIVE */
-        .article-card img {
+        .card-image img {
             width: 100%;
-            max-width: 100%;
-            height: auto;
-            margin: 15px 0;
-            border-radius: 8px;
+            height: 100%;
             object-fit: cover;
         }
 
-        .meta {
-            font-size: 0.9rem;
-            color: #7a6c5d;
-            margin: 15px 0 10px;
-            font-style: italic;
+        .card-content {
+            padding: 20px;
         }
 
-        .tag {
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin: 0 0 10px;
+            color: var(--dark);
+            line-height: 1.3;
+        }
+
+        .card-summary {
+            color: #555;
+            margin: 10px 0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 15px 0 10px;
+            font-size: 0.85rem;
+            color: #777;
+        }
+
+        .badge {
             display: inline-block;
-            padding: 3px 8px;
-            border-radius: 3px;
+            padding: 4px 12px;
+            border-radius: 20px;
             font-size: 0.75rem;
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin-right: 6px;
             color: white;
         }
 
-        .must-know { background: #8b0000; }
-        .trending { background: #004080; }
-        .debatable { background: #b35900; }
-
-        a {
-            color: #004080;
-            text-decoration: none;
-            font-weight: bold;
-            display: inline-block;
-            margin-top: 10px;
-            padding: 8px 16px;
-            border: 2px solid #004080;
-            border-radius: 4px;
-            transition: all 0.2s;
-            font-size: 0.95rem;
+        .badge-deadline {
+            background: var(--danger);
         }
 
-        a:hover {
-            background: #004080;
+        .badge-popular {
+            background: var(--accent);
+        }
+
+        .apply-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: var(--primary);
             color: white;
-        }
-
-        footer {
-            margin-top: 50px;
-            padding-top: 20px;
-            border-top: 2px solid #c9b89b;
-            color: #6b5c45;
-            font-size: 0.9rem;
             text-align: center;
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: background 0.2s;
+            margin-top: 10px;
+            font-size: 1rem;
         }
 
-        /* ✅ MOBILE OPTIMIZATION */
+        .apply-btn:hover {
+            background: var(--secondary);
+        }
+
+        /* === FOOTER === */
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: white;
+            font-size: 0.95rem;
+            margin-top: 20px;
+        }
+
+        /* === MOBILE === */
         @media (max-width: 768px) {
-            body {
-                padding: 10px;
+            .main-content {
+                padding: 70px 15px 30px;
             }
-            .title {
-                font-size: 2rem;
+            .hero h1 {
+                font-size: 2.2rem;
             }
-            .article-title {
-                font-size: 1.2rem;
+            .card-grid {
+                grid-template-columns: 1fr;
             }
-            .category-title {
-                font-size: 1.4rem;
+            .section-header h2 {
+                font-size: 1.8rem;
             }
-            .article-card {
-                padding: 15px;
-            }
+        }
+
+        /* === SCROLLBAR === */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 4px;
         }
     </style>
 </head>
 <body>
-    <div class="masthead">
-        <h1 class="title">Student.News</h1>
-        <p class="tagline">Scholarships, Internships, Govt Jobs. No fluff. No noise.</p>
-        <p class="date">{{ now.strftime('%A, %B %d, %Y') }}</p>
-    </div>
-
-    <div class="quote-of-the-day">
-        "Your future is created by what you do today, not tomorrow." — Robert Kiyosaki
-    </div>
-
-    {% for category, articles in categorized.items() %}
-        {% if articles|length > 0 %}
-        <div class="category-section">
-            <h2 class="category-title">{{ category }}</h2>
-            {% for article in articles %}
-            <div class="article-card">
-                {% if article.image_url %}
-                    <img src="{{ article.image_url }}" alt="{{ article.title }}">
-                {% endif %}
-                <h3 class="article-title">{{ article.title }}</h3>
-                <p class="article-summary">{{ article.summary }}</p>
-                <div class="meta">
-                    <em>Source: {{ article.source }}</em>
-                    {% if article.is_must_know %}<span class="tag must-know">Must-Know</span>{% endif %}
-                    {% if article.is_trending %}<span class="tag trending">Trending</span>{% endif %}
-                    {% if article.is_debatable %}<span class="tag debatable">Debatable</span>{% endif %}
-                </div>
-                <a href="{{ article.url }}" target="_blank">📚 Read Full Article</a>
-            </div>
+    <!-- SIDEBAR -->
+    <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>StudentPulse</h2>
+        </div>
+        <div class="sidebar-section">
+            <h3>🎯 Scholarships</h3>
+            {% for subcat in subcategories['Scholarships'] %}
+            <a href="#scholarships-{{ loop.index }}">{{ subcat }}</a>
             {% endfor %}
         </div>
-        {% endif %}
-    {% endfor %}
+        <div class="sidebar-section">
+            <h3>💼 Internships & Jobs</h3>
+            {% for subcat in subcategories['Internships & Jobs'] %}
+            <a href="#internships-{{ loop.index }}">{{ subcat }}</a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="hero">
+            <h1>StudentPulse</h1>
+            <p>Scholarships & Internships for Indian Students. Direct Apply Links. Zero Fluff.</p>
+            <div class="date">{{ now.strftime('%A, %B %d, %Y') }}</div>
+        </div>
+
+        <!-- SCHOLARSHIPS -->
+        <div class="section" id="scholarships">
+            <div class="section-header">
+                <span class="icon">🎓</span>
+                <h2>Scholarships</h2>
+            </div>
+            {% if categorized.get('Scholarships') and categorized['Scholarships']|length > 0 %}
+            <div class="card-grid">
+                {% for article in categorized['Scholarships'] %}
+                <div class="card">
+                    {% if article.image_url %}
+                    <div class="card-image">
+                        <img src="{{ article.image_url }}" alt="{{ article.title }}">
+                    </div>
+                    {% else %}
+                    <div class="card-image">Scholarship Opportunity</div>
+                    {% endif %}
+                    <div class="card-content">
+                        <h3 class="card-title">{{ article.title }}</h3>
+                        <p class="card-summary">{{ article.summary }}</p>
+                        <div class="card-meta">
+                            <span>{{ article.source }}</span>
+                            {% if article.is_must_know %}
+                            <span class="badge badge-deadline">Deadline Near</span>
+                            {% elif article.is_trending %}
+                            <span class="badge badge-popular">Popular</span>
+                            {% endif %}
+                        </div>
+                        <a href="{{ article.url }}" target="_blank" class="apply-btn">🚀 Apply Now</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p style="text-align:center; padding:40px; color:#666;">No scholarships available right now. Check back soon!</p>
+            {% endif %}
+        </div>
+
+        <!-- INTERNSHIPS -->
+        <div class="section" id="internships">
+            <div class="section-header">
+                <span class="icon">💼</span>
+                <h2>Internships & Jobs</h2>
+            </div>
+            {% if categorized.get('Internships & Jobs') and categorized['Internships & Jobs']|length > 0 %}
+            <div class="card-grid">
+                {% for article in categorized['Internships & Jobs'] %}
+                <div class="card">
+                    {% if article.image_url %}
+                    <div class="card-image">
+                        <img src="{{ article.image_url }}" alt="{{ article.title }}">
+                    </div>
+                    {% else %}
+                    <div class="card-image">Internship Opportunity</div>
+                    {% endif %}
+                    <div class="card-content">
+                        <h3 class="card-title">{{ article.title }}</h3>
+                        <p class="card-summary">{{ article.summary }}</p>
+                        <div class="card-meta">
+                            <span>{{ article.source }}</span>
+                            {% if article.is_must_know %}
+                            <span class="badge badge-deadline">Deadline Near</span>
+                            {% elif article.is_trending %}
+                            <span class="badge badge-popular">Popular</span>
+                            {% endif %}
+                        </div>
+                        <a href="{{ article.url }}" target="_blank" class="apply-btn">🚀 Apply Now</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p style="text-align:center; padding:40px; color:#666;">No internships available right now. Check back soon!</p>
+            {% endif %}
+        </div>
+    </div>
 
     <footer>
-        <p>Curated for Indian students • Updated: {{ now.strftime('%A, %B %d, %Y') }}</p>
+        <p>Curated with ❤️ for Indian students • Updated: {{ now.strftime('%A, %B %d, %Y') }}</p>
     </footer>
+
+    <script>
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+        }
+
+        // Close sidebar when clicking outside
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebar');
+            const menuToggle = document.querySelector('.menu-toggle');
+            if (!sidebar.contains(event.target) && !menuToggle.contains(event.target)) {
+                sidebar.classList.remove('active');
+            }
+        });
+    </script>
 </body>
 </html>
 """
@@ -574,6 +760,7 @@ def generate_html(categorized):
     template = Template(HTML_TEMPLATE)
     html = template.render(
         categorized=categorized,
+        subcategories=SUBCATEGORIES,
         now=datetime.utcnow()
     )
     with open("index.html", "w", encoding="utf-8") as f:
@@ -582,7 +769,7 @@ def generate_html(categorized):
 
 # === MAIN EXECUTION ===
 if __name__ == "__main__":
-    logger.info("Starting automated student news curator...")
+    logger.info("Starting StudentPulse...")
     articles = fetch_articles()
     if not articles:
         logger.error("No articles fetched. Exiting.")
@@ -597,4 +784,4 @@ if __name__ == "__main__":
 
     categorized = select_top_per_category(articles)
     generate_html(categorized)
-    logger.info("✅ Done. Student.News updated.")
+    logger.info("✅ Done. StudentPulse updated.")
