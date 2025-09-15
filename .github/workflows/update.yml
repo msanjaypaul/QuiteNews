@@ -1,15 +1,15 @@
-name: Update News Daily
+name: Update StudentPulse
 
 on:
   schedule:
     - cron: '0 */6 * * *'  # Every 6 hours
-  workflow_dispatch:       # Allow manual trigger
+  workflow_dispatch:
 
 jobs:
-  update-news:
+  update:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Setup Python
@@ -21,28 +21,14 @@ jobs:
         run: |
           pip install -r requirements.txt
 
-      - name: Run news curator
+      - name: Run curator
         run: |
           python curator.py
 
-      - name: Check if index.html was created
-        run: |
-          if [ ! -f "index.html" ]; then
-            echo "❌ index.html not found! Exiting."
-            exit 1
-          else
-            echo "✅ index.html found."
-          fi
-
-      - name: Force add and commit index.html
+      - name: Commit and push
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add index.html
-          git commit -m "Auto-update: $(date -u)" --allow-empty
-          git push origin main
-
-      - name: Verify output
-        run: |
-          echo "📄 Final check:"
-          ls -la index.html
+          git commit -m "Auto-update: $(date -u)" || exit 0
+          git push
