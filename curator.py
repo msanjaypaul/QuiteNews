@@ -8,114 +8,35 @@ from transformers import pipeline
 from sentence_transformers import SentenceTransformer, util
 import torch
 from bs4 import BeautifulSoup
+import re
 import logging
 
 # === CONFIG ===
 SCHOLARSHIP_SOURCES = [
-    # GOVERNMENT & NATIONAL
     {"name": "National Scholarship Portal", "url": "https://scholarships.gov.in/NewsRSS", "weight": 1.0},
     {"name": "Vidya Lakshmi Portal", "url": "https://www.vidyalakshmi.co.in/NewsFeed", "weight": 0.95},
     {"name": "AICTE Scholarships", "url": "https://www.aicte-india.org/scholarships/rss", "weight": 0.95},
     {"name": "UGC Scholarships", "url": "https://nsp.ugc.ac.in/RSSFeed.aspx", "weight": 0.95},
-    {"name": "Ministry of Minority Affairs", "url": "https://scholarships.gov.in/minority/rss", "weight": 0.9},
-
-    # STATE SCHOLARSHIPS
-    {"name": "UP Scholarship", "url": "https://scholarship.up.nic.in/RSSFeed.aspx", "weight": 0.9},
-    {"name": "Bihar Scholarship", "url": "https://www.biharscholarship.in/RSSFeed.aspx", "weight": 0.9},
-    {"name": "MP Scholarship", "url": "https://scholarshipportal.mp.nic.in/RSSFeed.aspx", "weight": 0.9},
-    {"name": "Karnataka Scholarship", "url": "https://karepass.cgg.gov.in/rssFeed.jsp", "weight": 0.9},
-    {"name": "Maharashtra Scholarship", "url": "https://mahadbt.maharashtra.gov.in/RSSFeed.aspx", "weight": 0.9},
-    {"name": "Tamil Nadu Scholarship", "url": "https://www.tn.gov.in/scholarship/rss", "weight": 0.9},
-
-    # CORPORATE & TRUSTS
     {"name": "Tata Trust Scholarships", "url": "https://www.tatatrusts.org/scholarships/rss", "weight": 0.95},
-    {"name": "Reliance Foundation", "url": "https://www.reliancefoundation.org/rss/scholarships", "weight": 0.95},
-    {"name": "Aditya Birla Scholarships", "url": "https://www.adityabirlafoundation.org/rss", "weight": 0.9},
-    {"name": "L'Oréal For Women in Science", "url": "https://www.loreal.in/rss", "weight": 0.9},
     {"name": "Google India Scholarships", "url": "https://buildyourfuture.withgoogle.com/scholarships/rss", "weight": 0.95},
-    {"name": "Microsoft India Scholarships", "url": "https://news.microsoft.com/india/feed/", "weight": 0.9},
-
-    # UNIVERSITY & INSTITUTIONS
-    {"name": "DU Scholarships", "url": "https://www.du.ac.in/index.php/scholarships/rss", "weight": 0.85},
-    {"name": "IIT Delhi Scholarships", "url": "https://ird.iitd.ac.in/scholarships/rss", "weight": 0.85},
-    {"name": "IIT Bombay Scholarships", "url": "https://www.iitb.ac.in/en/scholarships/rss", "weight": 0.85},
-    {"name": "JNU Scholarships", "url": "https://www.jnu.ac.in/scholarships/rss", "weight": 0.85},
-
-    # AGGREGATORS
-    {"name": "Scholarships in India", "url": "https://www.scholarshipsinindia.com/feed/", "weight": 0.95},
     {"name": "Buddy4Study", "url": "https://www.buddy4study.com/blog/feed/", "weight": 0.95},
-    {"name": "India Scholarships", "url": "https://www.indiascholarships.org.in/feed/", "weight": 0.9},
+    {"name": "Scholarships in India", "url": "https://www.scholarshipsinindia.com/feed/", "weight": 0.95},
 ]
 
 INTERNSHIP_SOURCES = [
-    # TOP TECH COMPANIES
     {"name": "Google Careers India", "url": "https://careers.google.com/jobs/results/?company=Google&location=India&rss", "weight": 1.0},
     {"name": "Microsoft India Careers", "url": "https://careers.microsoft.com/in/en/rss", "weight": 1.0},
     {"name": "Amazon India Careers", "url": "https://www.amazon.jobs/en/teams/india/rss", "weight": 1.0},
     {"name": "Flipkart Careers", "url": "https://www.flipkartcareers.com/feed/", "weight": 0.95},
-    {"name": "Swiggy Careers", "url": "https://www.swiggy.com/careers/rss", "weight": 0.95},
-    {"name": "Zomato Careers", "url": "https://www.zomato.com/careers/rss", "weight": 0.95},
-
-    # STARTUPS & UNICORNS
-    {"name": "Byju's Careers", "url": "https://byjus.com/careers/feed/", "weight": 0.95},
-    {"name": "Unacademy Careers", "url": "https://unacademy.com/careers/rss", "weight": 0.95},
-    {"name": "Paytm Careers", "url": "https://paytm.com/careers/feed/", "weight": 0.95},
-    {"name": "Ola Careers", "url": "https://careers.olacabs.com/feed/", "weight": 0.95},
-
-    # GOVERNMENT & PSU
-    {"name": "ISRO Careers", "url": "https://www.isro.gov.in/careers/rss", "weight": 0.95},
-    {"name": "DRDO Careers", "url": "https://www.drdo.gov.in/careers/rss", "weight": 0.95},
-    {"name": "BARC Careers", "url": "https://www.barc.gov.in/careers/rss", "weight": 0.95},
-    {"name": "Sarkari Naukri", "url": "https://www.sarkarinaukri.com/feed/", "weight": 0.95},
-
-    # BANKING & FINANCE
-    {"name": "RBI Careers", "url": "https://www.rbi.org.in/Scripts/RSSFeed.aspx", "weight": 0.95},
-    {"name": "SEBI Careers", "url": "https://www.sebi.gov.in/rss.html", "weight": 0.95},
-    {"name": "ICICI Careers", "url": "https://www.icicicareers.com/rss", "weight": 0.9},
-    {"name": "HDFC Careers", "url": "https://www.hdfcbank.com/careers/rss", "weight": 0.9},
-
-    # CONSULTING & FMCG
-    {"name": "McKinsey India Careers", "url": "https://www.mckinsey.com/careers/rss", "weight": 0.95},
-    {"name": "BCG India Careers", "url": "https://www.bcg.com/careers/rss", "weight": 0.95},
-    {"name": "HUL Careers", "url": "https://www.hul.co.in/careers/rss", "weight": 0.95},
-    {"name": "ITC Careers", "url": "https://www.itcportal.com/careers/rss", "weight": 0.95},
-
-    # PORTALS
     {"name": "Internshala", "url": "https://internshala.com/blog/feed/", "weight": 1.0},
-    {"name": "LetsIntern", "url": "https://www.letsintern.com/blog/feed/", "weight": 0.95},
-    {"name": "Twenty19", "url": "https://twenty19.com/blog/feed", "weight": 0.95},
     {"name": "Naukri Campus", "url": "https://www.naukri.com/campus-recruitment-blog/feed", "weight": 0.95},
-    {"name": "Freshersworld", "url": "https://www.freshersworld.com/rss/jobs", "weight": 0.95},
+    {"name": "ISRO Careers", "url": "https://www.isro.gov.in/careers/rss", "weight": 0.95},
+    {"name": "Sarkari Naukri", "url": "https://www.sarkarinaukri.com/feed/", "weight": 0.95},
 ]
 
 SOURCES = SCHOLARSHIP_SOURCES + INTERNSHIP_SOURCES
 
-CATEGORIES = [
-    "Scholarships",
-    "Internships & Jobs"
-]
-
-SUBCATEGORIES = {
-    "Scholarships": [
-        "Engineering & Tech",
-        "Medical & Health",
-        "Women & Girls",
-        "State-wise",
-        "Corporate",
-        "Government"
-    ],
-    "Internships & Jobs": [
-        "Tech Giants",
-        "Startups",
-        "Government & PSU",
-        "Banking & Finance",
-        "Consulting",
-        "Design & Media"
-    ]
-}
-
-TOP_N = 10  # Show more opportunities
-DEDUP_THRESHOLD = 0.85
+CATEGORIES = ["Scholarships", "Internships & Jobs"]
 
 # === SETUP LOGGING ===
 logging.basicConfig(level=logging.INFO)
@@ -131,35 +52,49 @@ except Exception as e:
     logger.error(f"Failed to load AI models: {e}")
     exit(1)
 
+# === HELPER: Extract Deadline from Text ===
+def extract_deadline(text):
+    # Look for patterns like "Last date: 30 Sept", "Apply by 5 Oct", etc.
+    patterns = [
+        r'last\s+date.*?(\d{1,2}\s+[a-zA-Z]+)',
+        r'apply\s+by.*?(\d{1,2}\s+[a-zA-Z]+)',
+        r'deadline.*?(\d{1,2}\s+[a-zA-Z]+)',
+        r'closing\s+on.*?(\d{1,2}\s+[a-zA-Z]+)',
+    ]
+    text_lower = text.lower()
+    for pattern in patterns:
+        match = re.search(pattern, text_lower)
+        if match:
+            return match.group(1)
+    return None
+
+# === HELPER: Check if Deadline Passed ===
+def is_deadline_passed(deadline_str):
+    if not deadline_str:
+        return False
+    try:
+        # Assume current year
+        deadline_str_full = f"{deadline_str} {datetime.now().year}"
+        deadline = datetime.strptime(deadline_str_full, "%d %b %Y")
+        return datetime.now() > deadline
+    except:
+        return False
+
 # === HELPER: Strict India + Student Filter ===
 def is_student_related(text):
     text_lower = text.lower()
-    
-    # MUST contain India + student keyword
-    india_keywords = ['india', 'indian', 'delhi', 'mumbai', 'bengaluru', 'hyderabad', 'chennai', 'kolkata', 'pune', 'apply in india', 'for indian students']
-    student_keywords = ['scholarship', 'intern', 'internship', 'fresher job', 'apply', 'last date', 'notification', 'admit card', 'exam', 'result', 'career', 'placement', 'recruitment', 'govt job', 'sarkari', 'stipend', 'grant', 'award']
-
+    india_keywords = ['india', 'indian', 'delhi', 'mumbai', 'apply in india', 'for indian students']
+    student_keywords = ['scholarship', 'intern', 'internship', 'fresher job', 'apply', 'last date', 'deadline', 'notification', 'recruitment', 'govt job', 'sarkari']
     has_india = any(kw in text_lower for kw in india_keywords)
     has_student = any(kw in text_lower for kw in student_keywords)
-
-    # REJECT global content
-    reject_keywords = ['ireland', 'australia', 'uk', 'usa', 'canada', 'europe', 'global', 'international student', 'the pie news', 'tertiary education commission', 'south east technological university']
+    reject_keywords = ['ireland', 'australia', 'uk', 'usa', 'canada', 'europe', 'global', 'international student', 'the pie news']
     has_reject = any(kw in text_lower for kw in reject_keywords)
-
     return has_india and has_student and not has_reject
 
-# === HELPER: Editorial Dimensions ===
-def is_trending(text):
-    return any(kw in text.lower() for kw in ['viral', 'trending', 'breaking', 'record', 'skyrockets'])
-
-def is_must_know(text):
-    return any(kw in text.lower() for kw in ['last date', 'apply now', 'urgent', 'deadline', 'closing soon'])
-
-# === FETCH & PARSE ARTICLES ===
+# === FETCH & PARSE ARTICLES (NO TIME CUTOFF) ===
 def fetch_articles():
     articles = []
     now = datetime.utcnow()
-    cutoff = now - timedelta(days=7)
 
     for source in SOURCES:
         try:
@@ -177,8 +112,8 @@ def fetch_articles():
                     logger.error(f"Failed to parse date for {entry.title}: {e}")
                     pub_date = now
 
-                if pub_date < cutoff:
-                    continue
+                # ✅ NO TIME CUTOFF — fetch everything
+                # Deadline will be checked separately
 
                 title = getattr(entry, 'title', '').strip()
                 if not title:
@@ -192,11 +127,8 @@ def fetch_articles():
                         pass
 
                 summary = summary.replace('\n', ' ').strip()
-                if len(summary) > 300:
-                    summary = summary[:297] + "..."
                 if not summary:
                     summary = "Click to view full details and apply."
-
                 if len(summary) < 20:
                     continue
 
@@ -212,6 +144,13 @@ def fetch_articles():
                             image_url = enclosure.href
                             break
 
+                # Extract deadline
+                deadline_str = extract_deadline(title + " " + summary)
+                is_expired = is_deadline_passed(deadline_str)
+
+                if is_expired:
+                    continue  # ✅ Skip if deadline passed
+
                 articles.append({
                     "title": title,
                     "summary": summary,
@@ -220,12 +159,13 @@ def fetch_articles():
                     "source_weight": source["weight"],
                     "published_at": pub_date,
                     "text_for_ai": f"{title}. {summary}",
-                    "image_url": image_url
+                    "image_url": image_url,
+                    "deadline": deadline_str
                 })
         except Exception as e:
             logger.error(f"Error fetching {source['name']}: {e}")
 
-    logger.info(f"Fetched {len(articles)} articles.")
+    logger.info(f"Fetched {len(articles)} articles (after deadline filter).")
     return articles
 
 # === CLASSIFY ARTICLES ===
@@ -235,23 +175,15 @@ def classify_articles(articles):
         try:
             if is_student_related(article["text_for_ai"]):
                 text_lower = article["text_for_ai"].lower()
-                source = article["source"].lower()
-
-                # FORCE classification
-                if any(kw in source or kw in text_lower for kw in ['scholarship', 'vidyalakshmi', 'aicte', 'ugc', 'tata', 'reliance', 'google scholarship']):
+                if any(kw in text_lower for kw in ['scholarship', 'vidyalakshmi', 'aicte', 'ugc', 'tata']):
                     article["category"] = "Scholarships"
-                elif any(kw in source or kw in text_lower for kw in ['intern', 'internship', 'google careers', 'microsoft india', 'amazon india', 'flipkart', 'isro', 'sarkari']):
+                elif any(kw in text_lower for kw in ['intern', 'internship', 'google careers', 'microsoft india', 'amazon india', 'isro', 'sarkari']):
                     article["category"] = "Internships & Jobs"
                 else:
                     result = classifier(article["text_for_ai"], CATEGORIES, multi_label=False)
                     article["category"] = result["labels"][0]
-
                 article["category_confidence"] = 1.0
-
-                # Tag
-                article["is_trending"] = is_trending(article["text_for_ai"])
-                article["is_must_know"] = is_must_know(article["text_for_ai"])
-
+                article["is_must_know"] = bool(article.get("deadline"))
                 filtered_articles.append(article)
             else:
                 continue
@@ -260,19 +192,14 @@ def classify_articles(articles):
             continue
     return filtered_articles
 
-# === CALCULATE SCORE ===
+# === SCORE & DEDUPLICATE ===
 def calculate_score(article, now):
     score = article["source_weight"]
-    age_hours = (now - article["published_at"]).total_seconds() / 3600
-    recency_multiplier = max(0.1, 1 - (age_hours / (7*24)))
-    score *= recency_multiplier
-    score *= article["category_confidence"]
-    if article.get("is_must_know", False):
+    if article.get("is_must_know"):
         score *= 1.5
     article["score"] = score
     return score
 
-# === DEDUPLICATE & RANK ===
 def deduplicate_articles(articles):
     if len(articles) == 0:
         return []
@@ -289,7 +216,7 @@ def deduplicate_articles(articles):
         if i in to_remove:
             continue
         for j in range(i + 1, n):
-            if cosine_scores[i][j] > DEDUP_THRESHOLD:
+            if cosine_scores[i][j] > 0.85:
                 if articles[i]["score"] >= articles[j]["score"]:
                     to_remove.add(j)
                 else:
@@ -306,7 +233,7 @@ def select_top_per_category(articles):
     top_articles = {}
     for cat, articles_in_cat in categorized.items():
         sorted_articles = sorted(articles_in_cat, key=lambda x: x.get("score", 0), reverse=True)
-        top_articles[cat] = sorted_articles[:TOP_N]
+        top_articles[cat] = sorted_articles  # ✅ Show ALL, not just TOP_N
     return top_articles
 
 # === GENERATE HTML ===
@@ -319,28 +246,24 @@ HTML_TEMPLATE = """
     <title>StudentPulse — Scholarships & Internships for Indian Students</title>
     <style>
         :root {
-            --primary: #4361ee;
-            --secondary: #3f37c9;
-            --accent: #4cc9f0;
-            --light: #f8f9fa;
-            --dark: #212529;
-            --success: #4ade80;
-            --warning: #fbbf24;
-            --danger: #f87171;
+            --primary: #6A35FF; /* Deep Purple */
+            --secondary: #00D1FF; /* Electric Blue */
+            --accent: #39FF14; /* Neon Green */
+            --dark: #0F0F1A;
+            --light: #F0F0FF;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: var(--dark);
+            background: linear-gradient(135deg, var(--dark) 0%, #1A1A2E 100%);
+            color: var(--light);
             min-height: 100vh;
-            padding: 0;
             overflow-x: hidden;
         }
 
@@ -348,15 +271,15 @@ HTML_TEMPLATE = """
         .sidebar {
             position: fixed;
             top: 0;
-            left: -300px;
-            width: 280px;
+            left: -320px;
+            width: 300px;
             height: 100vh;
-            background: rgba(255,255,255,0.95);
+            background: rgba(15, 15, 26, 0.95);
             backdrop-filter: blur(10px);
-            box-shadow: 2px 0 20px rgba(0,0,0,0.1);
+            border-right: 1px solid rgba(106, 53, 255, 0.3);
             z-index: 1000;
-            transition: left 0.3s ease;
-            padding: 20px;
+            transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 30px 20px;
             overflow-y: auto;
         }
 
@@ -366,265 +289,311 @@ HTML_TEMPLATE = """
 
         .menu-toggle {
             position: fixed;
-            top: 20px;
-            left: 20px;
+            top: 30px;
+            left: 30px;
             z-index: 1001;
-            background: white;
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            background: rgba(106, 53, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
+            font-size: 28px;
+            transition: all 0.3s ease;
+        }
+
+        .menu-toggle:hover {
+            background: rgba(106, 53, 255, 0.3);
+            transform: rotate(90deg);
         }
 
         .sidebar-header {
             text-align: center;
             padding: 20px 0;
+            margin-bottom: 30px;
             border-bottom: 2px solid var(--primary);
-            margin-bottom: 20px;
         }
 
-        .sidebar h2 {
-            color: var(--primary);
-            font-size: 1.5rem;
+        .sidebar h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .sidebar-section {
-            margin-bottom: 30px;
+            margin-bottom: 40px;
         }
 
         .sidebar-section h3 {
             color: var(--secondary);
-            margin-bottom: 15px;
-            padding-bottom: 5px;
-            border-bottom: 1px solid #eee;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(0, 209, 255, 0.3);
+            font-size: 1.2rem;
+            font-weight: 600;
         }
 
         .sidebar-section a {
             display: block;
-            padding: 10px 15px;
-            color: var(--dark);
+            padding: 12px 20px;
+            color: var(--light);
             text-decoration: none;
-            border-radius: 8px;
-            margin-bottom: 5px;
-            transition: all 0.2s;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            transition: all 0.3s ease;
             font-weight: 500;
+            border-left: 3px solid transparent;
         }
 
         .sidebar-section a:hover {
-            background: var(--primary);
-            color: white;
-            transform: translateX(5px);
+            background: rgba(106, 53, 255, 0.2);
+            border-left: 3px solid var(--primary);
+            transform: translateX(10px);
+            color: var(--primary);
         }
 
         /* === MAIN CONTENT === */
         .main-content {
-            padding: 80px 20px 40px;
-            max-width: 1200px;
+            padding: 100px 40px 60px;
+            max-width: 1400px;
             margin: 0 auto;
         }
 
         .hero {
             text-align: center;
-            margin-bottom: 50px;
-            padding: 40px 20px;
-            background: rgba(255,255,255,0.9);
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 80px;
+            padding: 60px 40px;
+            background: linear-gradient(135deg, rgba(106, 53, 255, 0.1), rgba(0, 209, 255, 0.1));
+            border-radius: 30px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(106, 53, 255, 0.3);
+            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.3);
         }
 
         .hero h1 {
-            font-size: 2.8rem;
-            color: var(--primary);
-            margin-bottom: 10px;
+            font-size: 4rem;
             font-weight: 800;
+            background: linear-gradient(to right, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
         }
 
         .hero p {
-            font-size: 1.2rem;
+            font-size: 1.4rem;
             color: var(--secondary);
-            max-width: 800px;
-            margin: 0 auto;
+            max-width: 900px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
         }
 
         .date {
-            margin-top: 20px;
-            color: #666;
-            font-weight: 500;
+            background: rgba(57, 255, 20, 0.1);
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            display: inline-block;
+            font-size: 1.1rem;
         }
 
         /* === SECTION === */
         .section {
-            background: rgba(255,255,255,0.95);
-            border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 40px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-            backdrop-filter: blur(10px);
+            margin-bottom: 80px;
+            scroll-margin-top: 100px;
         }
 
         .section-header {
             display: flex;
             align-items: center;
-            margin-bottom: 30px;
-            padding-bottom: 15px;
-            border-bottom: 3px solid var(--primary);
-        }
-
-        .section-header h2 {
-            font-size: 2.2rem;
-            color: var(--primary);
-            margin: 0;
+            margin-bottom: 50px;
         }
 
         .section-header .icon {
-            font-size: 2rem;
-            margin-right: 15px;
-            color: var(--accent);
+            font-size: 3rem;
+            margin-right: 20px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        /* === CARD === */
+        .section-header h2 {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 0;
+            letter-spacing: -1px;
+        }
+
+        /* === CARD GRID === */
         .card-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 30px;
         }
 
         .card {
-            background: white;
-            border-radius: 15px;
+            background: rgba(30, 30, 50, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(106, 53, 255, 0.3);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
 
         .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(106, 53, 255, 0.3);
+            border-color: var(--primary);
         }
 
         .card-image {
-            height: 200px;
-            background: #f0f0f0;
+            height: 220px;
+            background: linear-gradient(45deg, #1A1A2E, #16213E);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #999;
+            color: var(--primary);
             font-weight: bold;
+            font-size: 1.2rem;
+            text-align: center;
+            padding: 20px;
         }
 
         .card-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .card:hover .card-image img {
+            transform: scale(1.05);
         }
 
         .card-content {
-            padding: 20px;
+            padding: 30px;
         }
 
         .card-title {
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             font-weight: 700;
-            margin: 0 0 10px;
-            color: var(--dark);
-            line-height: 1.3;
+            margin: 0 0 15px;
+            line-height: 1.4;
+            color: white;
         }
 
         .card-summary {
-            color: #555;
-            margin: 10px 0;
-            font-size: 0.95rem;
-            line-height: 1.5;
+            color: #B0B0D0;
+            margin: 15px 0;
+            font-size: 1rem;
+            line-height: 1.6;
         }
 
         .card-meta {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin: 15px 0 10px;
-            font-size: 0.85rem;
-            color: #777;
+            margin: 20px 0 15px;
+        }
+
+        .source {
+            color: #8080A0;
+            font-size: 0.9rem;
         }
 
         .badge {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: bold;
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: white;
+            letter-spacing: 1px;
         }
 
         .badge-deadline {
-            background: var(--danger);
-        }
-
-        .badge-popular {
-            background: var(--accent);
+            background: linear-gradient(to right, #FF3860, #FF6E7F);
+            color: white;
         }
 
         .apply-btn {
             display: block;
             width: 100%;
-            padding: 12px;
-            background: var(--primary);
+            padding: 16px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
             color: white;
             text-align: center;
             text-decoration: none;
-            font-weight: 600;
-            border-radius: 8px;
-            transition: background 0.2s;
-            margin-top: 10px;
-            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+            font-size: 1.1rem;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(106, 53, 255, 0.4);
         }
 
         .apply-btn:hover {
-            background: var(--secondary);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(106, 53, 255, 0.6);
         }
 
         /* === FOOTER === */
         footer {
             text-align: center;
-            padding: 30px 20px;
-            color: white;
-            font-size: 0.95rem;
-            margin-top: 20px;
+            padding: 40px 20px;
+            color: #8080A0;
+            font-size: 1rem;
+            margin-top: 40px;
+            border-top: 1px solid rgba(106, 53, 255, 0.2);
         }
 
         /* === MOBILE === */
         @media (max-width: 768px) {
             .main-content {
-                padding: 70px 15px 30px;
+                padding: 120px 20px 40px;
+            }
+            .hero {
+                padding: 40px 20px;
             }
             .hero h1 {
-                font-size: 2.2rem;
+                font-size: 2.5rem;
+            }
+            .hero p {
+                font-size: 1.1rem;
             }
             .card-grid {
                 grid-template-columns: 1fr;
             }
             .section-header h2 {
-                font-size: 1.8rem;
+                font-size: 2.2rem;
+            }
+            .menu-toggle {
+                top: 20px;
+                left: 20px;
             }
         }
 
-        /* === SCROLLBAR === */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: var(--primary);
-            border-radius: 4px;
+        /* === SMOOTH SCROLL === */
+        html {
+            scroll-behavior: smooth;
         }
     </style>
 </head>
@@ -633,19 +602,15 @@ HTML_TEMPLATE = """
     <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <h2>StudentPulse</h2>
+            <h1>StudentPulse</h1>
         </div>
         <div class="sidebar-section">
             <h3>🎯 Scholarships</h3>
-            {% for subcat in subcategories['Scholarships'] %}
-            <a href="#scholarships-{{ loop.index }}">{{ subcat }}</a>
-            {% endfor %}
+            <a href="#scholarships">All Scholarships</a>
         </div>
         <div class="sidebar-section">
             <h3>💼 Internships & Jobs</h3>
-            {% for subcat in subcategories['Internships & Jobs'] %}
-            <a href="#internships-{{ loop.index }}">{{ subcat }}</a>
-            {% endfor %}
+            <a href="#internships">All Internships</a>
         </div>
     </div>
 
@@ -653,36 +618,34 @@ HTML_TEMPLATE = """
     <div class="main-content">
         <div class="hero">
             <h1>StudentPulse</h1>
-            <p>Scholarships & Internships for Indian Students. Direct Apply Links. Zero Fluff.</p>
+            <p>Every Scholarship. Every Internship. Zero Fluff. Apply Before Deadline.</p>
             <div class="date">{{ now.strftime('%A, %B %d, %Y') }}</div>
         </div>
 
         <!-- SCHOLARSHIPS -->
         <div class="section" id="scholarships">
             <div class="section-header">
-                <span class="icon">🎓</span>
+                <div class="icon">🎓</div>
                 <h2>Scholarships</h2>
             </div>
             {% if categorized.get('Scholarships') and categorized['Scholarships']|length > 0 %}
             <div class="card-grid">
                 {% for article in categorized['Scholarships'] %}
                 <div class="card">
-                    {% if article.image_url %}
                     <div class="card-image">
-                        <img src="{{ article.image_url }}" alt="{{ article.title }}">
+                        {% if article.image_url %}
+                            <img src="{{ article.image_url }}" alt="{{ article.title }}">
+                        {% else %}
+                            <img src="https://via.placeholder.com/400x220/6A35FF/FFFFFF?text=Scholarship+Opportunity" alt="Scholarship">
+                        {% endif %}
                     </div>
-                    {% else %}
-                    <div class="card-image">Scholarship Opportunity</div>
-                    {% endif %}
                     <div class="card-content">
                         <h3 class="card-title">{{ article.title }}</h3>
                         <p class="card-summary">{{ article.summary }}</p>
                         <div class="card-meta">
-                            <span>{{ article.source }}</span>
-                            {% if article.is_must_know %}
-                            <span class="badge badge-deadline">Deadline Near</span>
-                            {% elif article.is_trending %}
-                            <span class="badge badge-popular">Popular</span>
+                            <span class="source">{{ article.source }}</span>
+                            {% if article.deadline %}
+                            <span class="badge badge-deadline">Deadline: {{ article.deadline }}</span>
                             {% endif %}
                         </div>
                         <a href="{{ article.url }}" target="_blank" class="apply-btn">🚀 Apply Now</a>
@@ -691,36 +654,34 @@ HTML_TEMPLATE = """
                 {% endfor %}
             </div>
             {% else %}
-            <p style="text-align:center; padding:40px; color:#666;">No scholarships available right now. Check back soon!</p>
+            <p style="text-align:center; padding:60px; color:#8080A0; font-size:1.2rem;">No active scholarships found. Check back soon!</p>
             {% endif %}
         </div>
 
         <!-- INTERNSHIPS -->
         <div class="section" id="internships">
             <div class="section-header">
-                <span class="icon">💼</span>
+                <div class="icon">💼</div>
                 <h2>Internships & Jobs</h2>
             </div>
             {% if categorized.get('Internships & Jobs') and categorized['Internships & Jobs']|length > 0 %}
             <div class="card-grid">
                 {% for article in categorized['Internships & Jobs'] %}
                 <div class="card">
-                    {% if article.image_url %}
                     <div class="card-image">
-                        <img src="{{ article.image_url }}" alt="{{ article.title }}">
+                        {% if article.image_url %}
+                            <img src="{{ article.image_url }}" alt="{{ article.title }}">
+                        {% else %}
+                            <img src="https://via.placeholder.com/400x220/00D1FF/FFFFFF?text=Internship+Available" alt="Internship">
+                        {% endif %}
                     </div>
-                    {% else %}
-                    <div class="card-image">Internship Opportunity</div>
-                    {% endif %}
                     <div class="card-content">
                         <h3 class="card-title">{{ article.title }}</h3>
                         <p class="card-summary">{{ article.summary }}</p>
                         <div class="card-meta">
-                            <span>{{ article.source }}</span>
-                            {% if article.is_must_know %}
-                            <span class="badge badge-deadline">Deadline Near</span>
-                            {% elif article.is_trending %}
-                            <span class="badge badge-popular">Popular</span>
+                            <span class="source">{{ article.source }}</span>
+                            {% if article.deadline %}
+                            <span class="badge badge-deadline">Deadline: {{ article.deadline }}</span>
                             {% endif %}
                         </div>
                         <a href="{{ article.url }}" target="_blank" class="apply-btn">🚀 Apply Now</a>
@@ -729,13 +690,13 @@ HTML_TEMPLATE = """
                 {% endfor %}
             </div>
             {% else %}
-            <p style="text-align:center; padding:40px; color:#666;">No internships available right now. Check back soon!</p>
+            <p style="text-align:center; padding:60px; color:#8080A0; font-size:1.2rem;">No active internships found. Check back soon!</p>
             {% endif %}
         </div>
     </div>
 
     <footer>
-        <p>Curated with ❤️ for Indian students • Updated: {{ now.strftime('%A, %B %d, %Y') }}</p>
+        <p>Curated with ❤️ for Indian students • Updated daily • Missed a deadline? It's automatically removed.</p>
     </footer>
 
     <script>
@@ -743,7 +704,7 @@ HTML_TEMPLATE = """
             document.getElementById('sidebar').classList.toggle('active');
         }
 
-        // Close sidebar when clicking outside
+        // Close sidebar on outside click
         document.addEventListener('click', function(event) {
             const sidebar = document.getElementById('sidebar');
             const menuToggle = document.querySelector('.menu-toggle');
@@ -751,6 +712,8 @@ HTML_TEMPLATE = """
                 sidebar.classList.remove('active');
             }
         });
+
+        // Smooth scroll (already enabled via CSS: html { scroll-behavior: smooth; })
     </script>
 </body>
 </html>
@@ -760,7 +723,6 @@ def generate_html(categorized):
     template = Template(HTML_TEMPLATE)
     html = template.render(
         categorized=categorized,
-        subcategories=SUBCATEGORIES,
         now=datetime.utcnow()
     )
     with open("index.html", "w", encoding="utf-8") as f:
